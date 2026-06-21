@@ -595,7 +595,7 @@
       if(!canvas) return;
       const c = canvas.getContext('2d');
       const cfg = {friction:0.5, trails: window.innerWidth < 700 ? 20 : 34, size:50, dampening:0.025, tension:0.99};
-      const pos = {x:0, y:0}; let lines = []; let running = true;
+      const pos = {x:0, y:0}; let lines = []; let running = true; let lastMove = -1e9;
 
       function Osc(o){this.phase=o.phase||0;this.offset=o.offset||0;this.freq=o.freq||0.001;this.amp=o.amp||1;}
       Osc.prototype.update=function(){this.phase+=this.freq;this.v=this.offset+Math.sin(this.phase)*this.amp;return this.v;};
@@ -629,8 +629,15 @@
         c.stroke(); c.closePath();
       };
       function initLines(){lines=[];for(let i=0;i<cfg.trails;i++)lines.push(new Line(0.45+(i/cfg.trails)*0.025));}
-      function frame(){
+      function frame(t){
         if(!running) return;
+        const now = t || performance.now();
+        if(now - lastMove > 1500){                       // idle or touch device: drift on its own
+          const ax = canvas.width  * (0.5  + 0.33*Math.sin(now*0.00040));
+          const ay = canvas.height * (0.45 + 0.27*Math.sin(now*0.00055 + 1.2));
+          pos.x += (ax - pos.x) * 0.045;
+          pos.y += (ay - pos.y) * 0.045;
+        }
         c.globalCompositeOperation='source-over';
         c.clearRect(0,0,canvas.width,canvas.height);
         const hue=Math.round(osc.update());            // warm 12–44° (bronze → gold)
@@ -640,7 +647,7 @@
         requestAnimationFrame(frame);
       }
       function resize(){const r=hero.getBoundingClientRect();canvas.width=r.width;canvas.height=r.height;}
-      function setPos(x,y){const r=hero.getBoundingClientRect();pos.x=x-r.left;pos.y=y-r.top;}
+      function setPos(x,y){const r=hero.getBoundingClientRect();pos.x=x-r.left;pos.y=y-r.top;lastMove=performance.now();}
       resize();
       pos.x=canvas.width*0.7; pos.y=canvas.height*0.42; initLines();
       hero.addEventListener('mousemove', e=>setPos(e.clientX,e.clientY));
@@ -704,20 +711,36 @@
     });
   })();
 
-  // Neighborhood explorer — hover / focus / click reveals each area's scene
+  // Neighborhood explorer — auto-rotates (motion on mobile too); tap/hover takes control.
   (function(){
-    const btns = document.querySelectorAll('.area-btn');
+    const btns = [...document.querySelectorAll('.area-btn')];
     const scenes = document.querySelectorAll('.area-scene');
     if(!btns.length) return;
+    const keys = btns.map(b=>b.dataset.area);
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let idx = 0, timer = null;
+
     function activate(key){
+      idx = Math.max(0, keys.indexOf(key));
       btns.forEach(b=>b.classList.toggle('is-active', b.dataset.area===key));
       scenes.forEach(s=>s.classList.toggle('is-active', s.dataset.area===key));
     }
+    function next(){ activate(keys[(idx+1) % keys.length]); }
+    function startAuto(){ if(reduce) return; stopAuto(); timer = setInterval(next, 3600); }
+    function stopAuto(){ if(timer){ clearInterval(timer); timer = null; } }
+
     btns.forEach(b=>{
-      b.addEventListener('mouseenter', ()=>activate(b.dataset.area));
-      b.addEventListener('focus', ()=>activate(b.dataset.area));
-      b.addEventListener('click', ()=>activate(b.dataset.area));
+      const pick = ()=>{ stopAuto(); activate(b.dataset.area); };
+      b.addEventListener('mouseenter', pick);
+      b.addEventListener('focus', pick);
+      b.addEventListener('click', pick);
     });
+    // On desktop, resume the auto-rotation after the cursor leaves the explorer.
+    const explorer = document.querySelector('.area-explorer');
+    if(explorer) explorer.addEventListener('mouseleave', startAuto);
+
+    activate(keys[0]);
+    startAuto();
   })();
 </script>
 </body>
