@@ -93,8 +93,30 @@
   .nav-cta{display:inline-flex;align-items:center;gap:.5em;font-weight:600;color:var(--canyon)}
   .nav-toggle{display:none;background:none;border:0;cursor:pointer;color:var(--espresso)}
   @media(max-width:860px){
-    .nav-links{display:none}
     .nav-toggle{display:flex}
+    .nav-cta{display:none}
+    .nav-links{
+      position:absolute;top:calc(100% + 10px);left:0;right:0;
+      flex-direction:column;gap:4px;background:rgba(245,239,230,.98);
+      border:1px solid var(--line);border-radius:14px;padding:8px;
+      box-shadow:var(--shadow);display:none;
+    }
+    header.nav.menu-open .nav-links{display:flex}
+    .nav-links a{padding:13px 14px;border-radius:10px;width:100%;font-size:1rem;color:var(--espresso)}
+    .nav-links a:hover{background:var(--sand-2)}
+  }
+  /* Sticky mobile call bar */
+  .mobile-callbar{display:none}
+  @media(max-width:860px){
+    .mobile-callbar{
+      display:flex;align-items:center;justify-content:center;gap:.55em;
+      position:fixed;left:12px;right:12px;bottom:12px;z-index:60;
+      padding:15px;border-radius:14px;
+      background:var(--canyon);color:#fff;font-weight:600;letter-spacing:.02em;
+      font-family:"Josefin Sans",sans-serif;
+      box-shadow:0 16px 32px -10px rgba(138,51,36,.6);
+    }
+    .mobile-callbar:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
   }
 
   /* ---------- HERO ---------- */
@@ -238,6 +260,10 @@
   }
   .field input:focus,.field textarea:focus{outline:none;border-color:var(--bronze);box-shadow:0 0 0 3px rgba(194,112,61,.18)}
   form .btn-primary{width:100%;justify-content:center;margin-top:6px}
+  .hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+  .form-status{margin-top:14px;font-size:.95rem;min-height:1.2em;text-align:center}
+  .form-status.ok{color:#2e7d32}
+  .form-status.err{color:#b3261e}
 
   /* ---------- FOOTER ---------- */
   footer{background:var(--espresso);color:#cdbfae;padding:54px 0 40px}
@@ -253,6 +279,9 @@
     .portrait{aspect-ratio:4/4;max-width:420px}
     .cards{grid-template-columns:1fr}
     .contact-grid{grid-template-columns:1fr;gap:34px}
+    footer{padding-bottom:96px}            /* clear the sticky call bar */
+    .hero h1{font-size:clamp(2.6rem,12vw,4.4rem)}
+    .hero-meta{gap:22px}
   }
 
   @media(prefers-reduced-motion:reduce){
@@ -280,10 +309,16 @@
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92Z"/></svg>
     (702) 888-0888
   </a>
-  <button class="nav-toggle" id="navToggle" aria-label="Jump to contact" onclick="document.getElementById('contact').scrollIntoView()">
+  <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="nav">
     <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
   </button>
 </header>
+
+<!-- Always-visible call button on phones -->
+<a class="mobile-callbar" href="tel:+17028880888">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92Z"/></svg>
+  Call Juan — (702) 888-0888
+</a>
 
 <!-- HERO -->
 <section class="hero">
@@ -474,8 +509,13 @@
       </dl>
     </div>
 
-    <!-- Static-site form: wire the action to Formspree/your email service before launch -->
-    <form action="https://formspree.io/f/your-id-here" method="POST" aria-label="Contact Vegas Realty">
+    <!-- Form emails Juan on every submit via Web3Forms. Get a free key at web3forms.com
+         (just enter Juan's email), then replace WEB3FORMS_ACCESS_KEY in the script below.
+         Set the auto-reply message in the Web3Forms dashboard. -->
+    <form id="contactForm" aria-label="Contact Vegas Realty">
+      <!-- honeypot: bots fill this, humans never see it -->
+      <input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
+      <input type="hidden" name="subject" value="New inquiry — Vegas Realty website" />
       <div class="field">
         <label for="name">Name</label>
         <input id="name" name="name" type="text" autocomplete="name" required />
@@ -493,6 +533,7 @@
         <textarea id="msg" name="message" rows="4" placeholder="Buying, selling, or just exploring?"></textarea>
       </div>
       <button class="btn btn-primary" type="submit">Request my callback <svg class="arrow" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button>
+      <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
     </form>
   </div>
 </section>
@@ -547,7 +588,7 @@
       const canvas = document.getElementById('heroCanvas');
       if(!canvas) return;
       const c = canvas.getContext('2d');
-      const cfg = {friction:0.5, trails:34, size:50, dampening:0.025, tension:0.99};
+      const cfg = {friction:0.5, trails: window.innerWidth < 700 ? 20 : 34, size:50, dampening:0.025, tension:0.99};
       const pos = {x:0, y:0}; let lines = []; let running = true;
 
       function Osc(o){this.phase=o.phase||0;this.offset=o.offset||0;this.freq=o.freq||0.001;this.amp=o.amp||1;}
@@ -605,6 +646,57 @@
   } else {
     document.querySelectorAll('.reveal').forEach(el=>el.classList.add('in'));
   }
+
+  // Mobile menu toggle
+  (function(){
+    const toggle = document.getElementById('navToggle');
+    if(!toggle) return;
+    toggle.addEventListener('click', ()=>{
+      const open = nav.classList.toggle('menu-open');
+      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    });
+    nav.querySelectorAll('.nav-links a').forEach(a=>a.addEventListener('click', ()=>{
+      nav.classList.remove('menu-open');
+      toggle.setAttribute('aria-expanded','false');
+    }));
+  })();
+
+  // Contact form -> emails Juan via Web3Forms, with inline success + spam guard
+  (function(){
+    const form = document.getElementById('contactForm');
+    if(!form) return;
+    const ACCESS_KEY = 'WEB3FORMS_ACCESS_KEY'; // <-- replace with the key from web3forms.com
+    const status = document.getElementById('formStatus');
+    form.addEventListener('submit', async (e)=>{
+      e.preventDefault();
+      if(form.querySelector('[name="botcheck"]').checked) return;            // honeypot tripped
+      if(ACCESS_KEY === 'WEB3FORMS_ACCESS_KEY'){
+        status.className = 'form-status err';
+        status.textContent = 'Form not connected yet — add the Web3Forms key to go live.';
+        return;
+      }
+      const data = new FormData(form);
+      data.append('access_key', ACCESS_KEY);
+      status.className = 'form-status';
+      status.textContent = 'Sending…';
+      try{
+        const res = await fetch('https://api.web3forms.com/submit', {method:'POST', body:data});
+        const json = await res.json();
+        if(json.success){
+          form.reset();
+          status.className = 'form-status ok';
+          status.textContent = 'Thank you — Juan will reach out to you shortly.';
+        } else {
+          status.className = 'form-status err';
+          status.textContent = 'Something went wrong. Please call (702) 888-0888.';
+        }
+      } catch(err){
+        status.className = 'form-status err';
+        status.textContent = 'Network issue. Please call (702) 888-0888.';
+      }
+    });
+  })();
 
   // Neighborhood explorer — hover / focus / click reveals each area's scene
   (function(){
