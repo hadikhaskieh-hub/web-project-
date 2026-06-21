@@ -54,13 +54,24 @@
 
   /* Buttons */
   .btn{
-    display:inline-flex;align-items:center;gap:.6em;
+    position:relative;overflow:hidden;
+    display:inline-flex;align-items:center;gap:.55em;
     padding:15px 28px;border-radius:999px;cursor:pointer;
     font-family:"Josefin Sans",sans-serif;font-weight:600;font-size:1rem;letter-spacing:.02em;
-    border:1.5px solid transparent;transition:background .25s,color .25s,border-color .25s,transform .15s,box-shadow .25s;
+    border:1.5px solid transparent;
+    transition:background .25s,color .25s,border-color .25s,transform .2s,box-shadow .25s;
   }
-  .btn-primary{background:var(--canyon);color:#fff}
-  .btn-primary:hover{background:#73291d}
+  .btn::after{content:"";position:absolute;top:0;left:-130%;width:55%;height:100%;
+    background:linear-gradient(120deg,transparent,rgba(255,255,255,.42),transparent);
+    transform:skewX(-20deg);transition:left .6s ease;pointer-events:none}
+  .btn:hover::after{left:150%}
+  .btn:hover{transform:translateY(-2px)}
+  .btn:active{transform:translateY(0)}
+  .btn .arrow{transition:transform .25s}
+  .btn:hover .arrow{transform:translateX(4px)}
+  .btn-primary{background:linear-gradient(135deg,#a23a28,var(--canyon));color:#fff;
+    box-shadow:0 12px 26px -14px rgba(138,51,36,.75)}
+  .btn-primary:hover{box-shadow:0 18px 34px -14px rgba(138,51,36,.92)}
   .btn-ghost{border-color:var(--espresso);color:var(--espresso)}
   .btn-ghost:hover{background:var(--espresso);color:var(--sand)}
   .btn:focus-visible{outline:3px solid var(--bronze);outline-offset:3px}
@@ -173,6 +184,43 @@
   .areas-list{display:flex;flex-wrap:wrap;gap:12px;margin-top:40px}
   .pill{border:1px solid var(--line);border-radius:999px;padding:10px 20px;font-size:.95rem;color:var(--espresso-soft)}
 
+  /* Neighborhood explorer */
+  .area-explorer{margin-top:50px;display:grid;grid-template-columns:1.55fr .9fr;gap:22px}
+  .area-stage{position:relative;border-radius:22px;overflow:hidden;min-height:460px;background:#16130f;box-shadow:var(--shadow)}
+  .area-scene{position:absolute;inset:0;opacity:0;transform:scale(1.06);
+    transition:opacity .7s ease, transform 9s ease}
+  .area-scene.is-active{opacity:1;transform:scale(1)}
+  .area-scene .grad{position:absolute;inset:0}
+  .area-scene > svg{position:absolute;left:0;right:0;bottom:0;width:100%;height:auto;display:block}
+  .area-caption{position:absolute;left:0;right:0;bottom:0;z-index:3;padding:34px;color:#fff;
+    background:linear-gradient(transparent, rgba(18,15,12,.5) 40%, rgba(18,15,12,.9))}
+  .area-caption .tag{font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold)}
+  .area-caption h3{font-size:clamp(1.7rem,4vw,2.7rem);margin-top:8px;color:#fff}
+  .area-caption p{margin-top:10px;max-width:50ch;color:rgba(255,255,255,.84);font-size:1.02rem}
+  .area-nav{display:flex;flex-direction:column;gap:10px}
+  .area-btn{position:relative;text-align:left;background:var(--sand);border:1px solid var(--line);
+    border-radius:14px;padding:17px 22px;cursor:pointer;font-family:"Cinzel",serif;font-size:1.12rem;
+    color:var(--espresso);transition:background .25s,color .25s,border-color .25s,transform .2s}
+  .area-btn:hover{transform:translateX(5px)}
+  .area-btn.is-active{background:var(--espresso);color:var(--sand);border-color:transparent}
+  .area-btn .meta{display:block;font-family:"Josefin Sans",sans-serif;font-size:.8rem;font-weight:400;
+    letter-spacing:.04em;color:var(--espresso-soft);margin-top:3px}
+  .area-btn.is-active .meta{color:rgba(245,239,230,.72)}
+  .area-btn:focus-visible{outline:3px solid var(--bronze);outline-offset:2px}
+
+  .sc-summerlin .grad{background:radial-gradient(120% 95% at 70% 8%,#f6b676,transparent 55%),linear-gradient(180deg,#ec8f52,#b34a2a 68%,#7c2d1c)}
+  .sc-henderson .grad{background:radial-gradient(120% 95% at 32% 12%,#d6ecb6,transparent 55%),linear-gradient(180deg,#93b96e,#5d8348 64%,#3c5a32)}
+  .sc-centennial .grad{background:radial-gradient(120% 95% at 60% 10%,#ffe2b4,transparent 55%),linear-gradient(180deg,#e8b884,#c98a5a 64%,#8a5a36)}
+  .sc-downtown .grad{background:radial-gradient(85% 65% at 50% 82%,rgba(212,175,55,.45),transparent 60%),linear-gradient(180deg,#0a0d1a,#171a2e 58%,#0a0d14)}
+  .sc-lakes .grad{background:radial-gradient(120% 95% at 70% 10%,#c3e8f2,transparent 55%),linear-gradient(180deg,#74b8d2,#3f86a8 64%,#235a76)}
+
+  @media(max-width:880px){
+    .area-explorer{grid-template-columns:1fr}
+    .area-stage{min-height:340px}
+    .area-nav{flex-direction:row;flex-wrap:wrap}
+    .area-btn{flex:1 1 auto}
+  }
+
   /* ---------- CONTACT ---------- */
   .contact{background:var(--sand-2)}
   .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px}
@@ -211,6 +259,8 @@
     *{scroll-behavior:auto!important}
     .reveal{opacity:1!important;transform:none!important;transition:none}
     .hero-glow{transition:none}
+    .area-scene{transition:opacity .3s!important;transform:none!important}
+    .btn:hover{transform:none}
   }
 </style>
 </head>
@@ -250,8 +300,8 @@
     <h1 class="reveal">Find the home you <em>dreamed of.</em></h1>
     <p class="hero-sub reveal">Vegas Realty pairs you with Juan Basurto — a Las Vegas Realtor known for swift, experienced, above-and-beyond service from the first call to the keys in your hand.</p>
     <div class="hero-actions reveal">
-      <a class="btn btn-primary" href="tel:+17028880888">Call (702) 888-0888</a>
-      <a class="btn btn-ghost" href="#contact">Request a callback</a>
+      <a class="btn btn-primary" href="tel:+17028880888">Call (702) 888-0888 <svg class="arrow" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+      <a class="btn btn-ghost" href="#contact">Request a callback <svg class="arrow" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
     </div>
     <div class="hero-meta reveal">
       <div class="stat"><div class="n">15+</div><div class="l">Years in the valley</div></div>
@@ -283,7 +333,7 @@
       <blockquote>"His swift and experienced service helped us find the home that we dreamed of."</blockquote>
       <p class="sig">— A Vegas Realty client, on working with Juan</p>
       <div class="hero-actions" style="margin-top:30px">
-        <a class="btn btn-primary" href="#contact">Start a conversation</a>
+        <a class="btn btn-primary" href="#contact">Start a conversation <svg class="arrow" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
       </div>
     </div>
   </div>
@@ -347,15 +397,62 @@
       <h2>Across the valley, rooted in Summerlin.</h2>
       <p>Based at 1180 N Town Center Dr in Summerlin, serving buyers and sellers throughout the Las Vegas valley.</p>
     </div>
-    <div class="areas-list reveal">
-      <span class="pill">Summerlin</span>
-      <span class="pill">The Lakes</span>
-      <span class="pill">Spring Valley</span>
-      <span class="pill">Centennial Hills</span>
-      <span class="pill">Henderson</span>
-      <span class="pill">North Las Vegas</span>
-      <span class="pill">Enterprise</span>
-      <span class="pill">Downtown Las Vegas</span>
+    <div class="area-explorer reveal">
+      <div class="area-stage">
+        <div class="area-scene sc-summerlin is-active" data-area="summerlin">
+          <div class="grad"></div>
+          <svg viewBox="0 0 1440 320" preserveAspectRatio="none" aria-hidden="true"><path fill="#7c2d1c" d="M0,320 L0,210 L150,120 L300,200 L470,90 L640,180 L820,70 L1010,170 L1200,110 L1440,190 L1440,320Z"/></svg>
+          <div class="area-caption">
+            <span class="tag">Juan's home base</span>
+            <h3>Summerlin</h3>
+            <p>Master-planned living set against Red Rock Canyon — 150+ parks and trails, top-rated schools, and Downtown Summerlin's shops and dining. Juan knows every village by name.</p>
+          </div>
+        </div>
+        <div class="area-scene sc-henderson" data-area="henderson">
+          <div class="grad"></div>
+          <svg viewBox="0 0 1440 320" preserveAspectRatio="none" aria-hidden="true"><path fill="#3c5a32" d="M0,320 L0,240 L200,180 L420,235 L640,170 L900,235 L1160,185 L1440,235 L1440,320Z"/></svg>
+          <div class="area-caption">
+            <span class="tag">Family favorite</span>
+            <h3>Henderson</h3>
+            <p>Ranked among America's best places to live — Green Valley, Inspirada, and Lake Las Vegas offer master-planned calm minutes from the valley's edge.</p>
+          </div>
+        </div>
+        <div class="area-scene sc-centennial" data-area="centennial">
+          <div class="grad"></div>
+          <svg viewBox="0 0 1440 320" preserveAspectRatio="none" aria-hidden="true"><path fill="#8a5a36" d="M0,320 L0,205 L180,130 L360,195 L560,110 L760,185 L980,120 L1200,185 L1440,135 L1440,320Z"/></svg>
+          <div class="area-caption">
+            <span class="tag">Room to grow</span>
+            <h3>Centennial Hills</h3>
+            <p>Newer construction and big desert-sky views up north — more home for your budget, with easy reach to the 215 and Floyd Lamb Park.</p>
+          </div>
+        </div>
+        <div class="area-scene sc-downtown" data-area="downtown">
+          <div class="grad"></div>
+          <svg viewBox="0 0 1440 320" preserveAspectRatio="none" aria-hidden="true"><path fill="#05060c" d="M0,320 L0,240 L80,240 L80,170 L140,170 L140,240 L210,240 L210,110 L250,110 L250,80 L290,80 L290,110 L330,110 L330,240 L420,240 L420,150 L480,150 L480,240 L540,240 L540,60 L575,60 L575,240 L660,240 L660,185 L720,185 L720,240 L820,240 L820,130 L860,130 L860,240 L960,240 L960,175 L1020,175 L1020,240 L1140,240 L1140,150 L1200,150 L1200,240 L1320,240 L1320,195 L1380,195 L1380,240 L1440,240 L1440,320Z"/></svg>
+          <div class="area-caption">
+            <span class="tag">Urban energy</span>
+            <h3>Downtown Las Vegas</h3>
+            <p>High-rise condos, the Arts District, and walkable nightlife. For buyers who want the city at their doorstep — Juan knows the towers worth your money.</p>
+          </div>
+        </div>
+        <div class="area-scene sc-lakes" data-area="lakes">
+          <div class="grad"></div>
+          <svg viewBox="0 0 1440 320" preserveAspectRatio="none" aria-hidden="true"><path fill="#235a76" d="M0,320 L0,250 L240,215 L520,250 L760,210 L1040,250 L1280,220 L1440,250 L1440,320Z"/></svg>
+          <div class="area-caption">
+            <span class="tag">Waterfront west side</span>
+            <h3>The Lakes</h3>
+            <p>Rare Las Vegas waterfront just west of the Strip — quiet streets around Lake Sahara, a short hop to Summerlin and the 95.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="area-nav" aria-label="Neighborhoods Juan serves">
+        <button class="area-btn is-active" data-area="summerlin">Summerlin<span class="meta">Red Rock · master-planned</span></button>
+        <button class="area-btn" data-area="henderson">Henderson<span class="meta">Green Valley · Lake Las Vegas</span></button>
+        <button class="area-btn" data-area="centennial">Centennial Hills<span class="meta">Northwest · newer builds</span></button>
+        <button class="area-btn" data-area="downtown">Downtown Las Vegas<span class="meta">High-rise · Arts District</span></button>
+        <button class="area-btn" data-area="lakes">The Lakes<span class="meta">Waterfront · west side</span></button>
+      </div>
     </div>
   </div>
 </section>
@@ -395,7 +492,7 @@
         <label for="msg">How can Juan help?</label>
         <textarea id="msg" name="message" rows="4" placeholder="Buying, selling, or just exploring?"></textarea>
       </div>
-      <button class="btn btn-primary" type="submit">Request my callback</button>
+      <button class="btn btn-primary" type="submit">Request my callback <svg class="arrow" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button>
     </form>
   </div>
 </section>
@@ -508,6 +605,22 @@
   } else {
     document.querySelectorAll('.reveal').forEach(el=>el.classList.add('in'));
   }
+
+  // Neighborhood explorer — hover / focus / click reveals each area's scene
+  (function(){
+    const btns = document.querySelectorAll('.area-btn');
+    const scenes = document.querySelectorAll('.area-scene');
+    if(!btns.length) return;
+    function activate(key){
+      btns.forEach(b=>b.classList.toggle('is-active', b.dataset.area===key));
+      scenes.forEach(s=>s.classList.toggle('is-active', s.dataset.area===key));
+    }
+    btns.forEach(b=>{
+      b.addEventListener('mouseenter', ()=>activate(b.dataset.area));
+      b.addEventListener('focus', ()=>activate(b.dataset.area));
+      b.addEventListener('click', ()=>activate(b.dataset.area));
+    });
+  })();
 </script>
 </body>
 </html>
