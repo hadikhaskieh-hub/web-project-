@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
+<script>document.documentElement.classList.add('js');</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Vegas Realty — Luxury Homes in Summerlin &amp; Las Vegas | Juan Basurto</title>
 <meta name="description" content="Vegas Realty helps you buy and sell homes across Summerlin and Las Vegas. Work with Juan Basurto, a trusted local Realtor known for swift, experienced, above-and-beyond service. Call (702) 888-0888." />
@@ -161,7 +162,9 @@
   .sec-head p{margin-top:18px;color:var(--espresso-soft);font-size:1.1rem}
 
   /* reveal animation */
-  .reveal{opacity:0;transform:translateY(28px);transition:opacity .8s ease,transform .8s ease}
+  /* Content is visible by default; only hidden (for fade-in) when JS is running. */
+  .reveal{transition:opacity .8s ease,transform .8s ease}
+  .js .reveal{opacity:0;transform:translateY(28px)}
   .reveal.in{opacity:1;transform:none}
 
   /* ---------- ABOUT JUAN ---------- */
@@ -574,12 +577,15 @@
   document.getElementById('yr').textContent = new Date().getFullYear();
 
   // Scroll reveal
+  const revealAll = ()=>document.querySelectorAll('.reveal').forEach(el=>el.classList.add('in'));
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if(!reduce){
+  if(!reduce && 'IntersectionObserver' in window){
     const io = new IntersectionObserver((entries)=>{
       entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
-    }, {threshold:.15});
+    }, {threshold:.12});
     document.querySelectorAll('.reveal').forEach((el,i)=>{ el.style.transitionDelay=(i%4*70)+'ms'; io.observe(el); });
+    // Failsafe: if anything hasn't revealed within 2.5s, show it anyway.
+    setTimeout(revealAll, 2500);
 
     // Hero "silk" cursor trail — adapted from a 21st.dev canvas component,
     // recolored to the Desert Luxe palette and toned down to whisper, not shout.
