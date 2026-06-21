@@ -104,7 +104,8 @@
   .ridge-3{bottom:6%;opacity:.28}
   .hero-glow{position:absolute;z-index:1;width:46vmax;height:46vmax;border-radius:50%;
     background:radial-gradient(circle,rgba(201,163,92,.35),transparent 60%);
-    pointer-events:none;transform:translate(-50%,-50%);left:78%;top:24%;transition:left .6s ease,top .6s ease}
+    pointer-events:none;transform:translate(-50%,-50%);left:78%;top:24%}
+  #heroCanvas{position:absolute;inset:0;z-index:1;pointer-events:none;mix-blend-mode:multiply}
 
   .hero-inner{position:relative;z-index:2;width:100%;padding-top:120px;padding-bottom:60px}
   .hero h1{
@@ -238,6 +239,7 @@
 <section class="hero">
   <div class="hero-bg"></div>
   <div class="hero-glow" id="glow" aria-hidden="true"></div>
+  <canvas id="heroCanvas" aria-hidden="true"></canvas>
 
   <div class="ridge ridge-1" aria-hidden="true"><svg viewBox="0 0 1440 120" preserveAspectRatio="none" fill="#b98b5e"><path d="M0,120 L0,70 L160,30 L320,72 L480,24 L640,66 L820,18 L1010,60 L1200,28 L1440,64 L1440,120 Z"/></svg></div>
   <div class="ridge ridge-2" aria-hidden="true"><svg viewBox="0 0 1440 120" preserveAspectRatio="none" fill="#a9744a"><path d="M0,120 L0,84 L220,44 L430,86 L640,40 L880,84 L1120,46 L1440,82 L1440,120 Z"/></svg></div>
@@ -441,14 +443,68 @@
     }, {threshold:.15});
     document.querySelectorAll('.reveal').forEach((el,i)=>{ el.style.transitionDelay=(i%4*70)+'ms'; io.observe(el); });
 
-    // Hero sun-glow follows the cursor (subtle, the "expensive" touch)
-    const glow = document.getElementById('glow');
+    // Hero "silk" cursor trail — adapted from a 21st.dev canvas component,
+    // recolored to the Desert Luxe palette and toned down to whisper, not shout.
     const hero = document.querySelector('.hero');
-    hero.addEventListener('pointermove', (ev)=>{
-      const r = hero.getBoundingClientRect();
-      glow.style.left = ((ev.clientX - r.left)/r.width*100) + '%';
-      glow.style.top  = ((ev.clientY - r.top)/r.height*100) + '%';
-    });
+    (function silk(){
+      const canvas = document.getElementById('heroCanvas');
+      if(!canvas) return;
+      const c = canvas.getContext('2d');
+      const cfg = {friction:0.5, trails:34, size:50, dampening:0.025, tension:0.99};
+      const pos = {x:0, y:0}; let lines = []; let running = true;
+
+      function Osc(o){this.phase=o.phase||0;this.offset=o.offset||0;this.freq=o.freq||0.001;this.amp=o.amp||1;}
+      Osc.prototype.update=function(){this.phase+=this.freq;this.v=this.offset+Math.sin(this.phase)*this.amp;return this.v;};
+      const osc = new Osc({phase:Math.random()*2*Math.PI, amp:16, freq:0.0017, offset:28});
+
+      function Node(){this.x=0;this.y=0;this.vx=0;this.vy=0;}
+      function Line(spring){
+        this.spring=spring+0.1*Math.random()-0.05;
+        this.friction=cfg.friction+0.01*Math.random()-0.005;
+        this.nodes=[];
+        for(let i=0;i<cfg.size;i++){const nd=new Node();nd.x=pos.x;nd.y=pos.y;this.nodes.push(nd);}
+      }
+      Line.prototype.update=function(){
+        let e=this.spring,t=this.nodes[0];
+        t.vx+=(pos.x-t.x)*e; t.vy+=(pos.y-t.y)*e;
+        for(let i=0,a=this.nodes.length;i<a;i++){
+          t=this.nodes[i];
+          if(i>0){const p=this.nodes[i-1];
+            t.vx+=(p.x-t.x)*e; t.vy+=(p.y-t.y)*e;
+            t.vx+=p.vx*cfg.dampening; t.vy+=p.vy*cfg.dampening;}
+          t.vx*=this.friction; t.vy*=this.friction;
+          t.x+=t.vx; t.y+=t.vy; e*=cfg.tension;
+        }
+      };
+      Line.prototype.draw=function(){
+        let e,t,n=this.nodes[0].x,i=this.nodes[0].y;
+        c.beginPath(); c.moveTo(n,i);
+        let a=1,o=this.nodes.length-2;
+        for(;a<o;a++){e=this.nodes[a];t=this.nodes[a+1];n=0.5*(e.x+t.x);i=0.5*(e.y+t.y);c.quadraticCurveTo(e.x,e.y,n,i);}
+        e=this.nodes[a]; t=this.nodes[a+1]; c.quadraticCurveTo(e.x,e.y,t.x,t.y);
+        c.stroke(); c.closePath();
+      };
+      function initLines(){lines=[];for(let i=0;i<cfg.trails;i++)lines.push(new Line(0.45+(i/cfg.trails)*0.025));}
+      function frame(){
+        if(!running) return;
+        c.globalCompositeOperation='source-over';
+        c.clearRect(0,0,canvas.width,canvas.height);
+        const hue=Math.round(osc.update());            // warm 12–44° (bronze → gold)
+        c.strokeStyle='hsla('+hue+',58%,30%,0.045)';     // translucent desert silk
+        c.lineWidth=6;
+        for(let i=0;i<cfg.trails;i++){lines[i].update();lines[i].draw();}
+        requestAnimationFrame(frame);
+      }
+      function resize(){const r=hero.getBoundingClientRect();canvas.width=r.width;canvas.height=r.height;}
+      function setPos(x,y){const r=hero.getBoundingClientRect();pos.x=x-r.left;pos.y=y-r.top;}
+      resize();
+      pos.x=canvas.width*0.7; pos.y=canvas.height*0.42; initLines();
+      hero.addEventListener('mousemove', e=>setPos(e.clientX,e.clientY));
+      hero.addEventListener('touchmove', e=>{if(e.touches[0])setPos(e.touches[0].clientX,e.touches[0].clientY);}, {passive:true});
+      window.addEventListener('resize', resize);
+      document.addEventListener('visibilitychange', ()=>{running=!document.hidden; if(running) frame();});
+      frame();
+    })();
   } else {
     document.querySelectorAll('.reveal').forEach(el=>el.classList.add('in'));
   }
