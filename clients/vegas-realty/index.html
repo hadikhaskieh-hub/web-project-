@@ -138,7 +138,12 @@
   .ridge-3{bottom:6%;opacity:.28}
   .hero-glow{position:absolute;z-index:1;width:46vmax;height:46vmax;border-radius:50%;
     background:radial-gradient(circle,rgba(201,163,92,.35),transparent 60%);
-    pointer-events:none;transform:translate(-50%,-50%);left:78%;top:24%}
+    pointer-events:none;transform:translate(-50%,-50%);left:78%;top:24%;
+    animation:glowDrift 16s ease-in-out infinite}
+  @keyframes glowDrift{
+    0%,100%{transform:translate(-50%,-50%) scale(1)}
+    50%{transform:translate(-44%,-56%) scale(1.14)}
+  }
   #heroCanvas{position:absolute;inset:0;z-index:1;pointer-events:none;mix-blend-mode:multiply}
 
   .hero-inner{position:relative;z-index:2;width:100%;padding-top:120px;padding-bottom:60px}
@@ -212,9 +217,20 @@
   /* Neighborhood explorer */
   .area-explorer{margin-top:50px;display:grid;grid-template-columns:1.55fr .9fr;gap:22px}
   .area-stage{position:relative;border-radius:22px;overflow:hidden;min-height:460px;background:#16130f;box-shadow:var(--shadow)}
-  .area-scene{position:absolute;inset:0;opacity:0;transform:scale(1.06);
-    transition:opacity .7s ease, transform 9s ease}
-  .area-scene.is-active{opacity:1;transform:scale(1)}
+  .area-scene{position:absolute;inset:0;opacity:0}
+  /* When JS runs, JS drives which scene is active */
+  .js .area-scene{transform:scale(1.06);transition:opacity .7s ease, transform 9s ease}
+  .js .area-scene.is-active{opacity:1;transform:scale(1)}
+  /* When JS does NOT run (e.g. local file viewer), auto-cycle with pure CSS */
+  html:not(.js) .area-scene{animation:areaCycle 20s infinite both}
+  html:not(.js) .area-scene:nth-child(1){animation-delay:0s}
+  html:not(.js) .area-scene:nth-child(2){animation-delay:-4s}
+  html:not(.js) .area-scene:nth-child(3){animation-delay:-8s}
+  html:not(.js) .area-scene:nth-child(4){animation-delay:-12s}
+  html:not(.js) .area-scene:nth-child(5){animation-delay:-16s}
+  @keyframes areaCycle{
+    0%{opacity:0} 2%{opacity:1} 18%{opacity:1} 20%{opacity:0} 100%{opacity:0}
+  }
   .area-scene .grad{position:absolute;inset:0}
   .area-scene > svg{position:absolute;left:0;right:0;bottom:0;width:100%;height:auto;display:block}
   .area-caption{position:absolute;left:0;right:0;bottom:0;z-index:3;padding:34px;color:#fff;
@@ -290,8 +306,9 @@
   @media(prefers-reduced-motion:reduce){
     *{scroll-behavior:auto!important}
     .reveal{opacity:1!important;transform:none!important;transition:none}
-    .hero-glow{transition:none}
-    .area-scene{transition:opacity .3s!important;transform:none!important}
+    .hero-glow{transition:none;animation:none}
+    .area-scene{transition:opacity .3s!important;transform:none!important;animation:none!important}
+    html:not(.js) .area-scene:nth-child(1){opacity:1}
     .btn:hover{transform:none}
   }
 </style>
