@@ -34,9 +34,26 @@ In practice, for every website build:
 The full guidance lives in the `frontend-design` skill — follow it for the
 aesthetic direction, typography, motion, and writing on every site.
 
+## Also use the ui-ux-pro-max skill
+
+This repo has the `ui-ux-pro-max` skill installed at
+`.claude/skills/ui-ux-pro-max/`. Use it alongside `frontend-design` when
+designing any site — run its design-system search for palette, typography,
+style, and layout recommendations, then apply taste on top. Both skills load
+automatically in every session opened on this repository.
+
+## Resuming a client project (READ THIS FIRST)
+
+Every client folder under `clients/<name>/` contains a **`PROJECT.md`** — the
+single source of truth for that client: the brief, design decisions, what's
+built, and the open to-do list. **Before continuing any client's site, read
+that client's `PROJECT.md`** so you have the full context a fresh session would
+otherwise be missing. Keep it updated as work progresses.
+
 ## Working conventions
 
 - Each client site can live in its own directory (e.g. `clients/<name>/`) so
   multiple projects can coexist in this repo.
 - Keep copy specific to the real business — local details, services, and tone
   beat generic filler.
+- Each client folder keeps a `PROJECT.md` handoff doc (see above).
