@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<script>document.documentElement.classList.add('js');</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Vegas Realty — Luxury Homes in Summerlin &amp; Las Vegas | Juan Basurto</title>
+<meta name="description" content="Vegas Realty helps you buy and sell homes across Summerlin and Las Vegas. Work with Juan Basurto, a trusted local Realtor known for swift, experienced, above-and-beyond service. Call (702) 888-0888." />
+
+<!-- Open Graph -->
+<meta property="og:title" content="Vegas Realty — Luxury Homes in Summerlin & Las Vegas" />
+<meta property="og:description" content="Buy and sell with Juan Basurto, a Las Vegas Realtor known for finding the home you dreamed of." />
+<meta property="og:type" content="website" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;900&family=Josefin+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+<style>
+  :root{
+    --sand:#F5EFE6;        /* page background */
+    --sand-2:#EDE3D4;      /* warmer panel */
+    --espresso:#2B2622;    /* primary text */
+    --espresso-soft:#5A5048;/* muted text */
+    --bronze:#C2703D;      /* primary accent */
+    --canyon:#8A3324;      /* deep accent */
+    --gold:#C9A35C;        /* highlight */
+    --line:rgba(43,38,34,.14);
+    --max:1180px;
+    --shadow:0 24px 60px -28px rgba(43,38,34,.45);
+  }
+
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;
+    background:var(--sand);
+    color:var(--espresso);
+    font-family:"Josefin Sans",system-ui,sans-serif;
+    font-weight:400;
+    line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  h1,h2,h3{font-family:"Cinzel",Georgia,serif;font-weight:700;line-height:1.05;margin:0;letter-spacing:.01em}
+  p{margin:0}
+  a{color:inherit;text-decoration:none}
+  img{max-width:100%;display:block}
+
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+  .eyebrow{
+    font-size:.72rem;letter-spacing:.32em;text-transform:uppercase;
+    font-weight:600;color:var(--canyon);
+  }
+
+  /* Buttons */
+  .btn{
+    position:relative;overflow:hidden;
+    display:inline-flex;align-items:center;gap:.55em;
+    padding:15px 28px;border-radius:999px;cursor:pointer;
+    font-family:"Josefin Sans",sans-serif;font-weight:600;font-size:1rem;letter-spacing:.02em;
+    border:1.5px solid transparent;
+    transition:background .25s,color .25s,border-color .25s,transform .2s,box-shadow .25s;
+  }
+  .btn::after{content:"";position:absolute;top:0;left:-130%;width:55%;height:100%;
+    background:linear-gradient(120deg,transparent,rgba(255,255,255,.42),transparent);
+    transform:skewX(-20deg);transition:left .6s ease;pointer-events:none}
+  .btn:hover::after{left:150%}
+  .btn:hover{transform:translateY(-2px)}
+  .btn:active{transform:translateY(0)}
+  .btn .arrow{transition:transform .25s}
+  .btn:hover .arrow{transform:translateX(4px)}
+  .btn-primary{background:linear-gradient(135deg,#a23a28,var(--canyon));color:#fff;
+    box-shadow:0 12px 26px -14px rgba(138,51,36,.75)}
+  .btn-primary:hover{box-shadow:0 18px 34px -14px rgba(138,51,36,.92)}
+  .btn-ghost{border-color:var(--espresso);color:var(--espresso)}
+  .btn-ghost:hover{background:var(--espresso);color:var(--sand)}
+  .btn:focus-visible{outline:3px solid var(--bronze);outline-offset:3px}
+
+  /* ---------- NAV ---------- */
+  header.nav{
+    position:fixed;inset:16px 16px auto 16px;z-index:50;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:14px 24px;border-radius:18px;
+    background:rgba(245,239,230,.82);backdrop-filter:blur(12px);
+    border:1px solid var(--line);transition:box-shadow .3s,background .3s;
+  }
+  header.nav.scrolled{box-shadow:var(--shadow);background:rgba(245,239,230,.94)}
+  .brand{font-family:"Cinzel",serif;font-weight:700;font-size:1.18rem;letter-spacing:.06em}
+  .brand span{color:var(--bronze)}
+  .nav-links{display:flex;gap:30px;align-items:center}
+  .nav-links a{font-size:.92rem;letter-spacing:.04em;color:var(--espresso-soft);transition:color .2s}
+  .nav-links a:hover{color:var(--espresso)}
+  .nav-cta{display:inline-flex;align-items:center;gap:.5em;font-weight:600;color:var(--canyon)}
+  .nav-toggle{display:none;background:none;border:0;cursor:pointer;color:var(--espresso)}
+  @media(max-width:860px){
+    .nav-toggle{display:flex}
+    .nav-cta{display:none}
+    .nav-links{
+      position:absolute;top:calc(100% + 10px);left:0;right:0;
+      flex-direction:column;gap:4px;background:rgba(245,239,230,.98);
+      border:1px solid var(--line);border-radius:14px;padding:8px;
+      box-shadow:var(--shadow);display:none;
+    }
+    header.nav.menu-open .nav-links{display:flex}
+    .nav-links a{padding:13px 14px;border-radius:10px;width:100%;font-size:1rem;color:var(--espresso)}
+    .nav-links a:hover{background:var(--sand-2)}
+  }
+  /* Sticky mobile call bar */
+  .mobile-callbar{display:none}
+  @media(max-width:860px){
+    .mobile-callbar{
+      display:flex;align-items:center;justify-content:center;gap:.55em;
+      position:fixed;left:12px;right:12px;bottom:12px;z-index:60;
+      padding:15px;border-radius:14px;
+      background:var(--canyon);color:#fff;font-weight:600;letter-spacing:.02em;
+      font-family:"Josefin Sans",sans-serif;
+      box-shadow:0 16px 32px -10px rgba(138,51,36,.6);
+    }
+    .mobile-callbar:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{position:relative;min-height:100svh;display:flex;align-items:center;overflow:hidden}
+  .hero-bg{position:absolute;inset:0;z-index:0}
+  /* desert horizon: warm sky -> sand, with a low sun glow */
+  .hero-bg::before{
+    content:"";position:absolute;inset:0;
+    background:
+      radial-gradient(120% 80% at 78% 18%, rgba(201,163,92,.45), transparent 55%),
+      linear-gradient(180deg,#F7EAD7 0%,#F1E1CC 42%,#E7CBA9 70%,#D9B287 100%);
+  }
+  /* layered ridge lines evoking the Spring Mountains behind Summerlin */
+  .ridge{position:absolute;left:0;right:0;z-index:0}
+  .ridge svg{width:100%;height:auto;display:block}
+  .ridge-1{bottom:30%;opacity:.55}
+  .ridge-2{bottom:18%;opacity:.4}
+  .ridge-3{bottom:6%;opacity:.28}
+  .hero-glow{position:absolute;z-index:1;width:46vmax;height:46vmax;border-radius:50%;
+    background:radial-gradient(circle,rgba(201,163,92,.35),transparent 60%);
+    pointer-events:none;transform:translate(-50%,-50%);left:78%;top:24%;
+    animation:glowDrift 16s ease-in-out infinite}
+  @keyframes glowDrift{
+    0%,100%{transform:translate(-50%,-50%) scale(1)}
+    50%{transform:translate(-44%,-56%) scale(1.14)}
+  }
+  #heroCanvas{position:absolute;inset:0;z-index:1;pointer-events:none;mix-blend-mode:multiply}
+
+  .hero-inner{position:relative;z-index:2;width:100%;padding-top:120px;padding-bottom:60px}
+  .hero h1{
+    font-size:clamp(2.9rem,9vw,7.4rem);font-weight:900;letter-spacing:-.01em;
+    text-transform:uppercase;color:var(--espresso);max-width:14ch;
+  }
+  .hero h1 em{font-style:normal;color:var(--canyon)}
+  .hero-sub{margin-top:26px;max-width:46ch;font-size:1.18rem;color:var(--espresso-soft)}
+  .hero-actions{margin-top:38px;display:flex;gap:16px;flex-wrap:wrap}
+  .hero-meta{margin-top:40px;display:flex;gap:34px;flex-wrap:wrap;align-items:center}
+  .hero-meta .stat .n{font-family:"Cinzel",serif;font-size:1.9rem;font-weight:700;color:var(--espresso)}
+  .hero-meta .stat .l{font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:var(--espresso-soft)}
+  .hero-rule{width:1px;height:42px;background:var(--line)}
+
+  /* ---------- SECTION SHELL ---------- */
+  section{position:relative}
+  .pad{padding:clamp(72px,11vw,140px) 0}
+  .sec-head{max-width:60ch}
+  .sec-head h2{font-size:clamp(2rem,5vw,3.3rem);margin-top:14px}
+  .sec-head p{margin-top:18px;color:var(--espresso-soft);font-size:1.1rem}
+
+  /* reveal animation */
+  /* Content is visible by default; only hidden (for fade-in) when JS is running. */
+  .reveal{transition:opacity .8s ease,transform .8s ease}
+  .js .reveal{opacity:0;transform:translateY(28px)}
+  .reveal.in{opacity:1;transform:none}
+
+  /* ---------- ABOUT JUAN ---------- */
+  .about{background:var(--sand-2)}
+  .about-grid{display:grid;grid-template-columns:0.9fr 1.1fr;gap:64px;align-items:center}
+  .portrait{
+    position:relative;border-radius:20px;overflow:hidden;aspect-ratio:4/5;
+    background:linear-gradient(160deg,#cf9a6a,#8A3324 120%);
+    box-shadow:var(--shadow);display:flex;align-items:flex-end;
+  }
+  .portrait .ph{padding:26px;color:rgba(255,255,255,.92)}
+  .portrait .ph .name{font-family:"Cinzel",serif;font-size:1.5rem;font-weight:700}
+  .portrait .ph .role{font-size:.85rem;letter-spacing:.16em;text-transform:uppercase;opacity:.85}
+  .portrait .badge{position:absolute;top:18px;left:18px;background:rgba(43,38,34,.78);color:#fff;
+    font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;padding:8px 14px;border-radius:999px}
+  .about blockquote{margin:26px 0 0;font-family:"Cinzel",serif;font-size:1.35rem;line-height:1.5;color:var(--espresso)}
+  .about .sig{margin-top:22px;font-size:.95rem;color:var(--espresso-soft)}
+
+  /* ---------- SERVICES ---------- */
+  .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;margin-top:54px}
+  .card{
+    background:var(--sand);border:1px solid var(--line);border-radius:18px;padding:34px;
+    transition:transform .25s,box-shadow .25s,border-color .25s;
+  }
+  .card:hover{transform:translateY(-6px);box-shadow:var(--shadow);border-color:transparent}
+  .card .ico{width:46px;height:46px;color:var(--canyon);margin-bottom:18px}
+  .card h3{font-size:1.45rem}
+  .card p{margin-top:12px;color:var(--espresso-soft);font-size:1.02rem}
+
+  /* ---------- TESTIMONIALS ---------- */
+  .testi{background:var(--espresso);color:var(--sand)}
+  .testi .eyebrow{color:var(--gold)}
+  .testi .sec-head h2{color:var(--sand)}
+  .quotes{display:grid;grid-template-columns:1fr 1fr;gap:26px;margin-top:54px}
+  .quote{background:rgba(245,239,230,.05);border:1px solid rgba(245,239,230,.14);border-radius:18px;padding:34px}
+  .quote .stars{color:var(--gold);letter-spacing:.18em;font-size:1.05rem}
+  .quote p{margin-top:16px;font-size:1.12rem;line-height:1.7;color:#efe7da}
+  .quote .who{margin-top:20px;font-size:.82rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold)}
+  @media(max-width:760px){.quotes{grid-template-columns:1fr}}
+
+  /* ---------- AREAS ---------- */
+  .areas-list{display:flex;flex-wrap:wrap;gap:12px;margin-top:40px}
+  .pill{border:1px solid var(--line);border-radius:999px;padding:10px 20px;font-size:.95rem;color:var(--espresso-soft)}
+
+  /* Neighborhood explorer */
+  .area-explorer{margin-top:50px;display:grid;grid-template-columns:1.55fr .9fr;gap:22px}
+  .area-stage{position:relative;border-radius:22px;overflow:hidden;min-height:460px;background:#16130f;box-shadow:var(--shadow)}
+  .area-scene{position:absolute;inset:0;opacity:0}
+  /* When JS runs, JS drives which scene is active */
+  .js .area-scene{transform:scale(1.06);transition:opacity .7s ease, transform 9s ease}
+  .js .area-scene.is-active{opacity:1;transform:scale(1)}
+  /* When JS does NOT run (e.g. local file viewer), auto-cycle with pure CSS */
+  html:not(.js) .area-scene{animation:areaCycle 20s infinite both}
+  html:not(.js) .area-scene:nth-child(1){animation-delay:0s}
+  html:not(.js) .area-scene:nth-child(2){animation-delay:-4s}
+  html:not(.js) .area-scene:nth-child(3){animation-delay:-8s}
+  html:not(.js) .area-scene:nth-child(4){animation-delay:-12s}
+  html:not(.js) .area-scene:nth-child(5){animation-delay:-16s}
+  @keyframes areaCycle{
+    0%{opacity:0} 2%{opacity:1} 18%{opacity:1} 20%{opacity:0} 100%{opacity:0}
+  }
+  .area-scene .grad{position:absolute;inset:0}
+  .area-scene > svg{position:absolute;left:0;right:0;bottom:0;width:100%;height:auto;display:block}
+  .area-caption{position:absolute;left:0;right:0;bottom:0;z-index:3;padding:34px;color:#fff;
+    background:linear-gradient(transparent, rgba(18,15,12,.5) 40%, rgba(18,15,12,.9))}
+  .area-caption .tag{font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold)}
+  .area-caption h3{font-size:clamp(1.7rem,4vw,2.7rem);margin-top:8px;color:#fff}
+  .area-caption p{margin-top:10px;max-width:50ch;color:rgba(255,255,255,.84);font-size:1.02rem}
+  .area-nav{display:flex;flex-direction:column;gap:10px}
+  .area-btn{position:relative;text-align:left;background:var(--sand);border:1px solid var(--line);
+    border-radius:14px;padding:17px 22px;cursor:pointer;font-family:"Cinzel",serif;font-size:1.12rem;
+    color:var(--espresso);transition:background .25s,color .25s,border-color .25s,transform .2s}
+  .area-btn:hover{transform:translateX(5px)}
+  .area-btn.is-active{background:var(--espresso);color:var(--sand);border-color:transparent}
+  .area-btn .meta{display:block;font-family:"Josefin Sans",sans-serif;font-size:.8rem;font-weight:400;
+    letter-spacing:.04em;color:var(--espresso-soft);margin-top:3px}
+  .area-btn.is-active .meta{color:rgba(245,239,230,.72)}
+  .area-btn:focus-visible{outline:3px solid var(--bronze);outline-offset:2px}
+
+  .sc-summerlin .grad{background:radial-gradient(120% 95% at 70% 8%,#f6b676,transparent 55%),linear-gradient(180deg,#ec8f52,#b34a2a 68%,#7c2d1c)}
+  .sc-henderson .grad{background:radial-gradient(120% 95% at 32% 12%,#d6ecb6,transparent 55%),linear-gradient(180deg,#93b96e,#5d8348 64%,#3c5a32)}
+  .sc-centennial .grad{background:radial-gradient(120% 95% at 60% 10%,#ffe2b4,transparent 55%),linear-gradient(180deg,#e8b884,#c98a5a 64%,#8a5a36)}
+  .sc-downtown .grad{background:radial-gradient(85% 65% at 50% 82%,rgba(212,175,55,.45),transparent 60%),linear-gradient(180deg,#0a0d1a,#171a2e 58%,#0a0d14)}
+  .sc-lakes .grad{background:radial-gradient(120% 95% at 70% 10%,#c3e8f2,transparent 55%),linear-gradient(180deg,#74b8d2,#3f86a8 64%,#235a76)}
+
+  @media(max-width:880px){
+    .area-explorer{grid-template-columns:1fr}
+    .area-stage{min-height:340px}
+    .area-nav{flex-direction:row;flex-wrap:wrap}
+    .area-btn{flex:1 1 auto}
+  }
+
+  /* ---------- CONTACT ---------- */
+  .contact{background:var(--sand-2)}
+  .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px}
+  .contact-info dl{margin:30px 0 0}
+  .contact-info dt{font-size:.74rem;letter-spacing:.2em;text-transform:uppercase;color:var(--canyon);margin-top:22px}
+  .contact-info dd{margin:6px 0 0;font-size:1.18rem}
+  .contact-info dd a{border-bottom:1px solid transparent;transition:border-color .2s}
+  .contact-info dd a:hover{border-color:var(--espresso)}
+  form{background:var(--sand);border:1px solid var(--line);border-radius:20px;padding:34px;box-shadow:var(--shadow)}
+  .field{margin-bottom:18px}
+  .field label{display:block;font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;margin-bottom:8px;color:var(--espresso-soft)}
+  .field input,.field textarea{
+    width:100%;padding:14px 16px;border-radius:12px;border:1.5px solid var(--line);
+    background:#fff;font-family:inherit;font-size:1rem;color:var(--espresso);transition:border-color .2s,box-shadow .2s;
+  }
+  .field input:focus,.field textarea:focus{outline:none;border-color:var(--bronze);box-shadow:0 0 0 3px rgba(194,112,61,.18)}
+  form .btn-primary{width:100%;justify-content:center;margin-top:6px}
+  .hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+  .form-status{margin-top:14px;font-size:.95rem;min-height:1.2em;text-align:center}
+  .form-status.ok{color:#2e7d32}
+  .form-status.err{color:#b3261e}
+
+  /* ---------- FOOTER ---------- */
+  footer{background:var(--espresso);color:#cdbfae;padding:54px 0 40px}
+  footer .wrap{display:flex;justify-content:space-between;gap:30px;flex-wrap:wrap;align-items:flex-start}
+  footer .brand{color:#fff}
+  footer a{color:#cdbfae;transition:color .2s}
+  footer a:hover{color:#fff}
+  .foot-small{margin-top:18px;font-size:.82rem;color:#9c8d7c;max-width:42ch;line-height:1.6}
+  .disclaimer{margin-top:30px;border-top:1px solid rgba(255,255,255,.1);padding-top:20px;font-size:.78rem;color:#8d7f6f}
+
+  @media(max-width:880px){
+    .about-grid{grid-template-columns:1fr;gap:36px}
+    .portrait{aspect-ratio:4/4;max-width:420px}
+    .cards{grid-template-columns:1fr}
+    .contact-grid{grid-template-columns:1fr;gap:34px}
+    footer{padding-bottom:96px}            /* clear the sticky call bar */
+    .hero h1{font-size:clamp(2.6rem,12vw,4.4rem)}
+    .hero-meta{gap:22px}
+  }
+
+  @media(prefers-reduced-motion:reduce){
+    *{scroll-behavior:auto!important}
+    .reveal{opacity:1!important;transform:none!important;transition:none}
+    .hero-glow{transition:none;animation:none}
+    .area-scene{transition:opacity .3s!important;transform:none!important;animation:none!important}
+    html:not(.js) .area-scene:nth-child(1){opacity:1}
+    .btn:hover{transform:none}
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<header class="nav" id="nav">
+  <div class="brand">VEGAS<span>·</span>REALTY</div>
+  <nav class="nav-links" aria-label="Primary">
+    <a href="#about">About</a>
+    <a href="#services">Services</a>
+    <a href="#reviews">Reviews</a>
+    <a href="#areas">Areas</a>
+    <a href="#contact">Contact</a>
+  </nav>
+  <a class="nav-cta" href="tel:+17028880888" aria-label="Call Vegas Realty at 702 888 0888">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92Z"/></svg>
+    (702) 888-0888
+  </a>
+  <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="nav">
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
+  </button>
+</header>
+
+<!-- Always-visible call button on phones -->
+<a class="mobile-callbar" href="tel:+17028880888">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92Z"/></svg>
+  Call Juan — (702) 888-0888
+</a>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-glow" id="glow" aria-hidden="true"></div>
+  <canvas id="heroCanvas" aria-hidden="true"></canvas>
+
+  <div class="ridge ridge-1" aria-hidden="true"><svg viewBox="0 0 1440 120" preserveAspectRatio="none" fill="#b98b5e"><path d="M0,120 L0,70 L160,30 L320,72 L480,24 L640,66 L820,18 L1010,60 L1200,28 L1440,64 L1440,120 Z"/></svg></div>
+  <div class="ridge ridge-2" aria-hidden="true"><svg viewBox="0 0 1440 120" preserveAspectRatio="none" fill="#a9744a"><path d="M0,120 L0,84 L220,44 L430,86 L640,40 L880,84 L1120,46 L1440,82 L1440,120 Z"/></svg></div>
+  <div class="ridge ridge-3" aria-hidden="true"><svg viewBox="0 0 1440 120" preserveAspectRatio="none" fill="#8A3324"><path d="M0,120 L0,96 L300,70 L600,98 L900,68 L1200,96 L1440,74 L1440,120 Z"/></svg></div>
+
+  <div class="hero-inner wrap">
+    <p class="eyebrow reveal">Summerlin · Las Vegas Real Estate</p>
+    <h1 class="reveal">Find the home you <em>dreamed of.</em></h1>
+    <p class="hero-sub reveal">Vegas Realty pairs you with Juan Basurto — a Las Vegas Realtor known for swift, experienced, above-and-beyond service from the first call to the keys in your hand.</p>
+    <div class="hero-actions reveal">
+      <a class="btn btn-primary" href="tel:+17028880888">Call (702) 888-0888 <svg class="arrow" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+      <a class="btn btn-ghost" href="#contact">Request a callback <svg class="arrow" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+    </div>
+    <div class="hero-meta reveal">
+      <div class="stat"><div class="n">15+</div><div class="l">Years in the valley</div></div>
+      <div class="hero-rule"></div>
+      <div class="stat"><div class="n">Buy &amp; Sell</div><div class="l">Residential specialist</div></div>
+      <div class="hero-rule"></div>
+      <div class="stat"><div class="n">5.0</div><div class="l">Service clients remember</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT JUAN -->
+<section class="about pad" id="about">
+  <div class="wrap about-grid">
+    <div class="portrait reveal">
+      <span class="badge">Your Agent</span>
+      <!-- Replace this gradient block with Juan's headshot: <img src="juan.jpg" alt="Juan Basurto, Realtor at Vegas Realty"> -->
+      <div class="ph">
+        <div class="name">Juan F. Basurto</div>
+        <div class="role">Realtor · Vegas Realty</div>
+      </div>
+    </div>
+    <div class="reveal">
+      <p class="eyebrow">Why people call back</p>
+      <h2>Steady guidance when the moment matters most.</h2>
+      <p style="margin-top:18px;color:var(--espresso-soft);font-size:1.12rem">
+        Buying or selling a home in Las Vegas is one of the biggest decisions you'll make — and it rarely arrives on a calm day. Juan has spent years walking valley families through it: first-time buyers, sellers timing the market, and folks navigating a stressful stretch who just needed someone experienced in their corner.
+      </p>
+      <blockquote>"His swift and experienced service helped us find the home that we dreamed of."</blockquote>
+      <p class="sig">— A Vegas Realty client, on working with Juan</p>
+      <div class="hero-actions" style="margin-top:30px">
+        <a class="btn btn-primary" href="#contact">Start a conversation <svg class="arrow" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="pad" id="services">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="eyebrow">How Juan helps</p>
+      <h2>One Realtor, the whole move handled.</h2>
+      <p>No call center, no handoffs. You work directly with Juan from the first question to closing day.</p>
+    </div>
+    <div class="cards">
+      <article class="card reveal">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9.5 12 3l9 6.5V21a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1Z"/></svg>
+        <h3>Buying a home</h3>
+        <p>From your first showing to a winning offer, Juan helps you find the right home in the right neighborhood — and negotiates hard so you don't overpay.</p>
+      </article>
+      <article class="card reveal">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V8l7-5 7 5v13M9 21v-6h6v6"/></svg>
+        <h3>Selling your home</h3>
+        <p>Pricing, prep, and marketing that gets Summerlin and Las Vegas buyers through the door — so your home sells for what it's worth, on your timeline.</p>
+      </article>
+      <article class="card reveal">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="10" r="3"/><path d="M12 22s7-5.5 7-12a7 7 0 1 0-14 0c0 6.5 7 12 7 12Z"/></svg>
+        <h3>Relocating to Vegas</h3>
+        <p>Moving to the valley? Juan knows the communities, schools, and commutes — and will tell you straight which neighborhood actually fits how you live.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testi pad" id="reviews">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="eyebrow">In their words</p>
+      <h2>Clients who'd send their family to Juan.</h2>
+    </div>
+    <div class="quotes">
+      <blockquote class="quote reveal">
+        <div class="stars" aria-label="5 out of 5 stars">★★★★★</div>
+        <p>"I cannot speak highly enough of Juan Basurto. From the moment I enlisted his services, he impressed me with his professionalism, dedication, and unwavering commitment to ensuring my real estate needs were met. He went above and beyond, and I'd highly recommend him to anyone in search of a top-notch Realtor."</p>
+        <div class="who">Verified Google Review</div>
+      </blockquote>
+      <blockquote class="quote reveal">
+        <div class="stars" aria-label="5 out of 5 stars">★★★★★</div>
+        <p>"Back in 2011, when my wife and I were losing our first home, a young tall Realtor came to our aid during a very stressful time in our lives. His swift and experienced service helped us find the home that we dreamed of."</p>
+        <div class="who">Verified Google Review</div>
+      </blockquote>
+    </div>
+  </div>
+</section>
+
+<!-- AREAS -->
+<section class="pad" id="areas">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="eyebrow">Where Juan works</p>
+      <h2>Across the valley, rooted in Summerlin.</h2>
+      <p>Based at 1180 N Town Center Dr in Summerlin, serving buyers and sellers throughout the Las Vegas valley.</p>
+    </div>
+    <div class="area-explorer reveal">
+      <div class="area-stage">
+        <div class="area-scene sc-summerlin is-active" data-area="summerlin">
+          <div class="grad"></div>
+          <svg viewBox="0 0 1440 320" preserveAspectRatio="none" aria-hidden="true"><path fill="#7c2d1c" d="M0,320 L0,210 L150,120 L300,200 L470,90 L640,180 L820,70 L1010,170 L1200,110 L1440,190 L1440,320Z"/></svg>
+          <div class="area-caption">
+            <span class="tag">Juan's home base</span>
+            <h3>Summerlin</h3>
+            <p>Master-planned living set against Red Rock Canyon — 150+ parks and trails, top-rated schools, and Downtown Summerlin's shops and dining. Juan knows every village by name.</p>
+          </div>
+        </div>
+        <div class="area-scene sc-henderson" data-area="henderson">
+          <div class="grad"></div>
+          <svg viewBox="0 0 1440 320" preserveAspectRatio="none" aria-hidden="true"><path fill="#3c5a32" d="M0,320 L0,240 L200,180 L420,235 L640,170 L900,235 L1160,185 L1440,235 L1440,320Z"/></svg>
+          <div class="area-caption">
+            <span class="tag">Family favorite</span>
+            <h3>Henderson</h3>
+            <p>Ranked among America's best places to live — Green Valley, Inspirada, and Lake Las Vegas offer master-planned calm minutes from the valley's edge.</p>
+          </div>
+        </div>
+        <div class="area-scene sc-centennial" data-area="centennial">
+          <div class="grad"></div>
+          <svg viewBox="0 0 1440 320" preserveAspectRatio="none" aria-hidden="true"><path fill="#8a5a36" d="M0,320 L0,205 L180,130 L360,195 L560,110 L760,185 L980,120 L1200,185 L1440,135 L1440,320Z"/></svg>
+          <div class="area-caption">
+            <span class="tag">Room to grow</span>
+            <h3>Centennial Hills</h3>
+            <p>Newer construction and big desert-sky views up north — more home for your budget, with easy reach to the 215 and Floyd Lamb Park.</p>
+          </div>
+        </div>
+        <div class="area-scene sc-downtown" data-area="downtown">
+          <div class="grad"></div>
+          <svg viewBox="0 0 1440 320" preserveAspectRatio="none" aria-hidden="true"><path fill="#05060c" d="M0,320 L0,240 L80,240 L80,170 L140,170 L140,240 L210,240 L210,110 L250,110 L250,80 L290,80 L290,110 L330,110 L330,240 L420,240 L420,150 L480,150 L480,240 L540,240 L540,60 L575,60 L575,240 L660,240 L660,185 L720,185 L720,240 L820,240 L820,130 L860,130 L860,240 L960,240 L960,175 L1020,175 L1020,240 L1140,240 L1140,150 L1200,150 L1200,240 L1320,240 L1320,195 L1380,195 L1380,240 L1440,240 L1440,320Z"/></svg>
+          <div class="area-caption">
+            <span class="tag">Urban energy</span>
+            <h3>Downtown Las Vegas</h3>
+            <p>High-rise condos, the Arts District, and walkable nightlife. For buyers who want the city at their doorstep — Juan knows the towers worth your money.</p>
+          </div>
+        </div>
+        <div class="area-scene sc-lakes" data-area="lakes">
+          <div class="grad"></div>
+          <svg viewBox="0 0 1440 320" preserveAspectRatio="none" aria-hidden="true"><path fill="#235a76" d="M0,320 L0,250 L240,215 L520,250 L760,210 L1040,250 L1280,220 L1440,250 L1440,320Z"/></svg>
+          <div class="area-caption">
+            <span class="tag">Waterfront west side</span>
+            <h3>The Lakes</h3>
+            <p>Rare Las Vegas waterfront just west of the Strip — quiet streets around Lake Sahara, a short hop to Summerlin and the 95.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="area-nav" aria-label="Neighborhoods Juan serves">
+        <button class="area-btn is-active" data-area="summerlin">Summerlin<span class="meta">Red Rock · master-planned</span></button>
+        <button class="area-btn" data-area="henderson">Henderson<span class="meta">Green Valley · Lake Las Vegas</span></button>
+        <button class="area-btn" data-area="centennial">Centennial Hills<span class="meta">Northwest · newer builds</span></button>
+        <button class="area-btn" data-area="downtown">Downtown Las Vegas<span class="meta">High-rise · Arts District</span></button>
+        <button class="area-btn" data-area="lakes">The Lakes<span class="meta">Waterfront · west side</span></button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact pad" id="contact">
+  <div class="wrap contact-grid">
+    <div class="contact-info reveal">
+      <p class="eyebrow">Let's talk</p>
+      <h2 style="font-size:clamp(2rem,5vw,3.2rem);margin-top:14px">Your next move starts with a call.</h2>
+      <p style="margin-top:18px;color:var(--espresso-soft);font-size:1.1rem">Tell Juan what you're hoping to do. No pressure, no obligation — just straight, experienced advice about your options in today's Las Vegas market.</p>
+      <dl>
+        <dt>Call or text</dt>
+        <dd><a href="tel:+17028880888">(702) 888-0888</a></dd>
+        <dt>Office</dt>
+        <dd>1180 N Town Center Dr #100<br/>Las Vegas, NV 89144</dd>
+        <dt>Hours</dt>
+        <dd>Monday–Saturday · Opens 9:00 AM</dd>
+      </dl>
+    </div>
+
+    <!-- Form emails Juan on every submit via Web3Forms. Get a free key at web3forms.com
+         (just enter Juan's email), then replace WEB3FORMS_ACCESS_KEY in the script below.
+         Set the auto-reply message in the Web3Forms dashboard. -->
+    <form id="contactForm" aria-label="Contact Vegas Realty">
+      <!-- honeypot: bots fill this, humans never see it -->
+      <input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
+      <input type="hidden" name="subject" value="New inquiry — Vegas Realty website" />
+      <div class="field">
+        <label for="name">Name</label>
+        <input id="name" name="name" type="text" autocomplete="name" required />
+      </div>
+      <div class="field">
+        <label for="phone">Phone</label>
+        <input id="phone" name="phone" type="tel" autocomplete="tel" required />
+      </div>
+      <div class="field">
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" autocomplete="email" />
+      </div>
+      <div class="field">
+        <label for="msg">How can Juan help?</label>
+        <textarea id="msg" name="message" rows="4" placeholder="Buying, selling, or just exploring?"></textarea>
+      </div>
+      <button class="btn btn-primary" type="submit">Request my callback <svg class="arrow" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button>
+      <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
+    </form>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div>
+      <div class="brand">VEGAS<span style="color:var(--bronze)">·</span>REALTY</div>
+      <p class="foot-small">Helping Las Vegas families buy and sell with confidence. Work directly with Juan F. Basurto.</p>
+    </div>
+    <div>
+      <p style="letter-spacing:.16em;text-transform:uppercase;font-size:.78rem;color:#fff;margin-bottom:12px">Contact</p>
+      <p><a href="tel:+17028880888">(702) 888-0888</a></p>
+      <p>1180 N Town Center Dr #100</p>
+      <p>Las Vegas, NV 89144</p>
+    </div>
+    <div>
+      <p style="letter-spacing:.16em;text-transform:uppercase;font-size:.78rem;color:#fff;margin-bottom:12px">Explore</p>
+      <p><a href="#about">About Juan</a></p>
+      <p><a href="#services">Services</a></p>
+      <p><a href="#reviews">Reviews</a></p>
+      <p><a href="#contact">Contact</a></p>
+    </div>
+  </div>
+  <div class="wrap">
+    <p class="disclaimer">© <span id="yr"></span> Vegas Realty · Juan F. Basurto, Realtor. Nevada Real Estate License #[add license number]. Equal Housing Opportunity. All information deemed reliable but not guaranteed.</p>
+  </div>
+</footer>
+
+<script>
+  // Nav shadow on scroll
+  const nav = document.getElementById('nav');
+  const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 20);
+  onScroll(); window.addEventListener('scroll', onScroll, {passive:true});
+
+  // Current year
+  document.getElementById('yr').textContent = new Date().getFullYear();
+
+  // Scroll reveal
+  const revealAll = ()=>document.querySelectorAll('.reveal').forEach(el=>el.classList.add('in'));
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(!reduce && 'IntersectionObserver' in window){
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+    }, {threshold:.12});
+    document.querySelectorAll('.reveal').forEach((el,i)=>{ el.style.transitionDelay=(i%4*70)+'ms'; io.observe(el); });
+    // Failsafe: if anything hasn't revealed within 2.5s, show it anyway.
+    setTimeout(revealAll, 2500);
+
+    // Hero "silk" cursor trail — adapted from a 21st.dev canvas component,
+    // recolored to the Desert Luxe palette and toned down to whisper, not shout.
+    const hero = document.querySelector('.hero');
+    (function silk(){
+      const canvas = document.getElementById('heroCanvas');
+      if(!canvas) return;
+      const c = canvas.getContext('2d');
+      const cfg = {friction:0.5, trails: window.innerWidth < 700 ? 20 : 34, size:50, dampening:0.025, tension:0.99};
+      const pos = {x:0, y:0}; let lines = []; let running = true; let lastMove = -1e9;
+
+      function Osc(o){this.phase=o.phase||0;this.offset=o.offset||0;this.freq=o.freq||0.001;this.amp=o.amp||1;}
+      Osc.prototype.update=function(){this.phase+=this.freq;this.v=this.offset+Math.sin(this.phase)*this.amp;return this.v;};
+      const osc = new Osc({phase:Math.random()*2*Math.PI, amp:16, freq:0.0017, offset:28});
+
+      function Node(){this.x=0;this.y=0;this.vx=0;this.vy=0;}
+      function Line(spring){
+        this.spring=spring+0.1*Math.random()-0.05;
+        this.friction=cfg.friction+0.01*Math.random()-0.005;
+        this.nodes=[];
+        for(let i=0;i<cfg.size;i++){const nd=new Node();nd.x=pos.x;nd.y=pos.y;this.nodes.push(nd);}
+      }
+      Line.prototype.update=function(){
+        let e=this.spring,t=this.nodes[0];
+        t.vx+=(pos.x-t.x)*e; t.vy+=(pos.y-t.y)*e;
+        for(let i=0,a=this.nodes.length;i<a;i++){
+          t=this.nodes[i];
+          if(i>0){const p=this.nodes[i-1];
+            t.vx+=(p.x-t.x)*e; t.vy+=(p.y-t.y)*e;
+            t.vx+=p.vx*cfg.dampening; t.vy+=p.vy*cfg.dampening;}
+          t.vx*=this.friction; t.vy*=this.friction;
+          t.x+=t.vx; t.y+=t.vy; e*=cfg.tension;
+        }
+      };
+      Line.prototype.draw=function(){
+        let e,t,n=this.nodes[0].x,i=this.nodes[0].y;
+        c.beginPath(); c.moveTo(n,i);
+        let a=1,o=this.nodes.length-2;
+        for(;a<o;a++){e=this.nodes[a];t=this.nodes[a+1];n=0.5*(e.x+t.x);i=0.5*(e.y+t.y);c.quadraticCurveTo(e.x,e.y,n,i);}
+        e=this.nodes[a]; t=this.nodes[a+1]; c.quadraticCurveTo(e.x,e.y,t.x,t.y);
+        c.stroke(); c.closePath();
+      };
+      function initLines(){lines=[];for(let i=0;i<cfg.trails;i++)lines.push(new Line(0.45+(i/cfg.trails)*0.025));}
+      function frame(t){
+        if(!running) return;
+        const now = t || performance.now();
+        if(now - lastMove > 1500){                       // idle or touch device: drift on its own
+          const ax = canvas.width  * (0.5  + 0.33*Math.sin(now*0.00040));
+          const ay = canvas.height * (0.45 + 0.27*Math.sin(now*0.00055 + 1.2));
+          pos.x += (ax - pos.x) * 0.045;
+          pos.y += (ay - pos.y) * 0.045;
+        }
+        c.globalCompositeOperation='source-over';
+        c.clearRect(0,0,canvas.width,canvas.height);
+        const hue=Math.round(osc.update());            // warm 12–44° (bronze → gold)
+        c.strokeStyle='hsla('+hue+',58%,30%,0.045)';     // translucent desert silk
+        c.lineWidth=6;
+        for(let i=0;i<cfg.trails;i++){lines[i].update();lines[i].draw();}
+        requestAnimationFrame(frame);
+      }
+      function resize(){const r=hero.getBoundingClientRect();canvas.width=r.width;canvas.height=r.height;}
+      function setPos(x,y){const r=hero.getBoundingClientRect();pos.x=x-r.left;pos.y=y-r.top;lastMove=performance.now();}
+      resize();
+      pos.x=canvas.width*0.7; pos.y=canvas.height*0.42; initLines();
+      hero.addEventListener('mousemove', e=>setPos(e.clientX,e.clientY));
+      hero.addEventListener('touchmove', e=>{if(e.touches[0])setPos(e.touches[0].clientX,e.touches[0].clientY);}, {passive:true});
+      window.addEventListener('resize', resize);
+      document.addEventListener('visibilitychange', ()=>{running=!document.hidden; if(running) frame();});
+      frame();
+    })();
+  } else {
+    document.querySelectorAll('.reveal').forEach(el=>el.classList.add('in'));
+  }
+
+  // Mobile menu toggle
+  (function(){
+    const toggle = document.getElementById('navToggle');
+    if(!toggle) return;
+    toggle.addEventListener('click', ()=>{
+      const open = nav.classList.toggle('menu-open');
+      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    });
+    nav.querySelectorAll('.nav-links a').forEach(a=>a.addEventListener('click', ()=>{
+      nav.classList.remove('menu-open');
+      toggle.setAttribute('aria-expanded','false');
+    }));
+  })();
+
+  // Contact form -> emails Juan via Web3Forms, with inline success + spam guard
+  (function(){
+    const form = document.getElementById('contactForm');
+    if(!form) return;
+    const ACCESS_KEY = 'WEB3FORMS_ACCESS_KEY'; // <-- replace with the key from web3forms.com
+    const status = document.getElementById('formStatus');
+    form.addEventListener('submit', async (e)=>{
+      e.preventDefault();
+      if(form.querySelector('[name="botcheck"]').checked) return;            // honeypot tripped
+      if(ACCESS_KEY === 'WEB3FORMS_ACCESS_KEY'){
+        status.className = 'form-status err';
+        status.textContent = 'Form not connected yet — add the Web3Forms key to go live.';
+        return;
+      }
+      const data = new FormData(form);
+      data.append('access_key', ACCESS_KEY);
+      status.className = 'form-status';
+      status.textContent = 'Sending…';
+      try{
+        const res = await fetch('https://api.web3forms.com/submit', {method:'POST', body:data});
+        const json = await res.json();
+        if(json.success){
+          form.reset();
+          status.className = 'form-status ok';
+          status.textContent = 'Thank you — Juan will reach out to you shortly.';
+        } else {
+          status.className = 'form-status err';
+          status.textContent = 'Something went wrong. Please call (702) 888-0888.';
+        }
+      } catch(err){
+        status.className = 'form-status err';
+        status.textContent = 'Network issue. Please call (702) 888-0888.';
+      }
+    });
+  })();
+
+  // Neighborhood explorer — auto-rotates (motion on mobile too); tap/hover takes control.
+  (function(){
+    const btns = [...document.querySelectorAll('.area-btn')];
+    const scenes = document.querySelectorAll('.area-scene');
+    if(!btns.length) return;
+    const keys = btns.map(b=>b.dataset.area);
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let idx = 0, timer = null;
+
+    function activate(key){
+      idx = Math.max(0, keys.indexOf(key));
+      btns.forEach(b=>b.classList.toggle('is-active', b.dataset.area===key));
+      scenes.forEach(s=>s.classList.toggle('is-active', s.dataset.area===key));
+    }
+    function next(){ activate(keys[(idx+1) % keys.length]); }
+    function startAuto(){ if(reduce) return; stopAuto(); timer = setInterval(next, 3600); }
+    function stopAuto(){ if(timer){ clearInterval(timer); timer = null; } }
+
+    btns.forEach(b=>{
+      const pick = ()=>{ stopAuto(); activate(b.dataset.area); };
+      b.addEventListener('mouseenter', pick);
+      b.addEventListener('focus', pick);
+      b.addEventListener('click', pick);
+    });
+    // On desktop, resume the auto-rotation after the cursor leaves the explorer.
+    const explorer = document.querySelector('.area-explorer');
+    if(explorer) explorer.addEventListener('mouseleave', startAuto);
+
+    activate(keys[0]);
+    startAuto();
+  })();
+</script>
+</body>
+</html>
