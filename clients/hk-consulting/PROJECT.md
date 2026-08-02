@@ -19,11 +19,24 @@ Static, no build step: `index.html` + `styles.css` + `script.js` + `assets/`.
 - Replaced the generic Inter + violet/cyan look (the default AI-startup skin, and Inter
   is called out on the owner's own $10K checklist as overused).
 
+## Contact details (REAL, live on the site)
+- **Phone / WhatsApp:** +961 81 064 867 (`tel:+96181064867`, `wa.me/96181064867`)
+- **Email:** Hadi.Khaskieh@gmail.com (mailto has a prefilled AI audit subject and body)
+- Appear in: the Contact section (3 cards), the footer, the mobile sticky bar, and the
+  Organization JSON-LD.
+
+## Copy rule from the owner (KEEP THIS)
+**No dashes anywhere in visible copy.** No em dashes, no en dashes, and no hyphenated
+compounds. Sentences must be written out in full ("one to three weeks", not "1-3 weeks";
+"around the clock", not "24/7" style dashes). Verified with a script: currently 0
+occurrences. Re-check after any copy edit.
+
 ## Design direction — "Signal"
-- **Palette:** ink `#07090C`, surfaces `#0D1116`/`#131922`, text `#F3F6F9`,
-  muted `#8E9BA9`; accent **warm amber** `#FFB067` → `#FF8A4C` (a call answered, a light
-  left on). **Mint `#6EE7C7` is reserved for live/system states only** — never decorative.
-  Deliberately NOT violet→cyan.
+- **Palette:** the owner asked for BLUE over the earlier gold, and for a look that reads
+  expensive. Blue-black ink `#05080F`, surfaces `#0A0F1B`/`#101827`, text `#EEF3FA`,
+  muted `#94A3B8`; accent **sapphire to ice** `#4C7EF3` with `#A9C8FF`. The gradient runs
+  light to deep, which reads like polished metal. `#67E8F9` is reserved for live/system
+  states only and is never decorative. Do not go back to amber/gold.
 - **Type:** Sora (display) + Inter Tight (body) + JetBrains Mono (labels, timestamps,
   transcript, data). The mono is the "system" voice.
 - **Signature:** the hero **live-call card** — a real transcript of the AI receptionist
