@@ -1,0 +1,202 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Photography Portfolio — Karim Hijazi</title>
+
+<style>
+  :root{
+    --coral:#e97e6d;
+    --bg:#f3f1ef;
+    --ink:#3a3532;
+    --muted:#8a827c;
+    --frame:#ffffff;
+    --num-bg:#e9e5e1;
+    --frame-edge:#e2ded9;
+    --cover-ground:#d8d4d1;
+    --cover-sub:#5c5652;
+    --hint:#6f6a66;
+    --ph-a:#eae6e2;--ph-b:#e3ded9;--ph-ink:#8b857f;--ph-code:#a49d96;
+  }
+  @media (prefers-color-scheme:dark){
+    :root{
+      --coral:#ec8776;
+      --bg:#1e1b19;
+      --ink:#ece6e1;
+      --muted:#9a918a;
+      --frame:#2a2623;
+      --num-bg:#2a2623;
+      --frame-edge:#141210;
+      --cover-ground:#26221f;
+      --cover-sub:#c9bfb8;
+      --hint:#9a918a;
+      --ph-a:#2a2623;--ph-b:#322d29;--ph-ink:#9a918a;--ph-code:#6f6862;
+    }
+  }
+  :root[data-theme="light"]{
+    --coral:#e97e6d;--bg:#f3f1ef;--ink:#3a3532;--muted:#8a827c;--frame:#ffffff;
+    --num-bg:#e9e5e1;--frame-edge:#e2ded9;--cover-ground:#d8d4d1;--cover-sub:#5c5652;
+    --hint:#6f6a66;--ph-a:#eae6e2;--ph-b:#e3ded9;--ph-ink:#8b857f;--ph-code:#a49d96;
+  }
+  :root[data-theme="dark"]{
+    --coral:#ec8776;--bg:#1e1b19;--ink:#ece6e1;--muted:#9a918a;--frame:#2a2623;
+    --num-bg:#2a2623;--frame-edge:#141210;--cover-ground:#26221f;--cover-sub:#c9bfb8;
+    --hint:#9a918a;--ph-a:#2a2623;--ph-b:#322d29;--ph-ink:#9a918a;--ph-code:#6f6862;
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:"Iowan Old Style","Palatino Linotype","Book Antiqua",Palatino,Georgia,serif;
+    color:var(--ink);
+    background:var(--bg);
+    -webkit-font-smoothing:antialiased;
+  }
+  img{max-width:100%;display:block}
+  ::selection{background:var(--coral);color:#fff}
+
+  /* ---------- COVER ---------- */
+  .cover{
+    position:relative;min-height:100vh;
+    display:flex;align-items:flex-start;justify-content:center;text-align:center;
+    overflow:hidden;background:var(--cover-ground);
+  }
+  .cover .bg{position:absolute;inset:0;background-size:cover;background-position:center 20%}
+  .cover .bg.no-img{background:linear-gradient(135deg,var(--cover-ground),var(--num-bg));display:flex;align-items:center;justify-content:center}
+  .cover .bg.no-img::after{content:"🧍  add  images/01-cover-pink-polo.jpg";color:var(--hint);font-size:clamp(.8rem,2.5vw,1.1rem);letter-spacing:.05em}
+  .cover .veil{position:absolute;inset:0;background:rgba(255,255,255,.05)}
+  .cover-inner{position:relative;z-index:2;margin-top:9vh;width:100%;padding:0 6vw}
+  .rule-row{display:flex;align-items:center;justify-content:center;gap:18px;margin-bottom:14px}
+  .rule-row .line{height:1px;flex:1;max-width:170px;background:rgba(255,255,255,.85)}
+  .title-band{
+    background:var(--coral);color:#fff;display:inline-block;
+    padding:.35em 1.1em;font-size:clamp(1.5rem,5.5vw,3.4rem);
+    letter-spacing:.06em;white-space:nowrap;font-weight:500;
+  }
+  .subtitle{margin-top:1.4em;color:var(--cover-sub);letter-spacing:.35em;font-size:clamp(.7rem,2.4vw,1rem)}
+  .scroll-hint{position:absolute;bottom:26px;left:0;right:0;z-index:2;text-align:center;color:var(--hint);font-size:.8rem;letter-spacing:.2em;animation:bob 1.8s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(7px)}}
+
+  /* ---------- PROJECT DIVIDER ---------- */
+  .divider{min-height:58vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:18px;padding:10vh 6vw}
+  .divider .kicker{letter-spacing:.4em;color:var(--muted);font-size:.8rem}
+  .divider h2{font-size:clamp(2rem,8vw,4.5rem);color:var(--coral);font-weight:400}
+  .divider .bar{width:120px;height:3px;background:var(--coral)}
+
+  /* ---------- STORY SLIDE ---------- */
+  .slide{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:4vw;padding:8vh 7vw;position:relative}
+  .slide .text{max-width:460px}
+  .num{
+    font-size:clamp(4rem,12vw,8rem);color:var(--coral);line-height:.9;
+    background:linear-gradient(180deg,var(--num-bg),var(--num-bg));
+    background-size:100% 62%;background-repeat:no-repeat;
+    display:inline-block;padding:.05em .2em .1em 0;font-variant-numeric:tabular-nums;
+  }
+  .num-rule{width:min(70%,340px);height:3px;background:var(--coral);margin:.4em 0 1.4em}
+  .cap{background:var(--coral);color:#fff;display:block;text-align:center;padding:.7em 1em;font-size:clamp(1.1rem,3vw,1.7rem);text-decoration:underline;text-underline-offset:6px;direction:rtl}
+
+  .photo{justify-self:center;width:min(100%,430px);background:var(--frame);padding:12px;border-radius:4px;box-shadow:0 18px 40px -18px rgba(0,0,0,.45),0 2px 0 var(--frame-edge)}
+  .photo .inner{aspect-ratio:3/4;overflow:hidden;background:var(--ph-a)}
+  .photo img{width:100%;height:100%;object-fit:cover}
+  .photo .ph{width:100%;height:100%;display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:.6em;color:var(--ph-ink);padding:1.2em;background:repeating-linear-gradient(45deg,var(--ph-a),var(--ph-a) 12px,var(--ph-b) 12px,var(--ph-b) 24px)}
+  .photo .ph .emoji{font-size:2.4rem}
+  .photo .ph code{font-size:.72rem;color:var(--ph-code);word-break:break-all}
+  .photo.no-img img{display:none}
+  .photo.no-img .ph{display:flex}
+
+  .page-num{position:absolute;bottom:24px;right:34px;color:var(--muted);font-size:.95rem;display:flex;align-items:center;gap:8px;font-variant-numeric:tabular-nums}
+  .page-num::before{content:"";width:22px;height:2px;background:var(--coral)}
+
+  @media(max-width:760px){
+    .slide{grid-template-columns:1fr;gap:2.2rem;min-height:auto;padding:9vh 8vw;text-align:center}
+    .slide .text{margin:0 auto}
+    .num-rule{margin-left:auto;margin-right:auto}
+    .photo{order:-1}
+    .page-num{position:static;justify-content:center;margin-top:1.6rem}
+  }
+  @media(prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    .scroll-hint{animation:none}
+  }
+</style>
+
+<!-- ============ COVER ============ -->
+<header class="cover">
+  <div class="bg" id="cover-bg" style="background-image:url('images/01-cover-pink-polo.jpg')"></div>
+  <div class="veil"></div>
+  <div class="cover-inner">
+    <div class="rule-row">
+      <span class="line"></span>
+      <span class="title-band">PHOTOGRAPHY&nbsp;PORTFOLIO</span>
+      <span class="line"></span>
+    </div>
+    <div class="subtitle">KARIM&nbsp;HIJAZI&nbsp;&nbsp;&nbsp;&nbsp;32530168</div>
+  </div>
+  <div class="scroll-hint">SCROLL ▾</div>
+</header>
+
+<main id="deck"></main>
+
+<script>
+  /* Edit this list to reorder photos, rename files, or change captions. */
+  const projects = [
+    {
+      kicker:"PROJECT ONE",
+      title:"المشروع الأول",
+      slides:[
+        {n:"01", cap:"الحماس والبداية", file:"images/02-sunset-tree.jpg",  emoji:"🌅", label:"Sunset (tree)"},
+        {n:"02", cap:"أولى العقبات",   file:"images/03-cups.jpg",         emoji:"☕", label:"Coffee cups"},
+        {n:"03", cap:"ضياع وفوضى",     file:"images/04-mosque.jpg",       emoji:"🕌", label:"Mosque courtyard"},
+        {n:"04", cap:"ابتعاد مؤقت",     file:"images/05-towers.jpg",       emoji:"🏛️", label:"Stone towers"},
+        {n:"05", cap:"لحظة الإلهام",    file:"images/06-sunset-beach.jpg", emoji:"🌇", label:"Sunset over the sea"},
+      ]
+    },
+    {
+      kicker:"PROJECT TWO",
+      title:"المشروع الثاني",
+      slides:[
+        {n:"01", cap:"الحماس والبداية", file:"images/07-cat.jpg",          emoji:"🐈", label:"Cat"},
+        {n:"02", cap:"أولى العقبات",   file:"images/08-old-man.jpg",      emoji:"🎣", label:"Old man mending net"},
+        {n:"03", cap:"ضياع وفوضى",     file:"images/09-plastic-face.jpg", emoji:"😷", label:"Face wrapped in plastic"},
+        {n:"04", cap:"ابتعاد مؤقت",     file:"images/10-girl.jpg",         emoji:"👧", label:"Young girl"},
+        {n:"05", cap:"لحظة الإلهام",    file:"images/11-laptop-man.jpg",   emoji:"💻", label:"Man on the laptop"},
+      ]
+    }
+  ];
+
+  const deck = document.getElementById("deck");
+  let page = 2; // cover is page 1
+
+  projects.forEach(proj=>{
+    const div = document.createElement("section");
+    div.className = "divider";
+    div.innerHTML = `<div class="kicker">${proj.kicker}</div><h2>${proj.title}</h2><div class="bar"></div>`;
+    deck.appendChild(div);
+
+    proj.slides.forEach(s=>{
+      const sec = document.createElement("section");
+      sec.className = "slide";
+      sec.innerHTML = `
+        <div class="text">
+          <div class="num">${s.n}</div>
+          <div class="num-rule"></div>
+          <span class="cap">${s.cap}</span>
+        </div>
+        <figure class="photo">
+          <div class="inner">
+            <img src="${s.file}" alt="${s.label}" onerror="this.closest('.photo').classList.add('no-img')">
+            <div class="ph">
+              <span class="emoji">${s.emoji}</span>
+              <span>${s.label}</span>
+              <code>${s.file}</code>
+            </div>
+          </div>
+        </figure>
+        <div class="page-num">${page++}</div>`;
+      deck.appendChild(sec);
+    });
+  });
+
+  const bg = document.getElementById("cover-bg");
+  const probe = new Image();
+  probe.onerror = ()=> bg.classList.add("no-img");
+  probe.src = "images/01-cover-pink-polo.jpg";
+</script>
