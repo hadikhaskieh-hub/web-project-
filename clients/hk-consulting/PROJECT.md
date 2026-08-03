@@ -42,6 +42,10 @@ occurrences. Re-check after any copy edit.
 - **Signature:** the hero **live-call card** — a real transcript of the AI receptionist
   answering a flooding-kitchen call at 2:14 AM and booking it for 9:00 AM. It shows
   what the product *is* in five seconds. Bubbles fade in on scroll.
+- **Websites block visual:** a miniature working website (browser chrome, nav, hero,
+  service cards, CTA band) that slowly scrolls itself while a cursor drifts to the
+  booking button and presses it. Pure CSS, and it mirrors the hero call card so both
+  flagship services get a live demo instead of a static graphic.
 - **Value tool:** the **missed-call calculator** — 3 sliders → "$X walking away every
   year." Honest caption says it's an estimate, not a quote.
 
@@ -60,12 +64,15 @@ Watch CSS specificity whenever a `.js`-gated hidden state needs a visible overri
 ## How to reskin / rebrand
 - **Brand name:** find-and-replace `HK Consulting` (also `hkconsulting.example.com`
   in the canonical/OG tags and the JSON-LD).
-- **Booking link:** `BOOKING_URL` at the top of `script.js` — currently `/apply`.
-  Swap for the Calendly/GHL URL; every CTA picks it up automatically.
+- **Booking link:** `BOOKING_URL` at the top of `script.js`. It now points at the
+  owner's WhatsApp (`wa.me/96181064867`) with the first message prefilled, so every
+  "Book AI Audit" button opens a chat with him directly. All 8 CTAs pick it up
+  automatically and open in a new tab. Swap for a Calendly/GHL URL only if he later
+  wants a calendar instead of a conversation.
 - **Colors/spacing/radii:** all in `:root` at the top of `styles.css`.
 
 ## OPEN TO-DO
-1. Real booking URL (Calendly / GHL) into `BOOKING_URL`.
+1. Booking now goes to WhatsApp. Optional future upgrade: a real calendar link.
 2. Real domain in canonical + OG + JSON-LD; make a real `assets/og-image.png`
    (currently referenced as an SVG placeholder).
 3. Real social links in the footer (currently `#`).

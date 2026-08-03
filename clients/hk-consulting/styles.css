@@ -299,16 +299,99 @@ section[id], :target { scroll-margin-top: calc(var(--header-h) + var(--s2)); }
   background: linear-gradient(160deg, var(--surface-2), var(--ink));
   padding: var(--s3); min-height: 240px; display: flex; flex-direction: column; justify-content: center; gap: var(--s2);
 }
-.browser-bar { display: flex; align-items: center; gap: 6px; margin-bottom: var(--s2); }
-.browser-bar i { width: 9px; height: 9px; border-radius: 50%; background: var(--surface-3); display: block; }
-.browser-line { height: 8px; border-radius: 4px; background: var(--surface-3); }
-.browser-line.w-70 { width: 70%; }
-.browser-line.w-45 { width: 45%; }
-.browser-line.accent { background: var(--accent-grad); height: 10px; width: 58%; }
-.browser-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: var(--s2); }
-.browser-cards span { height: 42px; border-radius: 8px; background: var(--surface-3); border: 1px solid var(--border); }
-.js .flag-visual .browser-line.accent { transform-origin: left; animation: growLine 2.4s var(--ease) infinite alternate; }
-@keyframes growLine { from { transform: scaleX(0.72); } to { transform: scaleX(1); } }
+/* A miniature real website, browsing itself */
+.mock-shell { padding: 0; overflow: hidden; background: none; border: none; min-height: 0; }
+.site-mock {
+  position: relative; border-radius: 14px; overflow: hidden;
+  border: 1px solid var(--border); background: #0B1220;
+  box-shadow: 0 30px 70px -40px rgba(0, 0, 0, 0.95);
+}
+.mock-chrome {
+  display: flex; align-items: center; gap: 5px;
+  padding: 9px 11px; background: #0E1626; border-bottom: 1px solid var(--border);
+}
+.mock-chrome i { width: 7px; height: 7px; border-radius: 50%; background: #22304A; display: block; }
+.mock-url {
+  margin-left: 8px; padding: 2px 12px; border-radius: var(--pill);
+  background: #0A1120; border: 1px solid var(--border);
+  font-family: var(--mono); font-size: 0.56rem; color: var(--muted-dim);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.mock-viewport { height: 258px; overflow: hidden; position: relative; }
+.mock-page { will-change: transform; }
+.js .mock-page { animation: mockScroll 15s ease-in-out infinite; }
+@keyframes mockScroll {
+  0%, 14%   { transform: translateY(0); }
+  46%, 62%  { transform: translateY(-34%); }
+  94%, 100% { transform: translateY(0); }
+}
+
+.mock-nav {
+  display: flex; align-items: center; justify-content: space-between; gap: 8px;
+  padding: 9px 12px; border-bottom: 1px solid rgba(169, 200, 255, 0.07);
+}
+.mock-logo { font-family: var(--display); font-size: 0.62rem; font-weight: 600; color: #EEF3FA; letter-spacing: -0.01em; }
+.mock-links { display: flex; gap: 9px; }
+.mock-links span { font-size: 0.48rem; color: #7C8AA0; }
+.mock-navcta {
+  font-size: 0.48rem; font-weight: 600; padding: 3px 9px; border-radius: var(--pill);
+  background: var(--accent-grad); color: #061021;
+}
+
+.mock-hero {
+  padding: 18px 12px 16px;
+  background: radial-gradient(85% 65% at 72% 0%, rgba(76, 126, 243, 0.18), transparent 62%);
+}
+.mock-eyebrow {
+  font-family: var(--mono); font-size: 0.4rem; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--ice);
+}
+.mock-h {
+  font-family: var(--display); font-size: 0.98rem; font-weight: 700; line-height: 1.16;
+  color: #EEF3FA; margin-top: 6px; letter-spacing: -0.025em;
+}
+.mock-h em {
+  font-style: normal;
+  background: var(--accent-grad); -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.mock-sub { font-size: 0.5rem; color: #8C9AAF; margin-top: 6px; max-width: 78%; line-height: 1.5; }
+.mock-btn {
+  display: inline-block; margin-top: 11px; font-size: 0.5rem; font-weight: 600;
+  padding: 6px 13px; border-radius: var(--pill);
+  background: var(--accent-grad); color: #061021;
+  box-shadow: 0 6px 16px -6px var(--glow);
+}
+.js .mock-btn { animation: mockPress 15s ease-in-out infinite; }
+@keyframes mockPress {
+  0%, 66%, 76%, 100% { transform: scale(1); box-shadow: 0 6px 16px -6px var(--glow); }
+  70%, 73%           { transform: scale(0.94); box-shadow: 0 2px 8px -4px var(--glow); }
+}
+
+.mock-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; padding: 12px; }
+.mock-cards div {
+  border: 1px solid rgba(169, 200, 255, 0.09); border-radius: 7px;
+  padding: 8px 7px; background: #0C1424;
+}
+.mock-cards b { display: block; font-size: 0.48rem; color: #EEF3FA; font-weight: 600; }
+.mock-cards i { display: block; font-style: normal; font-size: 0.42rem; color: #7C8AA0; margin-top: 3px; }
+
+.mock-band {
+  margin: 0 12px 16px; padding: 11px 10px; border-radius: 9px; text-align: center;
+  background: linear-gradient(#0C1424, #0C1424) padding-box, var(--accent-grad) border-box;
+  border: 1px solid transparent;
+}
+.mock-band b { display: block; font-size: 0.55rem; color: #EEF3FA; font-weight: 600; }
+.mock-band i { display: block; font-style: normal; font-size: 0.42rem; color: #8C9AAF; margin-top: 3px; }
+
+.mock-cursor { position: absolute; left: 0; top: 0; z-index: 3; pointer-events: none; opacity: 0; }
+.js .mock-cursor { animation: mockCursor 15s ease-in-out infinite; }
+@keyframes mockCursor {
+  0%, 40%   { transform: translate(150px, 210px); opacity: 0; }
+  48%       { transform: translate(120px, 180px); opacity: 1; }
+  66%, 76%  { transform: translate(58px, 133px); opacity: 1; }
+  88%       { transform: translate(100px, 200px); opacity: 0; }
+  100%      { transform: translate(150px, 210px); opacity: 0; }
+}
 
 .mini-stats { display: grid; gap: var(--s2); }
 .mini-stat { display: flex; align-items: baseline; justify-content: space-between; gap: var(--s2); padding-bottom: 0.7rem; border-bottom: 1px solid var(--border); }
@@ -555,7 +638,9 @@ html:not(.js) .accordion-panel { height: auto; }
     animation-duration: 0.001ms !important; animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
   }
-  .hero-bg, .live-dot::after, .js .flag-visual .browser-line.accent { animation: none; }
+  .hero-bg, .live-dot::after { animation: none; }
+  .js .mock-page, .js .mock-btn, .js .mock-cursor { animation: none; }
+  .js .mock-cursor { opacity: 0; }
   .js .reveal { opacity: 1; transform: none; }
   .js .bubble.typing { opacity: 1; transform: none; }
   .btn:hover, .card:hover, .flag:hover, .contact-card:hover { transform: none; }

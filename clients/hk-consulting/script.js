@@ -4,8 +4,14 @@
    navigable and bookable with JavaScript switched off.
    ============================================================= */
 
-/* The ONLY global. Swap for your Calendly / GHL / booking link. */
-var BOOKING_URL = "/apply";
+/* The ONLY global. Every "Book AI Audit" button points here.
+   Currently: WhatsApp straight to Hadi, with the first message written for them.
+   Swap for a Calendly / GHL link later if you ever want a calendar instead. */
+var BOOKING_URL =
+  "https://wa.me/96181064867?text=" +
+  encodeURIComponent(
+    "Hi Hadi, I would like to book a free AI audit for my business."
+  );
 
 (function () {
   "use strict";
@@ -16,7 +22,14 @@ var BOOKING_URL = "/apply";
   /* --- Point every CTA at the booking link ------------------- */
   function initBookingLinks() {
     var links = document.querySelectorAll("[data-book]");
-    for (var i = 0; i < links.length; i++) links[i].setAttribute("href", BOOKING_URL);
+    var isExternal = /^https?:/i.test(BOOKING_URL);
+    for (var i = 0; i < links.length; i++) {
+      links[i].setAttribute("href", BOOKING_URL);
+      if (isExternal) {
+        links[i].setAttribute("target", "_blank");
+        links[i].setAttribute("rel", "noopener");
+      }
+    }
   }
 
   /* --- Header gains a blurred background once scrolled ------- */
