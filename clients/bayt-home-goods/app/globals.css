@@ -1,0 +1,541 @@
+@import "tailwindcss";
+
+/* ------------------------------------------------------------------ *\
+   Tokens. Every colour in the app comes from here. No raw hex in
+   components.
+\* ------------------------------------------------------------------ */
+
+@theme {
+  --color-ground: #14120f;
+  --color-surface: #1e1b17;
+  --color-hairline: #2e2a24;
+  --color-ink: #f2ede4;
+  --color-muted: #a49b8c;
+  --color-accent: #6f8f7a;
+
+  /* Derived from the six above, for glows and lit surfaces. */
+  --color-accent-dim: color-mix(in oklab, #6f8f7a 55%, #14120f);
+  --color-accent-deep: color-mix(in oklab, #6f8f7a 22%, #14120f);
+
+  /* State colour, not a second brand colour. Only form errors use it.
+     An error has to be told apart from a call to action at a glance. */
+  --color-warn: #c2705c;
+  --color-warn-ink: #e08a72;
+
+  /* Lamplight in the hero. Warm light, used by the room and nowhere else. */
+  --color-lamp: #ffd9a0;
+  --color-lamp-glow: #ffbf76;
+  --color-lamp-throw: #ff9d4d;
+
+  --font-display: var(--font-outfit), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, "SFMono-Regular", monospace;
+}
+
+/* Scroll progress for the hero. Registered so it can be interpolated.
+   The initial value is the unlit room, and it is deliberately not zero:
+   with JavaScript switched off nothing ever raises it, and the shelf still
+   has to be visible. */
+@property --lit {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 0.35;
+}
+
+/* ------------------------------------------------------------------ *\
+   Base
+\* ------------------------------------------------------------------ */
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background: var(--color-ground);
+    color: var(--color-ink);
+    font-family: var(--font-display);
+    font-synthesis-weight: none;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection {
+    background: var(--color-accent);
+    color: var(--color-ground);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  /* Inputs inherit the page rather than the browser. */
+  input,
+  select,
+  textarea,
+  button {
+    font: inherit;
+    color: inherit;
+  }
+
+  select {
+    /* Native arrow disappears against a dark control on some platforms. */
+    background-image: linear-gradient(
+        45deg,
+        transparent 50%,
+        var(--color-muted) 50%
+      ),
+      linear-gradient(135deg, var(--color-muted) 50%, transparent 50%);
+    background-position:
+      calc(100% - 18px) calc(50% + 2px),
+      calc(100% - 13px) calc(50% + 2px);
+    background-size:
+      5px 5px,
+      5px 5px;
+    background-repeat: no-repeat;
+    appearance: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+/* ------------------------------------------------------------------ *\
+   Type helpers
+\* ------------------------------------------------------------------ */
+
+@utility display-xl {
+  font-size: clamp(2.75rem, 7vw, 5.25rem);
+  line-height: 1;
+  letter-spacing: -0.055em;
+  font-weight: 500;
+}
+
+@utility display-l {
+  font-size: clamp(2rem, 4.4vw, 3.25rem);
+  line-height: 1;
+  letter-spacing: -0.05em;
+  font-weight: 500;
+}
+
+@utility display-m {
+  font-size: clamp(1.5rem, 2.6vw, 2rem);
+  line-height: 1.02;
+  letter-spacing: -0.04em;
+  font-weight: 500;
+}
+
+/* Small uppercase labels and anything numeric sit in the mono face. */
+@utility label-mono {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+@utility price-mono {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+}
+
+/* ------------------------------------------------------------------ *\
+   Components. Everything below sits in the components layer so Tailwind
+   utilities written on an element always win over these defaults.
+\* ------------------------------------------------------------------ */
+
+@layer components {
+
+/* ------------------------------------------------------------------ *\
+   Buttons. Four separate identities, on purpose. They do not share a
+   base class, because each one has a different job on the page.
+\* ------------------------------------------------------------------ */
+
+/* 1. Filled accent slab. The arrow slides. Used for "Shop all". */
+.btn-slab {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.9rem 1.4rem;
+  min-height: 48px;
+  background: var(--color-accent);
+  color: var(--color-ground);
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    transform 0.08s ease;
+}
+.btn-slab:hover {
+  background: color-mix(in oklab, var(--color-accent) 85%, var(--color-ink));
+}
+.btn-slab:active {
+  transform: translateY(1px);
+}
+.btn-slab svg {
+  transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.btn-slab:hover svg {
+  transform: translateX(6px);
+}
+.btn-slab:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* 2. Outlined, and the accent fill wipes upward. Used for "Add to basket". */
+.btn-wipe {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  padding: 0.9rem 1.4rem;
+  min-height: 48px;
+  overflow: hidden;
+  border: 1px solid var(--color-accent);
+  color: var(--color-accent);
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  cursor: pointer;
+  transition: transform 0.08s ease;
+}
+.btn-wipe::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--color-accent);
+  transform: translateY(101%);
+  transition: transform 0.32s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.btn-wipe:hover::before,
+.btn-wipe:focus-visible::before {
+  transform: translateY(0);
+}
+.btn-wipe > * {
+  position: relative;
+  z-index: 1;
+  transition: color 0.24s ease;
+}
+.btn-wipe:hover > *,
+.btn-wipe:focus-visible > * {
+  color: var(--color-ground);
+}
+.btn-wipe:active {
+  transform: translateY(1px);
+}
+.btn-wipe:disabled {
+  border-color: var(--color-hairline);
+  color: var(--color-muted);
+  cursor: not-allowed;
+}
+.btn-wipe:disabled::before {
+  transform: translateY(101%);
+}
+
+/* 3. Full width solid bar. One per page, for the final commitment. */
+.btn-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.7rem;
+  width: 100%;
+  padding: 1.15rem 1.5rem;
+  min-height: 56px;
+  background: var(--color-ink);
+  color: var(--color-ground);
+  font-weight: 600;
+  font-size: 1.0625rem;
+  letter-spacing: -0.02em;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    transform 0.08s ease;
+}
+.btn-bar:hover {
+  background: var(--color-accent);
+}
+.btn-bar:active {
+  transform: translateY(1px);
+}
+.btn-bar:disabled {
+  background: var(--color-hairline);
+  color: var(--color-muted);
+  cursor: progress;
+  transform: none;
+}
+
+/* 4. Quiet link. Nothing but an underline that grows in. */
+.link-quiet {
+  position: relative;
+  display: inline-block;
+  color: var(--color-muted);
+  cursor: pointer;
+  transition: color 0.18s ease;
+}
+.link-quiet::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -2px;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.22s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.link-quiet:hover,
+.link-quiet:focus-visible {
+  color: var(--color-ink);
+}
+.link-quiet:hover::after,
+.link-quiet:focus-visible::after {
+  transform: scaleX(1);
+}
+.link-quiet:active {
+  opacity: 0.7;
+}
+
+/* Small square control, for quantity steppers and icon buttons. */
+.btn-step {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--color-hairline);
+  color: var(--color-muted);
+  cursor: pointer;
+  transition:
+    border-color 0.18s ease,
+    color 0.18s ease,
+    background 0.18s ease;
+}
+.btn-step:hover {
+  border-color: var(--color-accent);
+  color: var(--color-ink);
+}
+.btn-step:active {
+  background: var(--color-hairline);
+}
+.btn-step:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ------------------------------------------------------------------ *\
+   Forms
+\* ------------------------------------------------------------------ */
+
+.field-input {
+  width: 100%;
+  padding: 0.8rem 0.95rem;
+  min-height: 48px;
+  background: var(--color-ground);
+  border: 1px solid var(--color-hairline);
+  color: var(--color-ink);
+  transition: border-color 0.18s ease;
+}
+.field-input::placeholder {
+  color: color-mix(in oklab, var(--color-muted) 60%, transparent);
+}
+.field-input:hover {
+  border-color: color-mix(in oklab, var(--color-hairline) 60%, var(--color-muted));
+}
+.field-input[aria-invalid="true"] {
+  border-color: var(--color-warn);
+}
+
+/* ------------------------------------------------------------------ *\
+   Hairline grid. Draws a single shared rule between neighbouring cards
+   using outlines, which take no space, so a half filled last row leaves
+   nothing behind. A gap plus a background colour cannot do that.
+\* ------------------------------------------------------------------ */
+
+.hairline-grid > *:not(:focus-visible) {
+  outline: 1px solid var(--color-hairline);
+  outline-offset: -1px;
+}
+
+/* ------------------------------------------------------------------ *\
+   Product photo placeholder. Never a grey box, never a broken image.
+\* ------------------------------------------------------------------ */
+
+.photo-soon {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: var(--color-accent-deep);
+}
+.photo-soon::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    -45deg,
+    transparent 0 9px,
+    color-mix(in oklab, var(--color-accent) 14%, transparent) 9px 10px
+  );
+}
+.photo-soon::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    120% 80% at 50% 12%,
+    color-mix(in oklab, var(--color-accent) 16%, transparent),
+    transparent 70%
+  );
+}
+
+/* ------------------------------------------------------------------ *\
+   Skeletons, shaped like the layout they stand in for.
+\* ------------------------------------------------------------------ */
+
+.skeleton {
+  position: relative;
+  overflow: hidden;
+  background: var(--color-surface);
+}
+.skeleton::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in oklab, var(--color-hairline) 90%, var(--color-ink)),
+    transparent
+  );
+  animation: skeleton-sweep 1.4s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .skeleton::after {
+    display: none;
+  }
+}
+
+/* ------------------------------------------------------------------ *\
+   The hero room. Scroll drives --lit, CSS does the rest.
+   Reduced motion gets the fully lit room with no listener at all.
+\* ------------------------------------------------------------------ */
+
+.room {
+  /* Everything on the shelf sits between unlit and lit, driven by --lit. */
+  --goods: color-mix(
+    in oklab,
+    color-mix(in oklab, var(--color-lamp) 62%, var(--color-muted))
+      calc(var(--lit) * 88%),
+    #221f1a
+  );
+  --goods-deep: color-mix(
+    in oklab,
+    color-mix(in oklab, var(--color-lamp-throw) 45%, var(--color-muted))
+      calc(var(--lit) * 80%),
+    #1c1a16
+  );
+}
+
+.room-wall {
+  background:
+    radial-gradient(
+      68% 55% at 50% 22%,
+      color-mix(in oklab, var(--color-lamp-glow) calc(var(--lit) * 32%), transparent),
+      transparent 72%
+    ),
+    linear-gradient(
+      180deg,
+      color-mix(in oklab, var(--color-surface) calc(var(--lit) * 85%), var(--color-ground)),
+      var(--color-ground) 78%
+    );
+}
+
+.room-goods {
+  fill: var(--goods);
+  stroke: var(--goods-deep);
+  stroke-width: 1.5;
+}
+
+.room-cord {
+  stroke: var(--goods-deep);
+  stroke-width: 2;
+  fill: none;
+}
+
+.room-dome {
+  fill: var(--goods-deep);
+  stroke: var(--goods);
+  stroke-width: 1.5;
+}
+
+.room-weave {
+  stroke: var(--goods);
+  stroke-width: 1;
+  fill: none;
+  opacity: 0.5;
+}
+
+.room-shelf {
+  fill: var(--goods-deep);
+}
+
+.room-bulb {
+  fill: var(--color-lamp);
+  opacity: calc(0.25 + var(--lit) * 0.75);
+}
+
+.room-halo {
+  background: radial-gradient(
+    closest-side,
+    color-mix(in oklab, var(--color-lamp-glow) 46%, transparent),
+    color-mix(in oklab, var(--color-lamp-throw) 12%, transparent) 45%,
+    transparent 72%
+  );
+  opacity: var(--lit);
+  transform: translate(-50%, -50%) scale(calc(0.72 + var(--lit) * 0.28));
+}
+
+/* Shadows on the shelf shorten as the lamp above comes up. */
+.room-shadow {
+  fill: #000;
+  opacity: calc(0.15 + var(--lit) * 0.45);
+  transform: scaleX(calc(1.5 - var(--lit) * 0.5));
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.room-baseboard {
+  fill: #000;
+  opacity: 0.35;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .room {
+    --lit: 1;
+  }
+}
+
+}
+
+@keyframes skeleton-sweep {
+  100% {
+    transform: translateX(100%);
+  }
+}
