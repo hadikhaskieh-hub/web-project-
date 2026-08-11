@@ -84,6 +84,7 @@ export function CartView() {
                 <ProductPhoto
                   name={line.name}
                   imagePath={line.image_path}
+                  slug={line.slug}
                   sizes="96px"
                   showLabel={false}
                   className="h-24 w-20 sm:h-28 sm:w-24"

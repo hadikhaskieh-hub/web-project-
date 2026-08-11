@@ -7,6 +7,7 @@ import { Plus, Spinner } from "@/components/icons";
 import type { TabProps } from "@/lib/admin-data";
 import type { ProductWithCategory } from "@/lib/db";
 import { centsToInput, formatMoney } from "@/lib/money";
+import { ProductPhoto } from "@/components/product-photo";
 import { AdminField, AdminSelect, AdminToggle, FormMessage } from "./fields";
 
 const ACCEPT = "image/jpeg,image/png,image/webp,image/avif";
@@ -95,7 +96,7 @@ export function ProductsTab({ data, refresh }: TabProps) {
                     selected ? "bg-surface" : "hover:bg-surface/60"
                   }`}
                 >
-                  <Thumb name={product.name} imagePath={product.image_path} />
+                  <Thumb product={product} />
 
                   <span className="min-w-0 flex-1">
                     <span className="block truncate text-ink">
@@ -137,27 +138,30 @@ export function ProductsTab({ data, refresh }: TabProps) {
   );
 }
 
-function Thumb({
-  name,
-  imagePath,
-}: {
-  name: string;
-  imagePath: string | null;
-}) {
-  if (imagePath) {
+function Thumb({ product }: { product: ProductWithCategory }) {
+  if (product.image_path) {
     return (
       <span className="relative block h-12 w-12 shrink-0 overflow-hidden bg-surface">
-        <Image src={imagePath} alt="" fill sizes="48px" className="object-cover" />
+        <Image
+          src={product.image_path}
+          alt=""
+          fill
+          sizes="48px"
+          className="object-cover"
+        />
       </span>
     );
   }
 
   return (
-    <span className="photo-soon h-12 w-12 shrink-0">
-      <span className="price-mono relative z-10 text-lg text-accent/70">
-        {name.trim().charAt(0).toUpperCase() || "B"}
-      </span>
-    </span>
+    <ProductPhoto
+      name={product.name}
+      imagePath={null}
+      slug={product.slug}
+      categorySlug={product.category_slug}
+      showLabel={false}
+      className="h-12 w-12 shrink-0"
+    />
   );
 }
 

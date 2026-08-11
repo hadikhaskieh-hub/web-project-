@@ -65,6 +65,10 @@ out, which is what you want if a laptop goes missing.
 - **Product photos:** `public/uploads/`, served as static files. Uploads get a
   random 32 character filename. The name the customer's computer gave the file
   is thrown away. Also gitignored.
+- **Product artwork:** products with no uploaded photo are drawn instead, in
+  `components/product-artwork.tsx`. It is SVG in the site's own palette, so it
+  costs nothing to serve and needs no files on disk. Uploading a photo
+  replaces the drawing for that product.
 
 Back both of these up together. The database rows point at the photo files.
 

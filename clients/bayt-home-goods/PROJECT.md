@@ -55,9 +55,20 @@ This file is the brief, the design decisions and the open list.
   - `.btn-bar` — full width solid bar. "Place order", and every admin save.
   - `.link-quiet` — bare, underline grows in. Quiet actions.
   - `.btn-step` — 44px square, quantity steppers only.
-- **Product placeholder.** Products with no photo get a designed tile: tinted
-  panel, diagonal hatch, the product initial in mono, and a "photo soon" label.
-  Never a broken image, never a grey box, never a stock photo.
+- **Product artwork.** Every seeded product is **drawn**, not photographed, in
+  `components/product-artwork.tsx`: an SVG in the same palette and the same
+  light as the shelf in the hero, so the catalogue reads as one room. The
+  artwork shares the `.goods-palette` class with the hero and simply pins
+  `--lit` to a fixed lit value instead of driving it from scroll.
+  - What a product shows, in order: the owner's uploaded photo, then the
+    drawn artwork for that piece, then a designed tile with the product
+    initial and a "photo soon" label. Never a broken image, never a grey box,
+    never a stock photo.
+  - Artwork is matched by slug, then by shelf, so a product the owner adds
+    later still gets something drawn rather than an empty tile.
+  - **This is deliberate, not a stand in for missing photography.** It works
+    as a pitch and as a launch state. Real photos replace it per product the
+    moment one is uploaded, with no code change.
 - **Copy rules:** headlines eight words or fewer. No em dashes in anything
   visible. No "elevate", "seamless", "unleash". No invented statistics and no
   fake testimonials.
@@ -105,8 +116,11 @@ errors, visible focus rings, reduced motion honoured.
 1. **Replace the placeholder contact details before launch.** Settings ships
    with `+961 1 000 000`, `+961 71 000 000` and `hello@bayt.example`. All three
    are deliberately fake. Change them in the Settings tab.
-2. **Real product photos.** All eight seeded products currently render the
-   placeholder tile. Portrait shots on a plain warm background suit the grid.
+2. **Real product photos, when the owner has them.** All eight seeded products
+   currently render their drawn artwork, which is a presentable launch state.
+   Uploading a photo in the Products tab replaces the drawing for that piece,
+   one at a time, so the shop never looks half finished mid swap. Portrait
+   shots on a plain warm background suit the grid.
 3. **Confirm the shop details in the footer** ("Armenia Street", "Tuesday to
    Saturday, eleven to seven") and the seven day returns window on
    `/how-it-works` against what the owner actually offers.

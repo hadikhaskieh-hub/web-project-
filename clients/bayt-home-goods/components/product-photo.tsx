@@ -1,12 +1,21 @@
 import Image from "next/image";
 
+import { ProductArtwork, hasArtwork } from "./product-artwork";
+
 /**
- * A product photo, or a designed tile when the owner has not uploaded one
- * yet. Never a broken image and never an empty grey box.
+ * What a product looks like, in order of preference:
+ *
+ *   1. the photo the owner uploaded,
+ *   2. the drawn artwork for that piece,
+ *   3. a designed tile with the product initial.
+ *
+ * Never a broken image and never an empty grey box.
  */
 export function ProductPhoto({
   name,
   imagePath,
+  slug,
+  categorySlug = null,
   sizes = "(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw",
   priority = false,
   className = "",
@@ -15,6 +24,8 @@ export function ProductPhoto({
 }: {
   name: string;
   imagePath: string | null;
+  slug?: string;
+  categorySlug?: string | null;
   sizes?: string;
   priority?: boolean;
   className?: string;
@@ -32,6 +43,17 @@ export function ProductPhoto({
           className="object-cover"
         />
       </div>
+    );
+  }
+
+  if (slug && hasArtwork(slug, categorySlug)) {
+    return (
+      <ProductArtwork
+        slug={slug}
+        categorySlug={categorySlug}
+        name={name}
+        className={className}
+      />
     );
   }
 

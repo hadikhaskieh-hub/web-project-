@@ -56,7 +56,7 @@ export function HeroRoom() {
   return (
     <div
       ref={room}
-      className="room room-wall relative h-full min-h-[380px] w-full overflow-hidden sm:min-h-[460px] lg:min-h-[620px]"
+      className="room room-wall goods-palette relative h-full min-h-[380px] w-full overflow-hidden sm:min-h-[460px] lg:min-h-[620px]"
     >
       {/* The lamplight itself. Screen blend keeps it reading as light. */}
       <div

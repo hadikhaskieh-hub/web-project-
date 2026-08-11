@@ -26,6 +26,8 @@ export function ProductCard({
         <ProductPhoto
           name={product.name}
           imagePath={product.image_path}
+          slug={product.slug}
+          categorySlug={product.category_slug}
           priority={priority}
           className="absolute inset-0 h-full w-full transition-transform duration-500 ease-out group-hover:scale-[1.04]"
         />

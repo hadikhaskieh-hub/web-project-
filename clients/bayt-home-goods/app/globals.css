@@ -372,7 +372,58 @@
 }
 
 /* ------------------------------------------------------------------ *\
-   Product photo placeholder. Never a grey box, never a broken image.
+   Product artwork. Every piece is drawn rather than photographed, in the
+   same light and the same palette as the shelf in the hero, so the
+   catalogue looks like one room. A real photo replaces it the moment the
+   owner uploads one.
+\* ------------------------------------------------------------------ */
+
+.artwork {
+  --lit: 0.92;
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(
+      62% 52% at 26% 16%,
+      color-mix(in oklab, var(--color-lamp-glow) 13%, transparent),
+      transparent 72%
+    ),
+    linear-gradient(
+      158deg,
+      color-mix(in oklab, var(--color-accent) 15%, var(--color-ground)),
+      var(--color-ground) 88%
+    );
+}
+
+.art-object {
+  fill: var(--goods);
+  stroke: var(--goods-deep);
+  stroke-width: 2;
+  stroke-linejoin: round;
+}
+.art-deep {
+  fill: var(--goods-deep);
+  stroke: none;
+}
+.art-line {
+  fill: none;
+  stroke: var(--goods-deep);
+  stroke-width: 2;
+  stroke-linecap: round;
+  opacity: 0.45;
+}
+.art-glow {
+  fill: var(--color-lamp);
+  opacity: 0.5;
+}
+.art-shadow {
+  fill: #000;
+  opacity: 0.28;
+}
+
+/* ------------------------------------------------------------------ *\
+   Product photo placeholder, for anything with no artwork of its own.
+   Never a grey box, never a broken image.
 \* ------------------------------------------------------------------ */
 
 .photo-soon {
@@ -437,8 +488,10 @@
    Reduced motion gets the fully lit room with no listener at all.
 \* ------------------------------------------------------------------ */
 
-.room {
-  /* Everything on the shelf sits between unlit and lit, driven by --lit. */
+/* Anything drawn as goods, lit by --lit. The hero room drives --lit from
+   scroll; the product artwork pins it to a fixed lit value. Shared so the
+   catalogue is drawn in the same light as the shelf on the front page. */
+.goods-palette {
   --goods: color-mix(
     in oklab,
     color-mix(in oklab, var(--color-lamp) 62%, var(--color-muted))

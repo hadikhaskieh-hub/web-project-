@@ -54,6 +54,8 @@ export default async function ProductPage({ params }: Params) {
           <ProductPhoto
             name={product.name}
             imagePath={product.image_path}
+            slug={product.slug}
+            categorySlug={product.category_slug}
             priority
             sizes="(min-width: 1024px) 58vw, 100vw"
             className="aspect-4/3 w-full"
