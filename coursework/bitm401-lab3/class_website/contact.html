@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title>
+            Contact Us - Hk Cafe
+        </title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+
+    <body>
+
+        <header id="main-header">
+            <h1>Contact Us</h1>
+            <nav>
+                <a href="index.html">Home</a>
+                <a href="about.html">About Us</a>
+                <a href="contact.html">Contact Us</a>
+            </nav>
+        </header>
+
+<main>
+    <section>
+        <h2> Get in Touch</h2>
+        <p>Email: info@hkcafe.com</p>
+        <p>Phone: +961 123 123</p>
+        <p>Location: Saida, Lebanon</p>
+    </section>
+
+    <section>
+        <h2> Opening Hours</h2>
+        <p>Monday - Saturday: 8:00 AM - 10:00 PM</p>
+    </section>
+
+    <section>
+        <h2>Contact Form</h2>
+        <form>
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name"> <br>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email"> <br>
+
+            <label for="phone">Phone:</label>
+            <input type="tel" id="phone" name="phone"> <br>
+
+            <label for="reason">Reason:</label>
+            <select id="reason" name="reason">
+                <option value="" disabled selected>__Select an Option__</option>
+                <option value="reservation">Reservation</option>
+                <option value="order">Order</option>
+                <option value="feedback">Feedback</option>
+            </select> <br>
+
+            <label>Preference:</label>
+            <label>
+            <input type="radio" name="preference" value="dine in">Dine In</label>
+            <label>
+            <input type="radio" name="preference" value="takeaway">Takeaway</label> <br>
+
+            <label>Interests:</label>
+            <input type="checkbox" name="interests" value="coffee">Coffee
+            <input type="checkbox" name="interests" value="desserts">Desserts <br>
+
+            <label for="message">Message:</label> <br>
+            <textarea id="message" name="message"></textarea> <br>
+
+            <button type="submit">Send</button>
+        </form>
+    </section>
+</main>
+
+<footer>
+    <p>&copy; Hk Cafe - Saida, Lebanon</p>
+    <a href="index.html">Back to Home</a>
+</footer>
+
+</body>
+</html>

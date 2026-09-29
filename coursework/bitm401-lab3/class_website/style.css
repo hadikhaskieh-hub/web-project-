@@ -1,0 +1,126 @@
+/* Whole page */
+body {
+    font-family: Arial, sans-serif;
+    color: #333333;
+    background-color: #f4f6f4;
+    margin: 0;
+}
+
+/* Main header (ID selector) */
+#main-header {
+    background-color: #dcebdc;
+    padding: 20px;
+    border-bottom: 2px solid #5b7a60;
+}
+
+/* Main heading */
+h1 {
+    color: #1f5130;
+    text-align: center;
+    font-size: 36px;
+}
+
+/* Navigation */
+nav {
+    text-align: center;
+}
+
+/* Descendant selector */
+nav a {
+    color: #1f5130;
+    font-weight: bold;
+    text-decoration: none;
+    margin: 0 10px;
+}
+
+nav a:hover {
+    text-decoration: underline;
+}
+
+/* Main content */
+main {
+    width: 80%;
+    margin: 20px auto;
+}
+
+/* Sections */
+section {
+    background-color: white;
+    border: 1px solid #dddddd;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+/* Section headings (grouped selector) */
+h2, h3 {
+    color: #2e6b40;
+}
+
+/* Image */
+img {
+    width: 400px;
+    border: 1px solid #cccccc;
+}
+
+/* Highlighted message (class selector) */
+.highlight {
+    background-color: #fff8c4;
+    border: 1px solid #e0c95c;
+    padding: 10px;
+    font-weight: bold;
+}
+
+/* Table */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 15px;
+}
+
+th, td {
+    border: 1px solid #555555;
+    padding: 10px;
+    text-align: left;
+}
+
+th {
+    background-color: #dcebdc;
+    color: #1f5130;
+}
+
+/* Form controls (grouped selector) */
+input, select, textarea {
+    padding: 8px;
+    margin: 10px 0;
+}
+
+label {
+    font-weight: bold;
+}
+
+/* Textarea */
+textarea {
+    width: 350px;
+    height: 90px;
+}
+
+/* Button */
+button {
+    padding: 10px 20px;
+    background-color: #2e6b40;
+    color: white;
+    border: 1px solid #1f5130;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #dcebdc;
+    color: #1f5130;
+}
+
+footer a {
+    color: #1f5130;
+}
