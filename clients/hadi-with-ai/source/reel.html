@@ -14,12 +14,13 @@
 @font-face{font-family:JB;font-weight:500;src:url(../assets/fonts/JetBrainsMono-500.ttf)}
 
 :root{
-  --black:#000;
   --white:#F5F5F7;     /* keynote off-white */
   --grey:#86868B;      /* secondary text */
   --dim:#3A3A3C;       /* a job after it dies */
   --card:#161618;
-  --red:#FF3B30;       /* the only colour, used only for the kill */
+  --red:#FF3B30;       /* only for the kill */
+  /* the AI glow: the one burst of colour, used only while the AI is working */
+  --g1:#0894FF; --g2:#C959DD; --g3:#FF2E54; --g4:#FF9004;
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{width:1080px;height:1920px;overflow:hidden;background:#000}
@@ -33,27 +34,33 @@ body{font-family:Inter,sans-serif;color:var(--white);-webkit-font-smoothing:anti
 .grey{color:var(--grey)}
 .fit{white-space:nowrap}
 .sheen{background:linear-gradient(180deg,#FFFFFF 0%,#D9D9DE 55%,#9A9AA0 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.aitext{background:linear-gradient(90deg,var(--g1),var(--g2),var(--g3),var(--g4));-webkit-background-clip:text;background-clip:text;color:transparent}
 
 /* hook */
 #s0 .a{top:520px;font-size:96px}
 #s0 .b{top:640px;font-size:210px}
 #s0 .c2{top:1010px;font-size:96px}
-#s0 .d{top:1130px;font-size:150px;color:var(--white)}
+#s0 .d{top:1130px;font-size:150px}
 
 /* job scenes */
 .title{top:300px;font-size:200px}
 .title .word{position:relative;display:inline-block}
 .title .rule{position:absolute;left:-10px;right:-10px;top:54%;height:12px;background:var(--red);border-radius:6px;transform-origin:0 50%;scale:0 1}
 .verdict{top:530px;font-size:84px;color:var(--red);opacity:0}
-.card{position:absolute;left:110px;right:110px;top:690px;height:640px;border-radius:44px;background:var(--card);
-  border:1.5px solid rgba(255,255,255,.08);box-shadow:0 60px 120px rgba(0,0,0,.8),0 0 0 1px rgba(0,0,0,.6);overflow:hidden}
+.cardwrap{position:absolute;left:110px;right:110px;top:690px;height:640px}
+.glow{position:absolute;inset:-26px;border-radius:66px;filter:blur(34px);opacity:0;
+  background:conic-gradient(from var(--a,0deg),var(--g1),var(--g2),var(--g3),var(--g4),var(--g1))}
+.edge{position:absolute;inset:-3px;border-radius:47px;opacity:0;
+  background:conic-gradient(from var(--a,0deg),var(--g1),var(--g2),var(--g3),var(--g4),var(--g1))}
+.card{position:absolute;inset:0;border-radius:44px;background:var(--card);
+  box-shadow:0 60px 120px rgba(0,0,0,.8);overflow:hidden}
 .card .top{height:64px;display:flex;align-items:center;gap:12px;padding:0 28px;border-bottom:1px solid rgba(255,255,255,.06);
   font:500 24px Inter;color:var(--grey)}
 .card .top i{width:14px;height:14px;border-radius:50%;background:#3a3a3c}
 .card .top span{margin-left:10px}
 .prompt{margin:24px 30px 0;display:inline-flex;gap:14px;align-items:center;padding:12px 22px;border-radius:40px;background:#232326;
   font:500 26px Inter;color:var(--white)}
-.prompt b{width:26px;height:26px;border-radius:50%;background:conic-gradient(from 200deg,#fff,#8e8e93,#fff);display:inline-block}
+.prompt b{width:26px;height:26px;border-radius:50%;background:conic-gradient(var(--g1),var(--g2),var(--g3),var(--g4),var(--g1));display:inline-block}
 .sub{top:1400px;font:500 50px Inter;color:var(--grey);line-height:1.3}
 .stat{position:absolute;right:28px;bottom:24px;font:500 24px JB;color:var(--grey)}
 
@@ -61,7 +68,7 @@ body{font-family:Inter,sans-serif;color:var(--white);-webkit-font-smoothing:anti
 .code pre{font:500 25px/1.62 JB;color:#C7C7CC;padding:18px 30px 0}
 .code .ln{display:block;white-space:pre}
 .code .ln::before{content:attr(data-n);display:inline-block;width:44px;color:#48484A}
-.kw{color:#fff;font-weight:500}.st{color:#8E8E93}.tg{color:#E5E5EA}
+.kw{color:#fff}.st{color:#8E8E93}.tg{color:#E5E5EA}
 
 /* design */
 .art{position:absolute;left:50%;top:150px;translate:-50% 0;width:520px;height:440px;border-radius:18px;background:#000;overflow:hidden;
@@ -76,16 +83,15 @@ body{font-family:Inter,sans-serif;color:var(--white);-webkit-font-smoothing:anti
 .guide.h{height:1px;left:90px;right:90px;top:370px}
 .cursor{position:absolute;width:34px;height:34px}
 
-/* edit */
-.monitor{margin:22px auto 0;width:540px;height:304px;border-radius:14px;overflow:hidden;position:relative;background:#000;
-  display:grid;place-items:center;font:700 64px Tight;letter-spacing:-.03em}
-.tracks{position:relative;margin:24px 30px 0;height:200px}
-.trk{position:relative;height:56px;margin-bottom:12px;background:#1f1f22;border-radius:10px;overflow:hidden}
-.clip{position:absolute;top:6px;height:44px;border-radius:8px;background:#3a3a3c;border:1px solid rgba(255,255,255,.12)}
-.clip.l{background:#636366}
-.wave{position:absolute;left:10px;right:10px;top:8px;bottom:8px;display:flex;align-items:center;gap:3px}
-.wave i{flex:1;background:#8E8E93;border-radius:2px}
-.playhead{position:absolute;top:-8px;bottom:0;width:3px;background:#fff;left:0;box-shadow:0 0 12px rgba(255,255,255,.6)}
+/* accounting */
+.sheet{margin:22px 30px 0;font:500 25px JB;color:#C7C7CC;border:1px solid rgba(255,255,255,.08);border-radius:14px;overflow:hidden}
+.sheet .r{display:grid;grid-template-columns:110px 1fr 1fr 1fr;border-bottom:1px solid rgba(255,255,255,.06)}
+.sheet .r>span{padding:10px 16px;text-align:right}
+.sheet .r>span:first-child{text-align:left;color:var(--grey)}
+.sheet .hd{background:#1f1f22;color:var(--grey);font-size:21px;letter-spacing:.04em}
+.sheet .tot{color:#fff;background:#1c1c1f;border-bottom:0}
+.bars{position:absolute;left:30px;right:30px;bottom:60px;height:70px;display:flex;align-items:flex-end;gap:14px}
+.bars i{flex:1;border-radius:6px 6px 2px 2px;background:#636366;transform-origin:50% 100%}
 
 /* rapid fire */
 #s4 .lead{top:300px;font:500 54px Inter;color:var(--grey)}
@@ -99,19 +105,17 @@ body{font-family:Inter,sans-serif;color:var(--white);-webkit-font-smoothing:anti
 #s5 .m2{top:820px;font-size:130px;color:var(--grey)}
 #s5 .m3{top:1180px;font:500 52px Inter;color:var(--grey);line-height:1.35}
 
-/* reveal */
-#s6 .r1{top:640px;font-size:120px}
-#s6 .r2{top:850px;font-size:190px}
-
 /* end */
-#s7 .logo{top:700px;font-size:230px;font-weight:800}
-#s7 .role{top:990px;font:500 58px Inter;color:var(--grey)}
-#s7 .follow{position:absolute;left:50%;top:1150px;translate:-50% 0;border:2px solid rgba(245,245,247,.5);border-radius:60px;
+#s6 .halo{position:absolute;left:140px;right:140px;top:650px;height:300px;border-radius:200px;filter:blur(90px);opacity:.55;
+  background:linear-gradient(90deg,var(--g1),var(--g2),var(--g3),var(--g4))}
+#s6 .logo{top:700px;font-size:230px;font-weight:800}
+#s6 .role{top:990px;font:500 58px Inter;color:var(--grey)}
+#s6 .follow{position:absolute;left:50%;top:1150px;translate:-50% 0;border:2px solid rgba(245,245,247,.5);border-radius:60px;
   padding:16px 46px 20px;font:600 44px Inter;white-space:nowrap}
 
 #mark{position:absolute;top:180px;left:0;right:0;text-align:center;font:600 34px Tight;letter-spacing:-.01em;color:var(--grey);visibility:hidden}
 #flash{position:absolute;inset:0;background:#fff;opacity:0;pointer-events:none}
-#redwash{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 45%,rgba(255,59,48,.0) 30%,rgba(255,59,48,.35));opacity:0;pointer-events:none}
+#redwash{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 45%,rgba(255,59,48,0) 30%,rgba(255,59,48,.35));opacity:0;pointer-events:none}
 </style>
 </head>
 <body>
@@ -121,63 +125,66 @@ body{font-family:Inter,sans-serif;color:var(--white);-webkit-font-smoothing:anti
     <div class="c a D grey">You spent</div>
     <div class="c b D fit">4 years</div>
     <div class="c c2 D grey">AI learned it in</div>
-    <div class="c d D sheen fit">4 seconds.</div>
+    <div class="c d D aitext fit">4 seconds.</div>
   </section>
 
   <section class="scene job" id="s1">
     <div class="c title D fit"><span class="word">Coding<span class="rule"></span></span></div>
     <div class="c verdict D">is dead.</div>
-    <div class="card code">
-      <div class="top"><i></i><i></i><i></i><span>Login.tsx</span></div>
-      <div class="prompt"><b></b>Build me a login page</div>
-      <pre class="src"></pre>
-      <div class="stat">13 lines · 2.6s</div>
+    <div class="cardwrap"><div class="glow"></div><div class="edge"></div>
+      <div class="card code">
+        <div class="top"><i></i><i></i><i></i><span>Login.tsx</span></div>
+        <div class="prompt"><b></b>Build me a login page</div>
+        <pre class="src"></pre>
+        <div class="stat">13 lines · 2.6s</div>
+      </div>
     </div>
-    <div class="c sub s1">Written in seconds.</div>
+    <div class="c sub">Written in seconds.</div>
   </section>
 
   <section class="scene job" id="s2">
     <div class="c title D fit"><span class="word">Design<span class="rule"></span></span></div>
     <div class="c verdict D">is dead.</div>
-    <div class="card design">
-      <div class="top"><i></i><i></i><i></i><span>Launch poster</span></div>
-      <div class="prompt"><b></b>Design a launch poster</div>
-      <div class="art">
-        <div class="el orb"></div>
-        <div class="el h">Introducing Nova.</div>
-        <div class="el p">Available now.</div>
+    <div class="cardwrap"><div class="glow"></div><div class="edge"></div>
+      <div class="card design">
+        <div class="top"><i></i><i></i><i></i><span>Launch poster</span></div>
+        <div class="prompt"><b></b>Design a launch poster</div>
+        <div class="art">
+          <div class="el orb"></div>
+          <div class="el h">Introducing Nova.</div>
+          <div class="el p">Available now.</div>
+        </div>
+        <div class="guide v"></div><div class="guide h"></div>
+        <svg class="cursor" viewBox="0 0 34 34"><path d="M4 2 L29 17 L17 20 L11 32 Z" fill="#fff" stroke="#000" stroke-width="2" stroke-linejoin="round"/></svg>
+        <div class="stat">4 layouts · 3.0s</div>
       </div>
-      <div class="guide v"></div><div class="guide h"></div>
-      <svg class="cursor" viewBox="0 0 34 34"><path d="M4 2 L29 17 L17 20 L11 32 Z" fill="#fff" stroke="#000" stroke-width="2" stroke-linejoin="round"/></svg>
-      <div class="stat">4 layouts · 3.0s</div>
     </div>
-    <div class="c sub s1">Designed in seconds.</div>
+    <div class="c sub">Designed in seconds.</div>
   </section>
 
   <section class="scene job" id="s3">
-    <div class="c title D fit"><span class="word">Editing<span class="rule"></span></span></div>
+    <div class="c title D fit"><span class="word">Accounting<span class="rule"></span></span></div>
     <div class="c verdict D">is dead.</div>
-    <div class="card edit">
-      <div class="top"><i></i><i></i><i></i><span>reel_final.mp4</span></div>
-      <div class="prompt"><b></b>Cut a 30s reel on the beat</div>
-      <div class="monitor"><span class="mt">hadi.ai</span></div>
-      <div class="tracks">
-        <div class="trk v2"></div><div class="trk v1"></div>
-        <div class="trk a1"><div class="wave"></div></div>
-        <div class="playhead"></div>
+    <div class="cardwrap"><div class="glow"></div><div class="edge"></div>
+      <div class="card acct">
+        <div class="top"><i></i><i></i><i></i><span>Q2_close.xlsx</span></div>
+        <div class="prompt"><b></b>Close the books for Q2</div>
+        <div class="sheet"></div>
+        <div class="bars"></div>
+        <div class="stat">3 sheets · 2.8s</div>
       </div>
     </div>
-    <div class="c sub s1">Cut on the beat. Including this video.</div>
+    <div class="c sub">Reconciled in seconds.</div>
   </section>
 
   <section class="scene" id="s4">
     <div class="c lead">And it doesn't stop there.</div>
     <div class="list">
       <span class="item">Translation<span class="rule"></span></span>
-      <span class="item">Accounting<span class="rule"></span></span>
       <span class="item">Copywriting<span class="rule"></span></span>
       <span class="item">Data analysis<span class="rule"></span></span>
       <span class="item">Legal research<span class="rule"></span></span>
+      <span class="item">Market research<span class="rule"></span></span>
       <span class="item">Customer support<span class="rule"></span></span>
     </div>
     <div class="c tail">Years of study. <span class="grey">Automated.</span></div>
@@ -190,11 +197,7 @@ body{font-family:Inter,sans-serif;color:var(--white);-webkit-font-smoothing:anti
   </section>
 
   <section class="scene" id="s6">
-    <div class="c r1 D grey fit">This entire video?</div>
-    <div class="c r2 D sheen fit">Made with AI.</div>
-  </section>
-
-  <section class="scene" id="s7">
+    <div class="halo"></div>
     <div class="c logo D sheen fit">hadi.ai</div>
     <div class="c role">AI Consultant</div>
     <div class="follow">Follow for more</div>
@@ -207,17 +210,21 @@ body{font-family:Inter,sans-serif;color:var(--white);-webkit-font-smoothing:anti
 </div>
 
 <script>
-// ===== timeline: every scene and every kill is set here, so the edit can be re-synced to the song =====
+// ===== timeline, synced to "Doors Light Funk (Slowed)" =====
+// The song runs at exactly 96 bpm (0.625 s/beat). The reel uses the song from 0:17.5,
+// so reel time t plays song time t + 17.5. The drop hits at song 25.0 (reel 7.5);
+// each job dies two bars after the previous one; the drop ends at song 44.75 (reel 27.25).
+const SONG_START = 17.5;
+const BEAT = 0.625;
 const TL = {
   dur: 30,
-  scenes: {s0: [0, 4.2], s1: [4.2, 9.0], s2: [9.0, 13.2], s3: [13.2, 17.4], s4: [17.4, 21.8], s5: [21.8, 25.2], s6: [25.2, 27.4], s7: [27.4, 99]},
-  kills: {s1: 7.6, s2: 11.9, s3: 16.1},           // the hit that kills each job
-  rapid: [18.25, 18.72, 19.19, 19.66, 20.13, 20.6], // strike-throughs in the rapid-fire list
-  beat: 60 / 128,
+  scenes: {s0: [0, 4.375], s1: [4.375, 10.0], s2: [10.0, 15.0], s3: [15.0, 19.375], s4: [19.375, 24.375], s5: [24.375, 27.25], s6: [27.25, 99]},
+  kills: {s1: 7.5, s2: 12.5, s3: 17.5},
+  rapid: [20.0, 20.625, 21.25, 21.875, 22.5, 23.125],
+  drop: [7.5, 27.25],
 };
-const EASE = 'cubic-bezier(.22,1,.36,1)';     // smooth keynote ease-out
+const EASE = 'cubic-bezier(.22,1,.36,1)';
 const INOUT = 'cubic-bezier(.65,0,.35,1)';
-const IN = 'cubic-bezier(.7,0,.84,0)';
 const $  = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 const anims = [];
@@ -258,107 +265,104 @@ $('#s1 .src').innerHTML = CODE.map((l, i) => `<span class="ln" data-n="${i + 1}"
   .replace(/\b(export|default|function|const|return)\b/g, '<span class="kw">$1</span>')
   .replace(/(&lt;\/?[A-Za-z0-9]+|\/?&gt;)/g, '<span class="tg">$1</span>')}</span>`).join('');
 
-const CLIPS = {v2: [[40, 110, 'l'], [260, 80, 'l'], [470, 140, 'l']],
-  v1: [[0, 140], [146, 100], [252, 170], [428, 90], [524, 226]]};
-for (const [trk, list] of Object.entries(CLIPS))
-  list.forEach(([x, w, k]) => $(`#s3 .${trk}`).insertAdjacentHTML('beforeend',
-    `<div class="clip ${k || ''}" style="left:${x}px;width:${w}px"></div>`));
-$('#s3 .wave').innerHTML = Array.from({length: 72}, (_, i) =>
-  `<i style="height:${16 + Math.abs(Math.sin(i * 1.7) * 58 + Math.sin(i * .43) * 22)}%"></i>`).join('');
+const ROWS = [['Apr', '48,200', '31,450', '16,750'], ['May', '52,900', '33,120', '19,780'], ['Jun', '57,300', '34,880', '22,420'],
+  ['Q2', '158,400', '99,450', '58,950']];
+$('#s3 .sheet').innerHTML = '<div class="r hd"><span>MONTH</span><span>REVENUE</span><span>COSTS</span><span>PROFIT</span></div>' +
+  ROWS.map((r, i) => `<div class="r${i === 3 ? ' tot' : ''}">${r.map(v => `<span>${v}</span>`).join('')}</div>`).join('');
+$('#s3 .bars').innerHTML = [38, 52, 46, 64, 58, 76, 70, 92].map(h => `<i style="height:${h}%"></i>`).join('');
 
 document.fonts.ready.then(() => $$('.fit').forEach(el => {
   const max = el.clientWidth;
   if (el.scrollWidth > max) el.style.fontSize = parseFloat(getComputedStyle(el).fontSize) * max / el.scrollWidth + 'px';
 }));
 
-// ---------- 0 · hook ----------
-fadeUp('#s0 .a', .15);
-fadeUp('#s0 .b', .55, {y: 60, dur: 1});
-fadeUp('#s0 .c2', 1.9);
-A('#s0 .d', [{opacity: 0, scale: 1.25, filter: 'blur(20px)'}, {opacity: 1, scale: 1, filter: 'blur(0px)'}], 2.4, .9);
-A('#s0 .b', [{color: '#F5F5F7'}, {color: '#48484A'}], 2.4, .6, {out: true});
+// ---------- 0 · hook (song build, entrances on the beat) ----------
+fadeUp('#s0 .a', 0.05);
+fadeUp('#s0 .b', BEAT, {y: 60, dur: 1});
+fadeUp('#s0 .c2', BEAT * 3);
+A('#s0 .d', [{opacity: 0, scale: 1.25, filter: 'blur(20px)'}, {opacity: 1, scale: 1, filter: 'blur(0px)'}], BEAT * 4, .9);
+A('#s0 .b', [{color: '#F5F5F7'}, {color: '#48484A'}], BEAT * 4, .6, {out: true});
 
 // ---------- 1-3 · the jobs ----------
 $$('.job').forEach(sc => {
   const [s] = TL.scenes[sc.id], k = TL.kills[sc.id];
   fadeUp($('.title', sc), s + .05, {y: 50});
-  A($('.card', sc), [{opacity: 0, translate: '0 220px', transform: 'perspective(1600px) rotateX(18deg)'},
-    {opacity: 1, translate: '0 0', transform: 'perspective(1600px) rotateX(0deg)'}], s + .2, 1.1);
-  fadeUp($('.prompt', sc), s + .6, {y: 16, dur: .5});
+  A($('.cardwrap', sc), [{opacity: 0, translate: '0 220px', transform: 'perspective(1600px) rotateX(18deg)'},
+    {opacity: 1, translate: '0 0', transform: 'perspective(1600px) rotateX(0deg)'}], s + .15, 1.1);
+  fadeUp($('.prompt', sc), s + .55, {y: 16, dur: .5});
   fadeUp($('.sub', sc), s + .9, {y: 20});
   fadeUp($('.stat', sc), k - .9, {y: 10, dur: .4});
-  // the kill — all of it lands on the hit
-  A($('.rule', sc), [{scale: '0 1'}, {scale: '1 1'}], k, .22, {ease: 'cubic-bezier(.2,.9,.1,1)'});
+  // the AI glow runs while the job is being done, and goes out on the kill
+  A($('.glow', sc), [{opacity: 0}, {opacity: .55}], s + .6, .6);
+  A($('.edge', sc), [{opacity: 0}, {opacity: 1}], s + .6, .6);
+  A([$('.glow', sc), $('.edge', sc)], [{opacity: 1}, {opacity: 0}], k, .12, {out: true, ease: 'linear'});
+  // the kill: all of it lands on the hit
+  A($('.rule', sc), [{scale: '0 1'}, {scale: '1 1'}], k, .2, {ease: 'cubic-bezier(.2,.9,.1,1)'});
   A($('.word', sc), [{color: '#F5F5F7'}, {color: '#3A3A3C'}], k, .25, {out: true});
-  A($('.verdict', sc), [{opacity: 0, translate: '0 30px'}, {opacity: 1, translate: '0 0'}], k + .04, .35);
-  A($('.card', sc), [{filter: 'grayscale(0) brightness(1)', scale: 1, translate: '0 0'},
+  A($('.verdict', sc), [{opacity: 0, translate: '0 30px'}, {opacity: 1, translate: '0 0'}], k + .03, .35);
+  A($('.cardwrap', sc), [{filter: 'grayscale(0) brightness(1)', scale: 1, translate: '0 0'},
     {filter: 'grayscale(1) brightness(.35)', scale: .94, translate: '0 60px'}], k, .9, {out: true});
   fadeOut($('.sub', sc), k, .2);
 });
 
 // code streams in
-A('#s1 .ln', [{clipPath: 'inset(0 100% 0 0)'}, {clipPath: 'inset(0 0% 0 0)'}], 4.2 + 1.0, .16, {stagger: .15, ease: 'linear'});
+A('#s1 .ln', [{clipPath: 'inset(0 100% 0 0)'}, {clipPath: 'inset(0 0% 0 0)'}], 4.375 + 1.0, .16, {stagger: .14, ease: 'linear'});
 // design assembles itself, cursor + guides
 const D2 = TL.scenes.s2[0];
-A('#s2 .orb', [{opacity: 0, scale: .4}, {opacity: 1, scale: 1}], D2 + 1.0, 1.0);
-fadeUp('#s2 .art .h', D2 + 1.6, {y: 20, dur: .6});
-fadeUp('#s2 .art .p', D2 + 1.9, {y: 14, dur: .5});
-A('#s2 .guide', [{opacity: 0}, {opacity: 1}, {opacity: 0}], D2 + 1.4, 1.0, {ease: 'linear'});
+A('#s2 .orb', [{opacity: 0, scale: .4}, {opacity: 1, scale: 1}], D2 + .8, 1.0);
+fadeUp('#s2 .art .h', D2 + 1.3, {y: 20, dur: .6});
+fadeUp('#s2 .art .p', D2 + 1.55, {y: 14, dur: .5});
+A('#s2 .guide', [{opacity: 0}, {opacity: 1}, {opacity: 0}], D2 + 1.2, 1.0, {ease: 'linear'});
 A('#s2 .cursor', [{left: '760px', top: '600px', opacity: 0}, {left: '520px', top: '300px', opacity: 1, offset: .3},
-  {left: '560px', top: '470px', opacity: 1, offset: .65}, {left: '640px', top: '520px', opacity: 1}], D2 + .9, 1.8, {ease: INOUT});
-// edit: clips snap in, playhead runs, the monitor flips through shots
-A('#s3 .clip', [{opacity: 0, translate: '420px 0'}, {opacity: 1, translate: '0 0'}], 13.2 + 1.0, .45, {stagger: .1});
-A('#s3 .wave i', [{scale: '1 0'}, {scale: '1 1'}], 13.2 + 1.1, .3, {stagger: .012});
-A('#s3 .playhead', [{left: '0px'}, {left: 'calc(100% - 3px)'}], 13.2 + 1.0, 2.8, {ease: 'linear'});
+  {left: '560px', top: '470px', opacity: 1, offset: .65}, {left: '640px', top: '520px', opacity: 1}], D2 + .7, 1.6, {ease: INOUT});
+// accounting: rows fill, the chart grows
+const D3 = TL.scenes.s3[0];
+A('#s3 .sheet .r', [{opacity: 0, translate: '0 16px'}, {opacity: 1, translate: '0 0'}], D3 + .8, .3, {stagger: .25});
+A('#s3 .bars i', [{scale: '1 0'}, {scale: '1 1'}], D3 + 1.6, .45, {stagger: .06});
 
-// ---------- 4 · rapid fire ----------
-fadeUp('#s4 .lead', 17.55, {y: 20});
-A('#s4 .item', [{opacity: 0, translate: '0 30px'}, {opacity: 1, translate: '0 0'}], 17.7, .5, {stagger: .08});
+// ---------- 4 · rapid fire: one strike per beat ----------
+fadeUp('#s4 .lead', TL.scenes.s4[0] + .1, {y: 20});
+A('#s4 .item', [{opacity: 0, translate: '0 30px'}, {opacity: 1, translate: '0 0'}], TL.scenes.s4[0] + .2, .5, {stagger: .06});
 TL.rapid.forEach((t, i) => {
   const it = $$('#s4 .item')[i];
-  A($('.rule', it), [{scale: '0 1'}, {scale: '1 1'}], t, .18, {ease: 'cubic-bezier(.2,.9,.1,1)'});
+  A($('.rule', it), [{scale: '0 1'}, {scale: '1 1'}], t, .16, {ease: 'cubic-bezier(.2,.9,.1,1)'});
   A(it, [{color: '#F5F5F7'}, {color: '#3A3A3C'}], t, .2, {out: true});
 });
-fadeUp('#s4 .tail', TL.rapid.at(-1) + .3, {y: 20});
+fadeUp('#s4 .tail', TL.rapid.at(-1) + .15, {y: 20, dur: .6});
 
 // ---------- 5 · message ----------
-fadeUp('#s5 .m1', 21.95, {y: 60, dur: .9});
-fadeUp('#s5 .m2', 22.9, {y: 40, dur: .8});
-fadeUp('#s5 .m3', 23.8, {y: 20});
+const M = TL.scenes.s5[0];
+fadeUp('#s5 .m1', M + .05, {y: 60, dur: .8});
+fadeUp('#s5 .m2', M + BEAT, {y: 40, dur: .7});
+fadeUp('#s5 .m3', M + BEAT * 2, {y: 20, dur: .7});
 
-// ---------- 6 · reveal ----------
-fadeUp('#s6 .r1', 25.3, {y: 30});
-A('#s6 .r2', [{opacity: 0, scale: 1.15, filter: 'blur(24px)'}, {opacity: 1, scale: 1, filter: 'blur(0px)'}], 26.0, 1.0);
+// ---------- 6 · end card (the drop ends here) ----------
+const E = TL.scenes.s6[0];
+A('#s6 .halo', [{opacity: 0, scale: .6}, {opacity: .55, scale: 1}], E, 1.4);
+A('#s6 .logo', [{opacity: 0, scale: .92, filter: 'blur(20px)'}, {opacity: 1, scale: 1, filter: 'blur(0px)'}], E + .1, 1.1);
+fadeUp('#s6 .role', E + .6, {y: 20});
+fadeUp('#s6 .follow', E + 1.0, {y: 20});
+A('#s6 .logo', [{letterSpacing: '-.035em'}, {letterSpacing: '-.02em'}], E, 2.75, {out: true, ease: 'linear'});
 
-// ---------- 7 · end ----------
-A('#s7 .logo', [{opacity: 0, scale: .92, filter: 'blur(20px)'}, {opacity: 1, scale: 1, filter: 'blur(0px)'}], 27.5, 1.2);
-fadeUp('#s7 .role', 28.1, {y: 20});
-fadeUp('#s7 .follow', 28.5, {y: 20});
-A('#s7 .logo', [{letterSpacing: '-.035em'}, {letterSpacing: '-.02em'}], 27.5, 2.5, {out: true, ease: 'linear'});
-
-// ---------- per-frame: scene visibility, hits, slow push-in ----------
-const HITS = [...Object.values(TL.kills), ...TL.rapid];
-const SHOTS = ['#1c1c1e', '#2c2c2e', '#000', '#3a3a3c', '#0a0a0a'];
+// ---------- per-frame: visibility, beat pulse, hits, glow rotation ----------
+const KILLS = Object.values(TL.kills);
+const HITS = [...KILLS, ...TL.rapid];
 const last = (list, t) => list.filter(x => x <= t).pop();
 
 window.seek = t => {
   for (const a of anims) a.currentTime = t * 1000;
   for (const [id, [a, b]] of Object.entries(TL.scenes)) $('#' + id).style.visibility = (t >= a && t < b) ? 'visible' : 'hidden';
-  $('#mark').style.visibility = (t >= 4.2 && t < 27.4) ? 'visible' : 'hidden';
+  $('#mark').style.visibility = (t >= TL.scenes.s1[0] && t < TL.scenes.s6[0]) ? 'visible' : 'hidden';
 
-  // a slow keynote push-in inside each scene, plus a sharp punch on every hit
   const sc = Object.values(TL.scenes).find(([a, b]) => t >= a && t < b) || [0, 1];
-  let scale = 1 + .025 * Math.min(1, (t - sc[0]) / 4.5);
-  const h = last(HITS, t);
-  const since = h === undefined ? 9 : t - h;
-  const big = Object.values(TL.kills).includes(h);
+  let scale = 1 + .025 * Math.min(1, (t - sc[0]) / 4.5);            // slow push-in per scene
+  if (t >= TL.drop[0] && t < TL.drop[1]) scale += .008 * Math.exp(-((t - TL.drop[0]) % BEAT) / .1);  // pulse on every beat of the drop
+  const h = last(HITS, t), since = h === undefined ? 9 : t - h, big = KILLS.includes(h);
   scale += (big ? .045 : .018) * Math.exp(-since / .12);
   $('#world').style.transform = `scale(${scale})`;
   $('#flash').style.opacity = big ? .35 * Math.exp(-since / .06) : 0;
   $('#redwash').style.opacity = big ? .6 * Math.exp(-since / .3) : .3 * Math.exp(-since / .12);
-
-  const mt = Math.min(t, TL.kills.s3);
-  $('#s3 .monitor').style.background = SHOTS[Math.floor(Math.max(0, mt - 14.2) / .23) % SHOTS.length];
+  document.documentElement.style.setProperty('--a', `${(t * 140) % 360}deg`);
 };
 window.DURATION = TL.dur;
 seek(+(new URLSearchParams(location.search).get('t') || 0));
