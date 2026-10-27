@@ -1,0 +1,462 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Hadi With AI Reel</title>
+<style>
+@font-face{font-family:Unbounded;font-weight:600;src:url(../assets/fonts/Unbounded-600.ttf)}
+@font-face{font-family:Unbounded;font-weight:800;src:url(../assets/fonts/Unbounded-800.ttf)}
+@font-face{font-family:Unbounded;font-weight:900;src:url(../assets/fonts/Unbounded-900.ttf)}
+@font-face{font-family:Inst;font-weight:500;src:url(../assets/fonts/InstrumentSans-500.ttf)}
+@font-face{font-family:Inst;font-weight:600;src:url(../assets/fonts/InstrumentSans-600.ttf)}
+@font-face{font-family:Inst;font-weight:700;src:url(../assets/fonts/InstrumentSans-700.ttf)}
+@font-face{font-family:JB;font-weight:500;src:url(../assets/fonts/JetBrainsMono-500.ttf)}
+@font-face{font-family:JB;font-weight:700;src:url(../assets/fonts/JetBrainsMono-700.ttf)}
+
+:root{
+  --cobalt:#1C2CF5;   /* signal blue: the main field */
+  --pink:#FF5BC8;     /* funk pink: the "AI" accent */
+  --red:#FF2A3D;      /* obituary red: DEAD stamps only */
+  --ink:#0B0B12;
+  --white:#FFFFFF;
+  --mist:#ECECF1;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1080px;height:1920px;overflow:hidden;background:var(--cobalt)}
+body{font-family:Inst,sans-serif;color:#fff;-webkit-font-smoothing:antialiased}
+#stage{position:relative;width:1080px;height:1920px;overflow:hidden;background:var(--cobalt)}
+#world{position:absolute;inset:0;transform-origin:50% 45%}
+.scene{position:absolute;inset:0;visibility:hidden;overflow:hidden}
+.cob{background:var(--cobalt);
+  background-image:radial-gradient(rgba(255,255,255,.07) 1.6px,transparent 1.9px),
+    radial-gradient(ellipse at 50% 40%,transparent 40%,rgba(8,10,80,.55));
+  background-size:16px 16px,100% 100%}
+.wht{background:#fff;color:var(--ink)}
+.pnk{background:var(--pink);color:var(--ink)}
+.U{font-family:Unbounded;font-weight:900;line-height:.98;letter-spacing:-.02em;text-transform:uppercase}
+.w{display:inline-block;white-space:pre}
+.fit{white-space:nowrap}
+.col{position:absolute;left:80px;right:80px}
+
+/* ---------- hook ---------- */
+#s0 .hook{top:400px}
+#s0 .h1{font-size:330px}
+#s0 .h2{font-size:120px}
+#s0 .h3{font-size:200px;color:var(--pink)}
+#s0 .next{top:1150px;font:600 66px Inst}
+#s0 .cd{position:absolute;top:1230px;left:0;right:0;text-align:center;font-size:300px;color:var(--pink);opacity:0}
+
+/* ---------- job scenes ---------- */
+.chip{top:250px;font:700 34px JB;letter-spacing:.06em;display:flex;gap:18px;align-items:center}
+.chip b{background:#fff;color:var(--cobalt);padding:4px 14px;border-radius:8px}
+.big{top:310px;font-size:170px}
+.strike{position:absolute;left:70px;right:70px;top:385px;height:22px;background:var(--red);transform-origin:0 50%;border-radius:4px}
+.win{position:absolute;top:540px;left:70px;right:70px;height:690px;border-radius:28px;overflow:hidden;
+  box-shadow:16px 16px 0 var(--ink);border:4px solid var(--ink)}
+.bar{height:58px;display:flex;align-items:center;gap:12px;padding:0 22px;font:500 24px JB;color:#9aa0c0;background:#16161f}
+.bar i{width:16px;height:16px;border-radius:50%;background:#3a3a4a}
+.bar i:first-child{background:var(--red)}.bar i:nth-child(2){background:#FFC94D}.bar i:nth-child(3){background:#3FD27A}
+.bar span{margin-left:12px}
+.prompt{font:700 28px JB;color:var(--pink);padding:18px 26px 6px}
+.statchip{position:absolute;right:22px;bottom:20px;background:var(--pink);color:var(--ink);font:700 26px JB;padding:8px 16px;border-radius:10px}
+
+/* code */
+.code{background:#0F0F17}
+.code pre{font:500 26px/1.6 JB;color:#E8E9F2;padding:6px 26px 0}
+.code .ln{display:block;white-space:pre}
+.code .ln::before{content:attr(data-n);display:inline-block;width:46px;color:#4a4d68}
+.k{color:var(--pink)}.s{color:#FFD36E}.g{color:#8EA2FF}
+
+/* design */
+.design{background:var(--mist);background-image:radial-gradient(#c8c8d4 1.5px,transparent 1.8px);background-size:22px 22px}
+.design .bar{background:#fff;color:#777;border-bottom:2px solid #ddd}
+.design .prompt{background:#fff}
+.board{position:absolute;left:60px;top:150px;width:440px;height:500px;background:#fff;border-radius:6px;box-shadow:0 10px 30px rgba(0,0,0,.12)}
+.board .el{position:absolute}
+.board .img{left:24px;top:24px;width:392px;height:220px;border-radius:10px;background:linear-gradient(135deg,var(--cobalt),var(--pink));overflow:hidden}
+.board .img::after{content:"";position:absolute;width:150px;height:150px;border-radius:50%;background:rgba(255,255,255,.35);right:40px;top:30px}
+.board .ttl{left:24px;top:262px;font:900 58px Unbounded;color:var(--ink);letter-spacing:-.02em}
+.board .sub{left:24px;top:350px;width:320px}
+.board .sub div{height:18px;border-radius:9px;background:#d5d5de;margin-bottom:14px}
+.board .btn{left:24px;top:420px;background:var(--pink);color:var(--ink);font:700 28px Inst;padding:10px 30px 12px;border-radius:40px}
+.sel{position:absolute;border:3px solid var(--cobalt)}
+.sel::before,.sel::after{content:"";position:absolute;width:14px;height:14px;background:#fff;border:3px solid var(--cobalt);left:-9px;top:-9px}
+.sel::after{left:auto;top:auto;right:-9px;bottom:-9px}
+.cursor{position:absolute;right:-70px;bottom:-62px;display:flex;align-items:flex-start;gap:4px}
+.cursor svg{width:40px;height:40px}
+.cursor b{background:var(--pink);color:var(--ink);font:700 22px JB;padding:3px 10px;border-radius:8px;margin-top:30px}
+.sw{position:absolute;left:560px;top:170px;display:flex;flex-direction:column;gap:20px;align-items:center}
+.sw i{width:74px;height:74px;border-radius:50%;border:3px solid var(--ink)}
+.sw .aa{font:900 50px Unbounded;color:var(--ink)}
+
+/* edit */
+.edit{background:#121218}
+.monitor{position:relative;margin:14px auto 0;width:560px;height:315px;border-radius:12px;overflow:hidden;display:grid;place-items:center;
+  font:900 90px Unbounded;color:#fff}
+.tracks{position:relative;margin:24px 26px 0;height:220px}
+.trk{position:relative;height:62px;margin-bottom:12px;background:#1d1d28;border-radius:8px;overflow:hidden}
+.trk .lab{position:absolute;left:8px;top:16px;font:700 22px JB;color:#6b6f90;z-index:2}
+.clip{position:absolute;top:6px;height:50px;border-radius:7px;border:2px solid rgba(255,255,255,.35)}
+.wave{position:absolute;left:52px;right:6px;top:6px;bottom:6px;display:flex;align-items:center;gap:3px}
+.wave i{flex:1;background:var(--pink);border-radius:2px}
+.playhead{position:absolute;top:-10px;bottom:-4px;width:4px;background:var(--red);left:52px;z-index:3}
+.playhead::before{content:"";position:absolute;top:-6px;left:-9px;border:11px solid transparent;border-top:14px solid var(--red)}
+
+/* ecg + captions + stamp */
+.ecg{position:absolute;left:70px;top:1262px;width:940px;height:130px;overflow:visible}
+.ecg path{fill:none;stroke:#fff;stroke-width:7;stroke-linejoin:round;stroke-linecap:round}
+.vit{position:absolute;right:80px;top:1240px;font:700 30px JB}
+.vit .z{position:absolute;right:0;top:0;color:var(--red);opacity:0;white-space:nowrap}
+.cap{position:absolute;left:80px;right:80px;top:1410px;font:700 62px Inst;line-height:1.15}
+.cap2{color:#fff}
+.stamp{position:absolute;left:50%;top:740px;translate:-50% 0;rotate:-7deg;background:var(--red);color:#fff;
+  font-size:210px;padding:16px 50px 26px;border:8px solid #fff;box-shadow:18px 18px 0 var(--ink)}
+
+/* ---------- message ---------- */
+#s4 .m1{top:440px;font-size:250px;color:var(--cobalt)}
+#s4 .m2{top:700px;font-size:250px;color:var(--cobalt)}
+#s4 .m3{top:1000px;font-size:120px}
+#s4 .m4{top:1130px;font-size:170px;color:var(--red)}
+#s4 .m5{top:1390px;font:600 54px Inst;line-height:1.25}
+
+/* ---------- reveal ---------- */
+#s5 .r1{top:330px;font-size:150px}
+#s5 .list{top:700px;font:700 84px Inst;line-height:1.35}
+#s5 .list span{display:block}
+#s5 .list em{font-style:normal;display:inline-block;background:var(--ink);color:var(--pink);border-radius:50%;width:84px;height:84px;
+  text-align:center;line-height:84px;font-size:56px;margin-right:24px;vertical-align:8px}
+#s5 .r2{top:1260px;font-size:150px}
+#s5 .r2 span{background:var(--ink);color:#fff;padding:10px 26px 22px;display:inline-block}
+
+/* ---------- end card ---------- */
+#s6 .by{top:420px;font:600 54px Inst;opacity:.8}
+#s6 .name{top:490px;font-size:400px}
+#s6 .role{top:960px;font:800 74px Unbounded;color:var(--pink);text-transform:uppercase;letter-spacing:-.01em}
+#s6 .pitch{top:1070px;font:500 54px Inst;line-height:1.25}
+#s6 .follow{position:absolute;left:80px;top:1250px;background:#fff;color:var(--ink);font:700 52px Inst;padding:16px 44px 22px;border-radius:60px}
+#s6 .band{position:absolute;left:0;right:0;top:1440px;height:120px;background:var(--ink);display:flex;align-items:center;justify-content:center;
+  font:900 72px Unbounded;letter-spacing:-.01em;gap:26px}
+#s6 .band em{font-style:normal;color:var(--pink)}
+
+/* ---------- persistent tag + flash ---------- */
+#tag{position:absolute;top:170px;right:80px;font:700 30px JB;letter-spacing:.08em;display:flex;align-items:center;gap:12px;visibility:hidden}
+#tag i{width:16px;height:16px;border-radius:50%;background:var(--pink)}
+#flash{position:absolute;inset:0;background:#fff;opacity:0;pointer-events:none}
+</style>
+</head>
+<body>
+<div id="stage"><div id="world">
+
+  <!-- 0 · hook -->
+  <section class="scene cob" id="s0" data-in="0" data-out="3.75">
+    <div class="col hook U">
+      <div class="h1 fit">AI</div>
+      <div class="h2 fit">just killed</div>
+      <div class="h3 fit">3 jobs.</div>
+    </div>
+    <div class="col next">Is yours next?</div>
+    <div class="cd U">3</div><div class="cd U">2</div><div class="cd U">1</div>
+  </section>
+
+  <!-- 1 · coding -->
+  <section class="scene cob job" id="s1" data-in="3.75" data-out="9.375" data-r="3.75">
+    <div class="col chip"><b>01/03</b>JOB</div>
+    <div class="col big U fit">Coding</div>
+    <div class="strike"></div>
+    <div class="win code">
+      <div class="bar"><i></i><i></i><i></i><span>Login.tsx · generating…</span></div>
+      <div class="prompt">› build me a login page</div>
+      <pre class="src"></pre>
+      <div class="statchip">⚡ 13 lines · 2.6s</div>
+    </div>
+    <svg class="ecg" viewBox="0 0 940 130"><path pathLength="1"/></svg>
+    <div class="vit"><span class="a">♥ 128 BPM</span><span class="z">♥ 0 BPM</span></div>
+    <div class="cap cap1">AI writes it in seconds.</div>
+    <div class="cap cap2">Coding is dead.</div>
+    <div class="stamp U">Dead</div>
+  </section>
+
+  <!-- 2 · design -->
+  <section class="scene cob job" id="s2" data-in="9.375" data-out="15" data-r="9.375">
+    <div class="col chip"><b>02/03</b>JOB</div>
+    <div class="col big U fit">Design</div>
+    <div class="strike"></div>
+    <div class="win design">
+      <div class="bar"><i></i><i></i><i></i><span>Launch poster · generating…</span></div>
+      <div class="prompt">› design a launch poster</div>
+      <div class="board">
+        <div class="el img"></div>
+        <div class="el ttl">NEW DROP</div>
+        <div class="el sub"><div></div><div style="width:70%"></div></div>
+        <div class="el btn">Shop now</div>
+        <div class="sel"><div class="cursor"><svg viewBox="0 0 40 40"><path d="M4 2 L34 20 L20 23 L13 37 Z" fill="#0B0B12" stroke="#fff" stroke-width="3" stroke-linejoin="round"/></svg><b>AI</b></div></div>
+      </div>
+      <div class="sw"><i style="background:#1C2CF5"></i><i style="background:#FF5BC8"></i><i style="background:#0B0B12"></i><i style="background:#fff"></i><div class="aa">Aa</div></div>
+      <div class="statchip">⚡ 4 layouts · 3.0s</div>
+    </div>
+    <svg class="ecg" viewBox="0 0 940 130"><path pathLength="1"/></svg>
+    <div class="vit"><span class="a">♥ 128 BPM</span><span class="z">♥ 0 BPM</span></div>
+    <div class="cap cap1">AI designs it in seconds.</div>
+    <div class="cap cap2">Designing is dead.</div>
+    <div class="stamp U">Dead</div>
+  </section>
+
+  <!-- 3 · editing -->
+  <section class="scene cob job" id="s3" data-in="15" data-out="20.625" data-r="15">
+    <div class="col chip"><b>03/03</b>JOB</div>
+    <div class="col big U fit">Editing</div>
+    <div class="strike"></div>
+    <div class="win edit">
+      <div class="bar"><i></i><i></i><i></i><span>reel_final.mp4 · auto-editing…</span></div>
+      <div class="prompt">› cut a 30s reel on the beat</div>
+      <div class="monitor">AI</div>
+      <div class="tracks">
+        <div class="trk v2"><span class="lab">V2</span></div>
+        <div class="trk v1"><span class="lab">V1</span></div>
+        <div class="trk a1"><span class="lab">A1</span><div class="wave"></div></div>
+        <div class="playhead"></div>
+      </div>
+      <div class="statchip">✂ 47 cuts · 3.1s</div>
+    </div>
+    <svg class="ecg" viewBox="0 0 940 130"><path pathLength="1"/></svg>
+    <div class="vit"><span class="a">♥ 128 BPM</span><span class="z">♥ 0 BPM</span></div>
+    <div class="cap cap1">AI cuts it on the beat.</div>
+    <div class="cap cap2">Editing is dead.<br>(Yes, this video too.)</div>
+    <div class="stamp U">Dead</div>
+  </section>
+
+  <!-- 4 · the message -->
+  <section class="scene wht" id="s4" data-in="20.625" data-out="24.375">
+    <div class="col m1 U fit">Adapt</div>
+    <div class="col m2 U fit">fast.</div>
+    <div class="col m3 U">or get</div>
+    <div class="col m4 U fit">replaced.</div>
+    <div class="col m5">Learn the AI tools.<br>Multiply your output.</div>
+  </section>
+
+  <!-- 5 · the reveal -->
+  <section class="scene pnk" id="s5" data-in="24.375" data-out="26.25">
+    <div class="col r1 U"><div class="fit">This whole</div><div class="fit">video?</div></div>
+    <div class="col list">
+      <span><em>✓</em>Script</span><span><em>✓</em>Visuals</span><span><em>✓</em>Editing</span><span><em>✓</em>Music</span>
+    </div>
+    <div class="col r2 U"><span>Made with AI.</span></div>
+  </section>
+
+  <!-- 6 · end card -->
+  <section class="scene cob" id="s6" data-in="26.25" data-out="99">
+    <div class="col by">made by</div>
+    <div class="col name U fit">Hadi</div>
+    <div class="col role">AI Consultant</div>
+    <div class="col pitch">I help people and businesses<br>work faster with AI.</div>
+    <div class="follow">Follow for more →</div>
+    <div class="band"><span>HADI</span><span>WITH</span><em>AI</em></div>
+  </section>
+
+  <div id="tag"><i></i>HADI WITH AI</div>
+</div>
+<div id="flash"></div>
+</div>
+
+<script>
+const DURATION = 30;
+const BEAT = 60 / 128;           // 0.46875s — the whole edit sits on this grid
+const BAR = BEAT * 4;
+const EXPO = 'cubic-bezier(.16,1,.3,1)';
+const BACK = 'cubic-bezier(.34,1.56,.64,1)';
+const IN   = 'cubic-bezier(.7,0,.84,0)';
+const $  = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const anims = [];
+
+// in-animations hold their first frame before they start (fill both);
+// out-animations only take over once they begin (fill forwards).
+function A(target, kf, start, dur, o = {}) {
+  const els = typeof target === 'string' ? $$(target) : [].concat(target);
+  els.forEach((el, i) => {
+    const a = el.animate(kf, {
+      delay: (start + (o.stagger || 0) * i) * 1000,
+      duration: dur * 1000,
+      easing: o.ease || EXPO,
+      fill: o.out ? 'forwards' : 'both',
+    });
+    a.pause();
+    anims.push(a);
+  });
+}
+const slam = (t, start, o = {}) => A(t, [
+  {opacity: 0, scale: o.from || 1.7, filter: 'blur(14px)'},
+  {opacity: 1, scale: 1, filter: 'blur(0px)'}], start, o.dur || .28, {ease: EXPO, ...o});
+const rise = (t, start, o = {}) => A(t, [
+  {opacity: 0, translate: `0 ${o.y || 60}px`}, {opacity: 1, translate: '0 0'}], start, o.dur || .4, o);
+const out = (t, start, dur = .15) => A(t, [{opacity: 1}, {opacity: 0}], start, dur, {out: true, ease: 'linear'});
+
+// ---------- content builders ----------
+const CODE = [
+  'export default function Login() {',
+  '  const [email, setEmail] = useState("");',
+  '  const [pass, setPass] = useState("");',
+  '  const { signIn, loading } = useAuth();',
+  '  return (',
+  '    <form onSubmit={() => signIn(email, pass)}>',
+  '      <h1>Welcome back</h1>',
+  '      <Input label="Email" value={email} />',
+  '      <Input label="Password" type="password" />',
+  '      <Button loading={loading}>Sign in</Button>',
+  '    </form>',
+  '  );',
+  '}',
+];
+const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+$('#s1 .src').innerHTML = CODE.map((l, i) => {
+  let h = esc(l)
+    .replace(/("[^"]*")/g, '<span class="s">$1</span>')
+    .replace(/\b(export|default|function|const|return)\b/g, '<span class="k">$1</span>')
+    .replace(/(&lt;\/?[A-Za-z0-9]+|\/?&gt;)/g, '<span class="g">$1</span>');
+  return `<span class="ln" data-n="${i + 1}">${h}</span>`;
+}).join('');
+
+const CLIPS = {
+  v2: [[60, 120, '#FF5BC8'], [300, 90, '#FF5BC8'], [520, 140, '#FF5BC8']],
+  v1: [[52, 150, '#1C2CF5'], [206, 110, '#3D4CFF'], [320, 170, '#1C2CF5'], [494, 90, '#3D4CFF'], [588, 200, '#1C2CF5']],
+};
+for (const [trk, list] of Object.entries(CLIPS))
+  list.forEach(([x, w, c]) => $(`#s3 .${trk}`).insertAdjacentHTML('beforeend',
+    `<div class="clip" style="left:${x}px;width:${w}px;background:${c}"></div>`));
+$('#s3 .wave').innerHTML = Array.from({length: 64}, (_, i) =>
+  `<i style="height:${18 + Math.abs(Math.sin(i * 1.7) * 60 + Math.sin(i * .43) * 22)}%"></i>`).join('');
+
+// ECG: five heartbeats, then the flatline
+let d = 'M0 65';
+for (let i = 0; i < 5; i++) {
+  const x = 20 + i * 130;
+  d += ` L${x} 65 L${x + 22} 65 L${x + 34} 30 L${x + 48} 118 L${x + 62} 4 L${x + 78} 100 L${x + 90} 65`;
+}
+d += ' L940 65';
+$$('.ecg path').forEach(p => { p.setAttribute('d', d); p.style.strokeDasharray = 1; p.style.strokeDashoffset = 1; });
+
+// shrink any .fit line that would overflow its column
+document.fonts.ready.then(() => $$('.fit').forEach(el => {
+  const max = el.clientWidth;
+  if (el.scrollWidth > max) el.style.fontSize = parseFloat(getComputedStyle(el).fontSize) * max / el.scrollWidth + 'px';
+}));
+
+// ---------- 0 · hook (0 – 3.75) ----------
+slam('#s0 .h1', 0.02, {from: 2.2});
+slam('#s0 .h2', BEAT);
+slam('#s0 .h3', BEAT * 2, {from: 2});
+rise('#s0 .next', BEAT * 3);
+$$('#s0 .cd').forEach((el, i) => {
+  slam(el, BEAT * (5 + i), {from: 2.4, dur: .2});
+  if (i < 2) out(el, BEAT * (6 + i), .05);
+});
+A('#s0 .hook', [{opacity: 1}, {opacity: .25}], BEAT * 5, .2, {out: true});
+
+// ---------- 1-3 · the three jobs ----------
+$$('.job').forEach(sc => {
+  const r = +sc.dataset.r;
+  const kill = r + BAR * 2;                     // the stamp lands on a downbeat
+  slam($('.big', sc), r, {from: 1.6});
+  rise($('.chip', sc), r + .1, {y: -30});
+  A($('.win', sc), [{opacity: 0, translate: '0 260px', rotate: '4deg'}, {opacity: 1, translate: '0 0', rotate: '0deg'}],
+    r + .15, .5, {ease: BACK});
+  rise($('.cap1', sc), r + .6);
+  A($('.ecg path', sc), [{strokeDashoffset: 1}, {strokeDashoffset: 0}], r + .2, kill - r - .2, {ease: 'linear'});
+  A($('.ecg path', sc), [{stroke: '#fff'}, {stroke: '#FF2A3D'}], kill - .5, .2, {out: true});
+  out($('.vit .a', sc), kill - .45, .05);
+  A($('.vit .z', sc), [{opacity: 0}, {opacity: 1}], kill - .45, .05, {ease: 'linear'});
+  rise($('.statchip', sc), r + 3.05, {y: 20, dur: .25});
+  // death
+  A($('.stamp', sc), [{opacity: 0, scale: 3.2}, {opacity: 1, scale: 1}], kill - .16, .16, {ease: IN});
+  A($('.win', sc), [{filter: 'grayscale(0) brightness(1)'}, {filter: 'grayscale(1) brightness(.55)'}], kill, .25, {out: true});
+  A($('.strike', sc), [{scale: '0 1'}, {scale: '1 1'}], kill + .05, .3);
+  out($('.cap1', sc), kill, .08);
+  slam($('.cap2', sc), kill + .1, {from: 1.25});
+});
+
+// code: lines stream in like ghost-text
+A('#s1 .ln', [{clipPath: 'inset(0 100% 0 0)'}, {clipPath: 'inset(0 0% 0 0)'}], 3.75 + .75, .17, {stagger: .2, ease: 'linear'});
+
+// design: elements land one by one, selection box chases them
+const R2 = 9.375, BOXES = [[24, 24, 392, 220], [24, 262, 330, 72], [24, 350, 320, 50], [24, 420, 190, 58]];
+['img', 'ttl', 'sub', 'btn'].forEach((c, i) => {
+  A(`#s2 .${c}`, [{opacity: 0, scale: .6}, {opacity: 1, scale: 1}], R2 + .8 + i * .55, .35, {ease: BACK});
+  const [x, y, w, h] = BOXES[i], prev = BOXES[Math.max(0, i - 1)];
+  A('#s2 .sel', [
+    {left: prev[0] - 6 + 'px', top: prev[1] - 6 + 'px', width: prev[2] + 12 + 'px', height: prev[3] + 12 + 'px', opacity: i ? 1 : 0},
+    {left: x - 6 + 'px', top: y - 6 + 'px', width: w + 12 + 'px', height: h + 12 + 'px', opacity: 1}],
+    R2 + .7 + i * .55, .3, {out: i > 0});
+});
+A('#s2 .sw > *', [{opacity: 0, translate: '40px 0'}, {opacity: 1, translate: '0 0'}], R2 + 2.9, .3, {stagger: .08});
+
+// edit: clips snap onto the timeline, playhead races
+A('#s3 .clip', [{opacity: 0, translate: '500px 0'}, {opacity: 1, translate: '0 0'}], 15 + .8, .3, {stagger: .13});
+A('#s3 .wave i', [{scale: '1 0'}, {scale: '1 1'}], 15 + .9, .25, {stagger: .02});
+A('#s3 .playhead', [{left: '52px'}, {left: 'calc(100% - 4px)'}], 15 + .8, 2.9, {ease: 'linear'});
+
+// ---------- 4 · message (20.625 – 24.375) ----------
+const M = 20.625;
+slam('#s4 .m1', M, {from: 2});
+slam('#s4 .m2', M + BEAT, {from: 2});
+slam('#s4 .m3', M + BEAT * 4, {from: 1.6});
+slam('#s4 .m4', M + BEAT * 5, {from: 2.2});
+rise('#s4 .m5', M + BEAT * 6);
+
+// ---------- 5 · reveal (24.375 – 26.25) ----------
+slam('#s5 .r1', 24.375, {from: 1.5});
+A('#s5 .list span', [{opacity: 0, translate: '-80px 0'}, {opacity: 1, translate: '0 0'}], 24.375 + BEAT, .2, {stagger: BEAT / 2});
+slam('#s5 .r2', 24.375 + BEAT * 3, {from: 2});
+
+// ---------- 6 · end card (26.25 – 30) ----------
+const E = 26.25;
+slam('#s6 .name', E, {from: 2.4, dur: .35});
+rise('#s6 .by', E + .2, {y: 30});
+rise('#s6 .role', E + BEAT);
+rise('#s6 .pitch', E + BEAT * 2);
+A('#s6 .follow', [{opacity: 0, scale: .5}, {opacity: 1, scale: 1}], E + BEAT * 3, .4, {ease: BACK});
+A('#s6 .band', [{translate: '0 200px'}, {translate: '0 0'}], E + BEAT * 4, .45);
+A('#s6 .band > *', [{opacity: 0, scale: 1.8}, {opacity: 1, scale: 1}], E + BEAT * 4 + .1, .25, {stagger: BEAT / 2});
+A('#s6 .follow', [{scale: 1}, {scale: 1.08}, {scale: 1}], E + BEAT * 8, .35, {out: true});
+
+// ---------- beat-driven camera: kicks, flashes, shakes ----------
+const FLASH = [3.75, 7.5, 9.375, 13.125, 15, 18.75, 20.625, 22.5, 24.375, 26.25];
+const SHAKE = [7.5, 13.125, 18.75, M + BEAT * 5, 26.25];
+const DROPS = [[3.75, 20.625], [M + BEAT * 2, 26.25 + BAR]];
+const MONITOR = ['#1C2CF5', '#FF5BC8', '#0B0B12', '#FF2A3D', '#3D4CFF', '#FF5BC8'];
+const last = (list, t) => list.filter(x => x <= t).pop();
+
+window.seek = t => {
+  for (const a of anims) a.currentTime = t * 1000;
+  $$('.scene').forEach(s => { s.style.visibility = (t >= +s.dataset.in && t < +s.dataset.out) ? 'visible' : 'hidden'; });
+  $('#tag').style.visibility = (t >= 3.75 && t < 26.25) ? 'visible' : 'hidden';
+  $('#tag').style.color = (t >= 20.625 && t < 26.25) ? '#0B0B12' : '#fff';
+
+  // kick pulse on every beat inside the drops
+  let scale = 1;
+  for (const [a, b] of DROPS) if (t >= a && t < b) scale += .022 * Math.exp(-((t - a) % BEAT) / .09);
+  let dx = 0, dy = 0;
+  const sh = last(SHAKE, t);
+  if (sh !== undefined && t - sh < .35) {
+    const k = Math.exp(-(t - sh) / .1) * 26;
+    dx = Math.sin((t - sh) * 90) * k; dy = Math.cos((t - sh) * 70) * k * .7;
+  }
+  $('#world').style.transform = `translate(${dx}px,${dy}px) scale(${scale})`;
+  const fl = last(FLASH, t);
+  $('#flash').style.opacity = fl === undefined ? 0 : .85 * Math.exp(-(t - fl) / .07);
+
+  // edit monitor flips colour twice a beat, then freezes at death
+  const mt = Math.min(t, 18.75);
+  $('#s3 .monitor').style.background = MONITOR[Math.floor(Math.max(0, mt - 15) / (BEAT / 2)) % MONITOR.length];
+
+  // "REPLACED." glitches as it lands
+  const g = $('#s4 .m4'), gt = t - (M + BEAT * 5);
+  if (gt > 0 && gt < .45) {
+    const n = Math.floor(t * 30), j = ((n * 37) % 11 - 5) * 3;
+    g.style.textShadow = `${j}px 0 #FF5BC8, ${-j}px 0 #1C2CF5`;
+  } else g.style.textShadow = 'none';
+};
+window.DURATION = DURATION;
+seek(+(new URLSearchParams(location.search).get('t') || 0));
+</script>
+</body>
+</html>
