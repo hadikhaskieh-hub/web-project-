@@ -31,7 +31,7 @@ async function openPage(browser) {
   } else {
     const dir = path.join(OUT, 'frames');
     fs.mkdirSync(dir, { recursive: true });
-    const total = Math.round(30 * FPS);
+    const total = Math.round(await (await openPage(browser)).evaluate(() => DURATION) * FPS);
     let next = 0;
     await Promise.all(Array.from({ length: WORKERS }, async () => {
       const page = await openPage(browser);
