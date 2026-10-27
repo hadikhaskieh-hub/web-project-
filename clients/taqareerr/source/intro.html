@@ -1,0 +1,438 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>Taqareer Intro</title>
+<style>
+@font-face{font-family:Alexandria;font-weight:500;src:url(../assets/fonts/Alexandria-500.ttf)}
+@font-face{font-family:Alexandria;font-weight:800;src:url(../assets/fonts/Alexandria-800.ttf)}
+@font-face{font-family:Alexandria;font-weight:900;src:url(../assets/fonts/Alexandria-900.ttf)}
+@font-face{font-family:Plex;font-weight:400;src:url(../assets/fonts/IBMPlexSansArabic-400.ttf)}
+@font-face{font-family:Plex;font-weight:600;src:url(../assets/fonts/IBMPlexSansArabic-600.ttf)}
+@font-face{font-family:Plex;font-weight:700;src:url(../assets/fonts/IBMPlexSansArabic-700.ttf)}
+@font-face{font-family:PlexMono;font-weight:500;src:url(../assets/fonts/IBMPlexMono-500.ttf)}
+
+:root{
+  --ink:#111111;      /* logo black */
+  --red:#D40F19;      /* logo burst red */
+  --paper:#F6F6F4;    /* cool off-white, not cream */
+  --newsprint:#E7E6E1;
+  --graphite:#5C5C5C;
+  --deep:#8E0A11;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1080px;height:1920px;overflow:hidden;background:var(--paper)}
+body{font-family:Plex,sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased}
+#stage{position:relative;width:1080px;height:1920px;overflow:hidden}
+.scene{position:absolute;inset:0;visibility:hidden;overflow:hidden}
+.paper{background-color:var(--paper);
+  background-image:radial-gradient(rgba(17,17,17,.055) 1.7px,transparent 2px);background-size:15px 15px}
+.dark{background:var(--ink);
+  background-image:radial-gradient(rgba(255,255,255,.045) 1.7px,transparent 2px);background-size:15px 15px}
+.grey{background-color:var(--newsprint);
+  background-image:radial-gradient(rgba(17,17,17,.05) 1.7px,transparent 2px);background-size:15px 15px}
+
+.disp{font-family:Alexandria;font-weight:900;line-height:1.08;letter-spacing:-.01em}
+.w{display:inline-block;white-space:pre}
+.sw{white-space:nowrap}
+.red{color:var(--red)}
+.block{position:absolute;right:90px;left:90px}
+
+/* ---------- scene 0 : cold open ---------- */
+#s0 .burst{position:absolute;width:300px;left:390px;top:700px}
+#s0 .bars{position:absolute;inset:0;rotate:-14deg}
+#s0 .bar{position:absolute;height:34px;border-radius:17px;background:var(--ink);right:-60px}
+
+/* ---------- scene 1 : the flood ---------- */
+#s1 .head{top:330px}
+#s1 .l1{font-size:92px;font-weight:800}
+#s1 .l2{font-size:132px}
+.card{position:absolute;width:740px;padding:30px 36px 34px;background:#fff;border:5px solid var(--ink);
+  border-radius:26px;box-shadow:12px 12px 0 var(--ink)}
+.card .meta{display:flex;justify-content:space-between;align-items:center;font:600 30px Plex;color:var(--graphite);margin-bottom:10px}
+.card .meta .t{font:500 28px PlexMono;direction:ltr}
+.card .txt{font:700 46px/1.35 Plex}
+#s1 .q{position:absolute;top:1010px;right:0;left:0;text-align:center;font-size:150px}
+#s1 .qwrap{position:absolute;inset:0}
+
+/* ---------- scene 2 : verification ---------- */
+#s2{color:#fff}
+#s2 .kicker{top:300px;font:700 44px Plex;color:var(--red)}
+#s2 .head{top:370px}
+#s2 .h1{font-size:200px}
+#s2 .h2{font-size:118px;font-weight:800}
+#s2 .list{top:840px}
+.row{display:flex;align-items:center;gap:34px;margin-bottom:40px}
+.box{flex:none;width:86px;height:86px;border:6px solid #fff;border-radius:18px;position:relative}
+.box svg{position:absolute;inset:-14px;width:114px;height:114px;overflow:visible}
+.row .rt{font:600 54px Plex}
+#s2 .scan{position:absolute;right:60px;left:60px;height:6px;background:var(--red);top:840px;
+  box-shadow:0 0 30px 6px rgba(212,15,25,.55)}
+#s2 .stamp{position:absolute;left:110px;top:1325px;padding:14px 46px 26px;border:12px solid var(--red);border-radius:26px;
+  color:var(--red);font-size:120px;display:flex;align-items:center;gap:22px;rotate:-8deg}
+#s2 .stamp svg{width:110px;height:110px}
+#s2 .sburst{position:absolute;width:170px;left:700px;top:1215px}
+
+/* ---------- scene 3 : the field ---------- */
+#s3 .head{top:310px}
+#s3 .h{font-size:150px}
+#s3 .tiles{position:absolute;top:740px;right:80px;left:80px;display:flex;gap:30px}
+.tile{flex:1;height:380px;background:#fff;border:6px solid var(--ink);border-radius:30px;box-shadow:12px 12px 0 var(--ink);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px}
+.tile svg{width:170px;height:170px;overflow:visible}
+.tile .lb{font:800 66px Alexandria}
+#s3 .tag{top:1220px}
+#s3 .t1{font-size:84px;font-weight:800}
+#s3 .t2{font-size:100px}
+
+/* ---------- scene 4 : the feed ---------- */
+#s4 .head{top:300px}
+#s4 .h{font-size:136px}
+#s4 .feedwin{position:absolute;top:690px;right:80px;left:80px;height:960px;overflow:hidden;
+  -webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 90px,#000 800px,transparent 960px)}
+#s4 .feed{position:absolute;top:60px;right:0;left:0}
+.post{display:flex;gap:30px;align-items:stretch;background:#fff;border-radius:26px;padding:28px;margin-bottom:28px;
+  box-shadow:10px 10px 0 rgba(17,17,17,.9)}
+.post .thumb{flex:none;width:170px;height:170px;border-radius:16px;background:var(--ink);position:relative;overflow:hidden}
+.post .thumb::after{content:"";position:absolute;inset:0;
+  background:repeating-linear-gradient(-14deg,transparent 0 22px,rgba(255,255,255,.12) 22px 30px)}
+.post .body{flex:1;display:flex;flex-direction:column;gap:16px}
+.post .top{display:flex;justify-content:space-between;align-items:center}
+.pill{font:700 32px Plex;color:#fff;background:var(--red);padding:4px 20px 8px;border-radius:40px}
+.post .time{font:500 28px PlexMono;color:var(--graphite);direction:ltr}
+.sk{height:24px;border-radius:12px;background:var(--ink)}
+.sk.b{background:#cfcec9}
+.ok{align-self:flex-end;font:700 28px Plex;color:var(--ink);display:flex;gap:8px;align-items:center}
+.ok i{display:inline-block;width:34px;height:34px;border-radius:50%;background:var(--ink);position:relative}
+.ok i::after{content:"";position:absolute;left:10px;top:6px;width:9px;height:16px;border:solid #fff;border-width:0 5px 5px 0;rotate:45deg}
+
+/* ---------- scene 5 : logo ---------- */
+#s5 .lock{position:absolute;left:0;right:0;top:330px;height:900px}
+#s5 .ppr{position:absolute;width:520px;left:250px;top:40px;transform-origin:30% 60%}
+#s5 .bst{position:absolute;width:170px;left:780px;top:-30px;transform-origin:0% 100%}
+#s5 .war{position:absolute;width:620px;left:230px;top:470px}
+#s5 .wen{position:absolute;width:520px;left:280px;top:720px}
+#s5 .tagline{position:absolute;top:1300px;left:0;right:0;display:flex;justify-content:center;align-items:center;gap:30px;
+  font:800 80px Alexandria}
+#s5 .rule{width:90px;height:8px;border-radius:4px;background:var(--red)}
+#s5 .cta{position:absolute;top:1450px;left:50%;translate:-50% 0;background:var(--ink);color:#fff;border-radius:70px;
+  padding:22px 60px 30px;font:800 60px Alexandria;display:flex;gap:24px;align-items:center;white-space:nowrap}
+#s5 .cta b{display:inline-grid;place-items:center;width:62px;height:62px;border-radius:50%;background:var(--red);font:900 54px Alexandria;line-height:1;padding-bottom:6px}
+
+/* ---------- persistent broadcast HUD ---------- */
+#hud{position:absolute;top:200px;right:70px;left:70px;height:80px;display:flex;justify-content:space-between;align-items:center;visibility:hidden}
+#hud .brand{display:flex;align-items:center;gap:16px;font:800 42px Alexandria;color:var(--ink)}
+#hud .brand img{width:78px}
+#hud.onDark .brand{color:#fff}
+#hud.onDark .brand img{filter:invert(1)}
+#hud.onDark .tc span{color:#fff}
+#hud .tc{display:flex;align-items:center;gap:14px}
+#hud .dot{width:20px;height:20px;border-radius:50%;background:var(--red)}
+#hud .tc span{font:500 36px PlexMono;color:var(--ink);direction:ltr}
+
+#ticker{position:absolute;top:1520px;left:0;right:0;height:86px;display:flex;visibility:hidden}
+#ticker .lab{flex:none;background:var(--red);color:#fff;font:800 40px Alexandria;padding:10px 40px 0;z-index:2}
+#ticker .run{flex:1;background:var(--ink);overflow:hidden;position:relative}
+#ticker .track{position:absolute;right:0;top:12px;white-space:nowrap;font:600 40px Plex;color:#fff}
+#ticker .track em{font-style:normal;color:var(--red);margin:0 26px}
+
+/* ---------- wipe transition ---------- */
+#wipe{position:absolute;left:-700px;top:-400px;width:2480px;height:2720px;rotate:-14deg;pointer-events:none;z-index:50}
+#wipe .wb{position:absolute;left:0;width:2480px;height:400px;border-radius:200px;background:var(--ink)}
+#wipe .wb.r{background:var(--red)}
+</style>
+</head>
+<body>
+<div id="stage">
+
+  <!-- 0 · cold open -->
+  <section class="scene paper" id="s0" data-in="0" data-out="1.5">
+    <div class="bars">
+      <div class="bar" style="top:520px;width:760px"></div>
+      <div class="bar" style="top:600px;width:980px"></div>
+      <div class="bar" style="top:1110px;width:900px"></div>
+      <div class="bar" style="top:1190px;width:640px"></div>
+      <div class="bar" style="top:1270px;width:1040px"></div>
+    </div>
+    <img class="burst" src="../assets/burst.png" alt="">
+  </section>
+
+  <!-- 1 · the flood of news -->
+  <section class="scene paper" id="s1" data-in="1.5" data-out="7">
+    <div class="block head disp">
+      <div class="l1 sw">كلّ يوم يصلك</div>
+      <div class="l2 sw">سيلٌ من الأخبار</div>
+    </div>
+    <div class="cards">
+      <div class="card" style="top:720px;left:250px;rotate:4deg"><div class="meta"><span>↩ مُعاد توجيهه كثيراً</span><span class="t">07:12</span></div><div class="txt">انشرها قبل أن تُحذف!!</div></div>
+      <div class="card" style="top:880px;left:60px;rotate:-5deg"><div class="meta"><span>رسالة من مجموعة الصف</span><span class="t">07:31</span></div><div class="txt">سمعتُ أنّ الامتحان تأجّل؟</div></div>
+      <div class="card" style="top:1060px;left:300px;rotate:3deg"><div class="meta"><span>منقول</span><span class="t">08:02</span></div><div class="txt">يقولون إنّ الدوام سيُلغى غداً</div></div>
+      <div class="card" style="top:1230px;left:90px;rotate:-3deg"><div class="meta"><span>مصدر مجهول</span><span class="t">08:47</span></div><div class="txt">صورة قديمة تنتشر من جديد…</div></div>
+      <div class="card" style="top:800px;left:170px;rotate:-1deg"><div class="meta"><span>عاجل!!!</span><span class="t">09:15</span></div><div class="txt">مصدر موثوق جداً قال لي…</div></div>
+      <div class="card" style="top:1390px;left:240px;rotate:5deg"><div class="meta"><span>↩ منقول</span><span class="t">09:40</span></div><div class="txt">لا أعرف إن كان صحيحاً، لكن…</div></div>
+    </div>
+    <div class="qwrap"><div class="q disp"><span class="w">لكن…</span> <span class="w red">أيّها</span><br><span class="w red">صحيح؟</span></div></div>
+  </section>
+
+  <!-- 2 · we verify -->
+  <section class="scene dark" id="s2" data-in="7" data-out="13.5">
+    <div class="block kicker">في تقارير</div>
+    <div class="block head disp">
+      <div class="h1 sw">نتحقّق</div>
+      <div class="h2 sw">قبل أن <span class="red">ننشر.</span></div>
+    </div>
+    <div class="block list">
+      <div class="row"><div class="box"><svg viewBox="0 0 114 114"><path pathLength="1" d="M24 58 L46 80 L92 26" fill="none" stroke="#D40F19" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="rt">نعود إلى المصدر الأصلي</div></div>
+      <div class="row"><div class="box"><svg viewBox="0 0 114 114"><path pathLength="1" d="M24 58 L46 80 L92 26" fill="none" stroke="#D40F19" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="rt">نقارن أكثر من رواية</div></div>
+      <div class="row"><div class="box"><svg viewBox="0 0 114 114"><path pathLength="1" d="M24 58 L46 80 L92 26" fill="none" stroke="#D40F19" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="rt">نقول ما نعرفه… وما لا نعرفه</div></div>
+    </div>
+    <div class="scan"></div>
+    <img class="sburst" src="../assets/burst.png" alt="">
+    <div class="stamp disp">
+      <svg viewBox="0 0 110 110"><circle cx="55" cy="55" r="46" fill="none" stroke="#D40F19" stroke-width="11"/><path d="M33 57 L49 73 L79 39" fill="none" stroke="#D40F19" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      موثّق
+    </div>
+  </section>
+
+  <!-- 3 · from the field -->
+  <section class="scene paper" id="s3" data-in="13.5" data-out="19.5">
+    <div class="block head disp">
+      <div class="h sw">من الميدان…</div>
+      <div class="h sw red">إليك.</div>
+    </div>
+    <div class="tiles">
+      <div class="tile">
+        <svg viewBox="0 0 160 160" fill="none" stroke="#111" stroke-width="12" stroke-linecap="round" stroke-linejoin="round">
+          <rect pathLength="1" x="56" y="10" width="48" height="84" rx="24"/>
+          <path pathLength="1" d="M34 72 a46 46 0 0 0 92 0"/>
+          <path pathLength="1" d="M80 118 V146 M52 146 H108"/>
+          <path pathLength="1" d="M66 42 H94 M66 62 H94" stroke="#D40F19"/>
+        </svg>
+        <div class="lb">نسأل</div>
+      </div>
+      <div class="tile">
+        <svg viewBox="0 0 160 160" fill="none" stroke="#111" stroke-width="12" stroke-linecap="round" stroke-linejoin="round">
+          <rect pathLength="1" x="8" y="44" width="100" height="74" rx="14"/>
+          <path pathLength="1" d="M108 72 L150 48 V114 L108 90"/>
+          <circle pathLength="1" cx="36" cy="70" r="7" stroke="#D40F19" fill="#D40F19"/>
+        </svg>
+        <div class="lb">نوثّق</div>
+      </div>
+      <div class="tile">
+        <svg viewBox="0 0 160 160" fill="none" stroke="#111" stroke-width="12" stroke-linecap="round" stroke-linejoin="round">
+          <rect pathLength="1" x="26" y="28" width="108" height="76" rx="10"/>
+          <path pathLength="1" d="M8 128 H152"/>
+          <path pathLength="1" d="M56 66 L72 82 L104 50" stroke="#D40F19"/>
+        </svg>
+        <div class="lb">نراجع</div>
+      </div>
+    </div>
+    <div class="block tag disp">
+      <div class="t1 sw">بعيونٍ طلابية،</div>
+      <div class="t2 sw red">وبمعايير مهنية.</div>
+    </div>
+  </section>
+
+  <!-- 4 · the feed -->
+  <section class="scene grey" id="s4" data-in="19.5" data-out="24.5">
+    <div class="block head disp">
+      <div class="h sw">قصص الطلاب</div>
+      <div class="h sw red">بأصواتهم.</div>
+    </div>
+    <div class="feedwin"><div class="feed">
+      <!-- posts injected below -->
+    </div></div>
+  </section>
+
+  <!-- 5 · logo -->
+  <section class="scene paper" id="s5" data-in="24.5" data-out="99">
+    <div class="lock">
+      <img class="ppr" src="../assets/paper.png" alt="">
+      <img class="bst" src="../assets/burst.png" alt="">
+      <img class="war" src="../assets/wordmark-ar.png" alt="">
+      <img class="wen" src="../assets/wordmark-en.png" alt="">
+    </div>
+    <div class="tagline"><span class="rule"></span><span class="tl">الخبر كما هو.</span><span class="rule"></span></div>
+    <div class="cta"><b>+</b>تابعوا تقارير</div>
+  </section>
+
+  <div id="hud">
+    <div class="brand"><img src="../assets/paper.png" alt="">تقارير</div>
+    <div class="tc"><span id="tc">00:00:00</span><i class="dot"></i></div>
+  </div>
+  <div id="ticker">
+    <div class="lab">تقارير</div>
+    <div class="run"><div class="track"></div></div>
+  </div>
+
+  <div id="wipe">
+    <div class="wb" style="top:120px"></div>
+    <div class="wb" style="top:500px"></div>
+    <div class="wb r" style="top:880px"></div>
+    <div class="wb" style="top:1260px"></div>
+    <div class="wb" style="top:1640px"></div>
+    <div class="wb" style="top:2020px"></div>
+    <div class="wb" style="top:2400px"></div>
+  </div>
+</div>
+
+<script>
+const DURATION = 30;
+const EXPO = 'cubic-bezier(.16,1,.3,1)';
+const BACK = 'cubic-bezier(.34,1.56,.64,1)';
+const IN   = 'cubic-bezier(.7,0,.84,0)';
+const $  = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const anims = [];
+
+// in-animations hold their first frame before they start (fill both);
+// out-animations only take over once they begin (fill forwards).
+function A(target, kf, start, dur, o = {}) {
+  const els = typeof target === 'string' ? $$(target) : [].concat(target);
+  els.forEach((el, i) => {
+    const a = el.animate(kf, {
+      delay: (start + (o.stagger || 0) * i) * 1000,
+      duration: dur * 1000,
+      easing: o.ease || EXPO,
+      fill: o.out ? 'forwards' : 'both',
+    });
+    a.pause();
+    anims.push(a);
+  });
+}
+const rise = (t, start, o = {}) => A(t, [
+  {opacity: 0, translate: `0 ${o.y || 70}px`, filter: 'blur(10px)'},
+  {opacity: 1, translate: '0 0', filter: 'blur(0px)'}], start, o.dur || .7, o);
+const draw = (t, start, dur, o = {}) => A(t, [{strokeDashoffset: 1}, {strokeDashoffset: 0}], start, dur, o);
+$$('[pathLength]').forEach(p => { p.style.strokeDasharray = 1; p.style.strokeDashoffset = 1; });
+
+// split headline lines into words so they arrive one at a time (whole words keep Arabic joins intact)
+$$('.sw').forEach(line => {
+  const walk = node => [...node.childNodes].forEach(n => {
+    if (n.nodeType === 3) {
+      const frag = document.createDocumentFragment();
+      n.textContent.split(/(\s+)/).forEach(part => {
+        if (!part) return;
+        if (/^\s+$/.test(part)) { frag.append(part); return; }
+        const s = document.createElement('span'); s.className = 'w'; s.textContent = part; frag.append(s);
+      });
+      n.replaceWith(frag);
+    } else if (n.nodeType === 1 && !n.classList.contains('w')) {
+      n.classList.add('w');
+    }
+  });
+  walk(line);
+});
+
+// shrink any headline line that would overflow its column
+document.fonts.ready.then(() => $$('.sw').forEach(line => {
+  const max = line.parentElement.clientWidth;
+  if (line.scrollWidth > max) line.style.fontSize = parseFloat(getComputedStyle(line).fontSize) * max / line.scrollWidth + 'px';
+}));
+
+// ---------- wipe: bars sweep right→left, the reading direction of Arabic ----------
+function wipe(T) {
+  $$('#wipe .wb').forEach((b, i) => {
+    const lag = [0, .05, .02, .07, .03, .06, .01][i];
+    A(b, [{translate: '2600px 0'}, {translate: '0 0'}], T - .42 + lag, .42 - lag, {ease: IN});
+    A(b, [{translate: '0 0'}, {translate: '-2700px 0'}], T + lag * .6, .46, {out: true, ease: EXPO});
+  });
+}
+[1.5, 7, 13.5, 19.5, 24.5].forEach(wipe);
+
+// ---------- scene 0 ----------
+A('#s0 .burst', [{scale: .2, opacity: 0, rotate: '-20deg'}, {scale: 1.15, opacity: 1, rotate: '0deg'}], .15, .45, {ease: BACK});
+A('#s0 .burst', [{scale: 1.15}, {scale: 1}], .6, .5, {out: true});
+A('#s0 .bar', [{translate: '1300px 0'}, {translate: '0 0'}], .4, .55, {stagger: .08});
+
+// ---------- scene 1 ----------
+rise('#s1 .l1 .w', 1.75, {stagger: .12});
+rise('#s1 .l2 .w', 2.2, {stagger: .14, y: 90});
+A('#s1 .card', [
+  {opacity: 0, translate: '0 520px', scale: .85},
+  {opacity: 1, translate: '0 0', scale: 1}], 2.75, .6, {stagger: .26, ease: BACK});
+A('#s1 .card', [{filter: 'blur(0px)', opacity: 1}, {filter: 'blur(9px)', opacity: .22}], 4.95, .5, {out: true});
+A('#s1 .head', [{opacity: 1}, {opacity: .15}], 4.95, .5, {out: true});
+rise('#s1 .q .w', 5.15, {stagger: .22, y: 90, dur: .6});
+
+// ---------- scene 2 ----------
+rise('#s2 .kicker', 7.35);
+rise('#s2 .h1 .w', 7.5, {y: 100});
+rise('#s2 .h2 .w', 7.85, {stagger: .13});
+rise('#s2 .row', 8.6, {stagger: 1.0, y: 40, dur: .5});
+draw('#s2 .row path', 9.05, .35, {stagger: 1.0});
+A('#s2 .scan', [{opacity: 0, translate: '0 0'}, {opacity: 1, translate: '0 40px', offset: .08},
+  {opacity: 1, translate: '0 360px', offset: .92}, {opacity: 0, translate: '0 390px'}], 8.5, 3.0, {ease: 'linear'});
+A('#s2 .stamp', [{opacity: 0, scale: 2.4}, {opacity: 1, scale: 1}], 11.85, .25, {ease: IN});
+A('#s2 .sburst', [{opacity: 0, scale: .3}, {opacity: 1, scale: 1.1}], 12.05, .3, {ease: BACK});
+A('#s2 .sburst', [{opacity: 1}, {opacity: 0}], 12.9, .4, {out: true});
+A('#s2', [{translate: '0 0'}, {translate: '14px -10px'}, {translate: '-10px 8px'}, {translate: '6px -4px'}, {translate: '0 0'}],
+  12.1, .3, {out: true, ease: 'linear'});
+
+// ---------- scene 3 ----------
+rise('#s3 .head .h:first-child .w', 13.85, {stagger: .15, y: 90});
+rise('#s3 .head .h:last-child .w', 14.25, {y: 90});
+A('#s3 .tile', [{opacity: 0, translate: '0 140px', rotate: '6deg'}, {opacity: 1, translate: '0 0', rotate: '0deg'}],
+  14.75, .55, {stagger: .45, ease: BACK});
+$$('#s3 .tile').forEach((tile, i) => draw($$('[pathLength]', tile), 14.95 + i * .45, .55, {stagger: .1}));
+$$('#s3 .tile circle').forEach(c => A(c, [{opacity: 1}, {opacity: .15}, {opacity: 1}], 16.2, .9, {out: true, ease: 'steps(2)'}));
+rise('#s3 .t1 .w', 16.75, {stagger: .13});
+rise('#s3 .t2 .w', 17.3, {stagger: .15, y: 90});
+
+// ---------- scene 4 ----------
+const feed = $('#s4 .feed');
+[['تقرير ميداني', '08:15'], ['مقابلة', '09:40'], ['أخبار الطلاب', '11:05'], ['قضايا الشباب', '12:30'],
+ ['تدقيق خبر', '14:10'], ['ثقافة ورياضة', '16:45'], ['تقرير ميداني', '18:20'], ['مقابلة', '19:55']]
+.forEach(([cat, time], i) => {
+  const w = [[92, 70], [86, 58], [95, 64], [80, 72], [90, 52], [84, 66], [93, 61], [88, 69]][i];
+  feed.insertAdjacentHTML('beforeend', `
+    <div class="post"><div class="body">
+      <div class="top"><span class="pill">${cat}</span><span class="time">${time}</span></div>
+      <div class="sk" style="width:${w[0]}%"></div><div class="sk b" style="width:${w[1]}%"></div>
+      <div class="ok"><i></i>موثّق</div>
+    </div><div class="thumb"></div></div>`);
+});
+rise('#s4 .head .h:first-child .w', 19.85, {stagger: .13, y: 90});
+rise('#s4 .head .h:last-child .w', 20.25, {y: 90});
+A('#s4 .post', [{opacity: 0, translate: '0 120px'}, {opacity: 1, translate: '0 0'}], 20.0, .55, {stagger: .1});
+A('#s4 .feed', [{translate: '0 0'}, {translate: '0 -1150px'}], 20.6, 4.0, {ease: 'cubic-bezier(.45,0,.4,1)'});
+
+// ---------- scene 5 : logo lock-up ----------
+A('#s5 .ppr', [{opacity: 0, scale: .55, rotate: '-24deg', translate: '-120px 80px'},
+  {opacity: 1, scale: 1, rotate: '0deg', translate: '0 0'}], 24.75, .75, {ease: BACK});
+A('#s5 .bst', [{opacity: 0, scale: .1}, {opacity: 1, scale: 1.25}], 25.35, .28, {ease: BACK});
+A('#s5 .bst', [{scale: 1.25}, {scale: 1}], 25.63, .4, {out: true});
+A('#s5 .war', [{opacity: 0, translate: '0 80px', clipPath: 'inset(0 0 100% 0)'},
+  {opacity: 1, translate: '0 0', clipPath: 'inset(0 0 -10% 0)'}], 25.6, .7);
+A('#s5 .wen', [{opacity: 0, translate: '0 40px', filter: 'blur(8px)'},
+  {opacity: 1, translate: '0 0', filter: 'blur(0px)'}], 26.0, .7);
+A('#s5 .rule', [{scale: '0 1'}, {scale: '1 1'}], 26.55, .5);
+rise('#s5 .tl', 26.5, {y: 40});
+A('#s5 .cta', [{opacity: 0, scale: .6}, {opacity: 1, scale: 1}], 27.3, .55, {ease: BACK});
+A('#s5 .cta b', [{rotate: '0deg'}, {rotate: '90deg'}], 28.4, .5, {out: true, ease: BACK});
+A('#s5 .bst', [{scale: 1}, {scale: 1.18}, {scale: 1}], 28.4, .5, {out: true});
+A('#s5 .lock', [{scale: 1}, {scale: 1.035}], 25.5, 4.5, {out: true, ease: 'linear'});
+
+// ---------- HUD + ticker ----------
+const msg = ['تحقّق قبل أن تشارك', 'من الطلاب إلى الطلاب', 'مصادر موثوقة', 'الخبر كما هو', 'صحافة طلابية'];
+$('#ticker .track').innerHTML = Array(5).fill(msg.map(m => `${m}<em>◆</em>`).join('')).join('');
+A('#ticker .track', [{translate: '0 0'}, {translate: '1700px 0'}], 1.5, 23, {ease: 'linear'});
+A('#hud', [{opacity: 0, translate: '0 -30px'}, {opacity: 1, translate: '0 0'}], 1.9, .6);
+A('#ticker', [{translate: '0 140px'}, {translate: '0 0'}], 2.1, .6);
+
+const HUD_ON = [1.5, 24.5];
+window.seek = t => {
+  for (const a of anims) a.currentTime = t * 1000;
+  $$('.scene').forEach(s => { s.style.visibility = (t >= +s.dataset.in && t < +s.dataset.out) ? 'visible' : 'hidden'; });
+  const on = t >= HUD_ON[0] && t < HUD_ON[1];
+  $('#hud').style.visibility = $('#ticker').style.visibility = on ? 'visible' : 'hidden';
+  const f = Math.floor(t * 30) % 30, s = Math.floor(t);
+  $('#tc').textContent = `00:${String(s).padStart(2, '0')}:${String(f).padStart(2, '0')}`;
+  $('#hud').classList.toggle('onDark', t >= 7 && t < 13.5);
+  $('#hud .dot').style.opacity = (Math.floor(t * 2) % 2) ? .25 : 1;
+};
+window.DURATION = DURATION;
+seek(+(new URLSearchParams(location.search).get('t') || 0));
+</script>
+</body>
+</html>
