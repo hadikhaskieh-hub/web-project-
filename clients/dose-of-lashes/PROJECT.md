@@ -27,9 +27,9 @@ Extras: Reshaping $5, Lash removal $10, Lamination $15, Lash Lifting $20.
 ## Deliverable 1: November sale reel (DONE)
 - **Final file:** `exports/dose-of-lashes-november-sale.mp4` (1080x1920, 30 fps, H.264
   High, AAC 192k, 33.4 s). Overview frames: `exports/dose-of-lashes-overview.jpg`.
-- **Offer:** ALL full sets **$35**, except **Classic Lashes at $30** (was $40).
+- **Offer:** ALL full sets **$35**, except **Classic Lashes and 2D Lashes at $30** (both $40 regular).
   **Nov 9 – 11 only** (3 days), limited seats. The headline groups everything at $35;
-  Classic's lower price only shows on its own card. (Changed from an original flat $30.)
+  the two $30 sets only show on their own cards. (Changed from an original flat $30.)
 - **Client decisions:** show all **6** sets from the price list (not a combined "2D Silk"),
   in title case (Classic Lashes, 2D Lashes, Silk Lashes, 3D Lashes, Hybrid Lashes,
   Volume Lashes). Prices are written `$40` style. CTA is WhatsApp.
@@ -38,7 +38,7 @@ Extras: Reshaping $5, Lash removal $10, Lamination $15, Lash Lifting $20.
   the same flow:
   chat bubbles over the build-up → dip to white on the drop, the bubble morphs into an
   app tile ($35) → search bar → UI cards every 2 beats (one per set: old price struck in
-  red, sale tag pops on the half-beat: Classic $30, the rest $35) → slow calendar zoom during the song's silent
+  red, sale tag pops on the half-beat: Classic + 2D $30, the rest $35) → slow calendar zoom during the song's silent
   break → dates 9 / 10 / 11 get iOS-red circles one per beat as the music returns →
   "Nov 9 – 11 Only" → iOS notification over blurred calendar → white flash to the logo
   + 72:00:00 countdown (ticks every 2 beats) + "Limited seats available" → hard cut to

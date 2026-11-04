@@ -564,10 +564,10 @@ const HeroScene: React.FC<{ f: number }> = ({ f }) => {
 /* Scene 3: one card per full set (beats 20-32)                         */
 /* ------------------------------------------------------------------ */
 // price = regular price from the client's price list; sale = November price.
-// Headline offer is "All Full Sets $35"; Classic Lashes is the one set at $30.
+// Headline offer is "All Full Sets $35"; Classic Lashes and 2D Lashes are $30.
 const SETS: { name: string; price: number; sale: number }[] = [
   { name: 'Classic Lashes', price: 40, sale: 30 },
-  { name: '2D Lashes', price: 40, sale: 35 },
+  { name: '2D Lashes', price: 40, sale: 30 },
   { name: 'Silk Lashes', price: 50, sale: 35 },
   { name: '3D Lashes', price: 50, sale: 35 },
   { name: 'Hybrid Lashes', price: 55, sale: 35 },
