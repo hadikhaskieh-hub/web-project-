@@ -1,0 +1,4 @@
+node_modules/
+out/
+# client-supplied song, not committed; drop it in as assets/song.mp3
+assets/song.mp3
