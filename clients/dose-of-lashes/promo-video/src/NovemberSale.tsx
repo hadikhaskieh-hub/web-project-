@@ -164,7 +164,7 @@ const MSGS: Msg[] = [
   { side: 'out', at: 4, typingAt: 2, lines: ['Wait… lashes?? 😳'], top: 224, h: LH + 2 * PY },
   { side: 'in', at: 8, typingAt: 6, lines: ['November Lash Sale 🖤'], top: 378, h: LH + 2 * PY },
 ];
-// The 4th message ("ALL Full Sets $30") is the hero element below.
+// The 4th message ("ALL Full Sets $35") is the hero element below.
 const HERO_SLOT_TOP = 532;
 const HERO_TYPING_AT = 10;
 const HERO_AT = 12;
@@ -332,7 +332,7 @@ const ChatScene: React.FC<{ f: number }> = ({ f }) => {
 };
 
 /* ------------------------------------------------------------------ */
-/* Hero: message -> $30 tile -> search bar header (beats 12-32)         */
+/* Hero: message -> $35 tile -> search bar header (beats 12-32)         */
 /* ------------------------------------------------------------------ */
 const HeroScene: React.FC<{ f: number }> = ({ f }) => {
   const start = B(HERO_AT);
@@ -411,7 +411,7 @@ const HeroScene: React.FC<{ f: number }> = ({ f }) => {
             opacity: 1 - ease(f, B(18) - 1, B(18) + 4),
           }}
         >
-          <Words f={f} start={B(17)} text="6 full sets · 1 price" stagger={2} />
+          <Words f={f} start={B(17)} text="6 full sets on sale" stagger={2} />
         </div>
       ) : null}
       <div
@@ -456,9 +456,9 @@ const HeroScene: React.FC<{ f: number }> = ({ f }) => {
             <Words
               f={f}
               start={start + 2}
-              text="ALL Full Sets $30"
+              text="ALL Full Sets $35"
               wordStyle={(word) =>
-                word === '$30'
+                word === '$35'
                   ? { fontFamily: SERIF, fontWeight: 800, fontSize: 78, color: C.peach, marginLeft: 6 }
                   : word === 'ALL'
                     ? { fontWeight: 800 }
@@ -489,7 +489,7 @@ const HeroScene: React.FC<{ f: number }> = ({ f }) => {
                 letterSpacing: -6,
               }}
             >
-              $30
+              $35
             </div>
             <div
               style={{
@@ -526,8 +526,8 @@ const HeroScene: React.FC<{ f: number }> = ({ f }) => {
               <Words
                 f={f}
                 start={B(18) + 4}
-                text="All Full Sets $30"
-                wordStyle={(word) => (word === '$30' ? { fontWeight: 800 } : undefined)}
+                text="All Full Sets $35"
+                wordStyle={(word) => (word === '$35' ? { fontWeight: 800 } : undefined)}
               />
             </div>
             {(() => {
@@ -563,13 +563,15 @@ const HeroScene: React.FC<{ f: number }> = ({ f }) => {
 /* ------------------------------------------------------------------ */
 /* Scene 3: one card per full set (beats 20-32)                         */
 /* ------------------------------------------------------------------ */
-const SETS: { name: string; price: number }[] = [
-  { name: 'Classic Lashes', price: 40 },
-  { name: '2D Lashes', price: 40 },
-  { name: 'Silk Lashes', price: 50 },
-  { name: '3D Lashes', price: 50 },
-  { name: 'Hybrid Lashes', price: 55 },
-  { name: 'Volume Lashes', price: 60 },
+// price = regular price from the client's price list; sale = November price.
+// Headline offer is "All Full Sets $35"; Classic Lashes is the one set at $30.
+const SETS: { name: string; price: number; sale: number }[] = [
+  { name: 'Classic Lashes', price: 40, sale: 30 },
+  { name: '2D Lashes', price: 40, sale: 35 },
+  { name: 'Silk Lashes', price: 50, sale: 35 },
+  { name: '3D Lashes', price: 50, sale: 35 },
+  { name: 'Hybrid Lashes', price: 55, sale: 35 },
+  { name: 'Volume Lashes', price: 60, sale: 35 },
 ];
 
 const SetCard: React.FC<{ f: number; i: number }> = ({ f, i }) => {
@@ -579,7 +581,7 @@ const SetCard: React.FC<{ f: number; i: number }> = ({ f, i }) => {
   const set = SETS[i];
   const p = pop(f, S, { damping: 16, stiffness: 210 });
   const pl = Math.min(1, p);
-  // Card lands on the beat, old price is struck as it settles, $30 pops on
+  // Card lands on the beat, old price is struck as it settles, sale price pops on
   // the half-beat, then the card holds until the next beat.
   const exit = ease(f, N - 1, N + 3);
   const strike = ease(f, S + 4, S + 9);
@@ -669,7 +671,7 @@ const SetCard: React.FC<{ f: number; i: number }> = ({ f, i }) => {
             boxShadow: '0 16px 40px rgba(20,17,16,0.28)',
           }}
         >
-          $30
+          ${set.sale}
         </div>
       </div>
     </div>
@@ -953,7 +955,7 @@ const CalendarScene: React.FC<{ f: number }> = ({ f }) => {
                   color: C.grey2,
                 }}
               >
-                <Words f={f} start={B(42)} text="3 days · All Full Sets $30" stagger={2} />
+                <Words f={f} start={B(42)} text="3 days · All Full Sets $35" stagger={2} />
               </div>
             </div>
           );
@@ -1004,7 +1006,7 @@ const NotificationScene: React.FC<{ f: number }> = ({ f }) => {
         <Words f={f} start={S + 4} text="Only 72 hours ⏳" stagger={2} />
       </div>
       <div style={{ marginTop: 8, fontSize: 42, fontWeight: 400, color: C.grey2 }}>
-        <Words f={f} start={S + 8} text="All Full Sets $30 · Nov 9 – 11" stagger={1.6} />
+        <Words f={f} start={S + 8} text="All Full Sets $35 · Nov 9 – 11" stagger={1.6} />
       </div>
     </div>
   );
@@ -1294,7 +1296,7 @@ const CTAScene: React.FC<{ f: number }> = ({ f }) => {
             color: C.grey,
           }}
         >
-          <Words f={f} start={B(63)} text="All Full Sets $30 · Nov 9 – 11" stagger={1.6} />
+          <Words f={f} start={B(63)} text="All Full Sets $35 · Nov 9 – 11" stagger={1.6} />
         </div>
       </AbsoluteFill>
     </AbsoluteFill>
@@ -1320,7 +1322,7 @@ export const NovemberSale: React.FC = () => {
   const f = useCurrentFrame();
   const [handle] = useState(() => delayRender('fonts'));
   useEffect(() => {
-    Promise.all(FONT_SPECS.map((s) => document.fonts.load(s, 'Aa$30 👀😳🖤⏳')))
+    Promise.all(FONT_SPECS.map((s) => document.fonts.load(s, 'Aa$30$35 👀😳🖤⏳')))
       .then(() => document.fonts.ready)
       .then(() => continueRender(handle))
       .catch(() => continueRender(handle));

@@ -27,7 +27,9 @@ Extras: Reshaping $5, Lash removal $10, Lamination $15, Lash Lifting $20.
 ## Deliverable 1: November sale reel (DONE)
 - **Final file:** `exports/dose-of-lashes-november-sale.mp4` (1080x1920, 30 fps, H.264
   High, AAC 192k, 33.4 s). Overview frames: `exports/dose-of-lashes-overview.jpg`.
-- **Offer:** ALL full sets $30, **Nov 9 – 11 only** (3 days), limited seats.
+- **Offer:** ALL full sets **$35**, except **Classic Lashes at $30** (was $40).
+  **Nov 9 – 11 only** (3 days), limited seats. The headline groups everything at $35;
+  Classic's lower price only shows on its own card. (Changed from an original flat $30.)
 - **Client decisions:** show all **6** sets from the price list (not a combined "2D Silk"),
   in title case (Classic Lashes, 2D Lashes, Silk Lashes, 3D Lashes, Hybrid Lashes,
   Volume Lashes). Prices are written `$40` style. CTA is WhatsApp.
@@ -35,15 +37,15 @@ Extras: Reshaping $5, Lash removal $10, Lamination $15, Lash Lifting $20.
   by phone). It uses the **same song**, starting at 1.956 s, 129 BPM. Our cut follows
   the same flow:
   chat bubbles over the build-up → dip to white on the drop, the bubble morphs into an
-  app tile ($30) → search bar → UI cards every 2 beats (one per set: old price struck in
-  red, $30 tag pops on the half-beat) → slow calendar zoom during the song's silent
+  app tile ($35) → search bar → UI cards every 2 beats (one per set: old price struck in
+  red, sale tag pops on the half-beat: Classic $30, the rest $35) → slow calendar zoom during the song's silent
   break → dates 9 / 10 / 11 get iOS-red circles one per beat as the music returns →
   "Nov 9 – 11 Only" → iOS notification over blurred calendar → white flash to the logo
   + 72:00:00 countdown (ticks every 2 beats) + "Limited seats available" → hard cut to
   black: "DM us to book your seat" + WhatsApp pill.
 - **Palette:** black `#000`, ink `#141110`, white, logo grey `#F2F2F2`, iOS grey
   `#F2F2F7`, peach-gold `#F5B567` (from the price-list tags), iOS red `#FF3B30`.
-- **Type:** Inter (UI, close to SF Pro in the reference) + Bodoni Moda (the $30s and
+- **Type:** Inter (UI, close to SF Pro in the reference) + Bodoni Moda (the sale prices and
   "Nov 9 – 11 Only", echoing the logo's high-contrast serif).
 - **Safe zones:** all text kept inside x 90–940, y 250–1480 (clear of IG/TikTok UI).
 
@@ -62,5 +64,7 @@ Extras: Reshaping $5, Lash removal $10, Lamination $15, Lash Lifting $20.
 1. If the client wants an Instagram handle on the CTA too, add it under the WhatsApp pill
    in `CTAScene`.
 2. If the sale dates change, update `HIGHLIGHT` (calendar) and every "Nov 9 – 11" string.
+   If prices change: per-set `sale` values in `SETS`, plus every "All Full Sets $35" string
+   and the tile's big "$35" in `HeroScene`.
 3. No website yet. When one is built, follow the repo's frontend-design flow and reuse the
    palette/type above.
