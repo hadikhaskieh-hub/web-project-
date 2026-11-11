@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>TAIHONGYOUPIN Ad</title>
+<style>
+@font-face{font-family:Messiri;font-weight:500;src:url(../assets/fonts/ElMessiri-500.ttf)}
+@font-face{font-family:Messiri;font-weight:700;src:url(../assets/fonts/ElMessiri-700.ttf)}
+@font-face{font-family:Tajawal;font-weight:300;src:url(../assets/fonts/Tajawal-300.ttf)}
+@font-face{font-family:Tajawal;font-weight:400;src:url(../assets/fonts/Tajawal-400.ttf)}
+@font-face{font-family:Tajawal;font-weight:500;src:url(../assets/fonts/Tajawal-500.ttf)}
+@font-face{font-family:Cormorant;font-weight:500;src:url(../assets/fonts/CormorantGaramond-500.ttf)}
+@font-face{font-family:Cormorant;font-weight:600;src:url(../assets/fonts/CormorantGaramond-600.ttf)}
+
+:root{
+  --cream:#F2EBE0;      /* backdrop highlight */
+  --sand:#DFD2C0;       /* backdrop edge / floor */
+  --espresso:#2A1D15;   /* text + CTA */
+  --mocha:#7A6657;      /* secondary text */
+  --silver:#B9B4AD;     /* hairlines, like the hardware */
+  /* 9:16 layout */
+  --W:1080px; --H:1920px;
+  --brandY:215px; --bagBottom:1210px; --bagW:850px;
+  --capY:1300px; --h1:92px; --h2:46px;
+  --tileX:100px; --tileY:330px; --tileW:880px; --tileH:1100px; --tcapY:1475px;
+  --endY:330px; --endSize:104px; --ctaY:1420px;
+}
+body.sq{
+  --H:1080px;
+  --brandY:46px; --bagBottom:740px; --bagW:560px;
+  --capY:800px; --h1:66px; --h2:34px;
+  --tileX:250px; --tileY:110px; --tileW:580px; --tileH:725px; --tcapY:872px;
+  --endY:112px; --endSize:70px; --ctaY:905px;
+}
+body.sq .trio{left:15%;right:15%}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:var(--W);height:var(--H);overflow:hidden;background:var(--sand)}
+body{font-family:Tajawal,sans-serif;color:var(--espresso);-webkit-font-smoothing:antialiased}
+#stage{position:relative;width:var(--W);height:var(--H);overflow:hidden;
+  background:
+    radial-gradient(ellipse 85% 46% at 50% 40%,var(--cream) 0%,rgba(242,235,224,0) 100%),
+    linear-gradient(180deg,#E9DFD1 0%,#E6DBCB 58%,#D9CBB7 66%,#E2D6C5 100%)}
+#cam{position:absolute;inset:0;transform-origin:50% 52%}
+.scene{position:absolute;inset:0;visibility:hidden}
+
+/* brand line */
+#brand{position:absolute;top:var(--brandY);left:0;right:0;display:flex;justify-content:center;align-items:center;gap:22px;direction:ltr;
+  font:600 30px Cormorant;letter-spacing:.34em;color:var(--espresso)}
+#brand i{width:64px;height:1px;background:var(--silver)}
+
+/* bags */
+.bag{position:absolute;left:50%;bottom:calc(var(--H) - var(--bagBottom));width:var(--bagW);translate:-50% 0;transform-origin:50% 100%}
+.bagbox{position:relative;width:100%}
+.bagbox img.b{display:block;width:100%;position:relative}
+.bagbox img.sh{position:absolute;max-width:none}
+/* light sweep: a white copy of the bag, revealed through a moving gradient band, so it follows the bag's shape */
+.bagbox img.sweep{position:absolute;inset:0;width:100%;filter:brightness(0) invert(1);opacity:.3;
+  -webkit-mask-image:linear-gradient(105deg,transparent 43%,#000 50%,transparent 57%);-webkit-mask-repeat:no-repeat;
+  -webkit-mask-size:320% 100%;-webkit-mask-position:120% 0}
+.persp{perspective:2600px}
+.flip{position:relative;transform-style:preserve-3d}
+.flip .face{backface-visibility:hidden}
+.flip .face.back{position:absolute;left:0;right:0;bottom:0;transform:rotateY(180deg)}
+
+/* captions */
+.cap{position:absolute;top:var(--capY);left:70px;right:70px;text-align:center}
+.cap h1{font:700 var(--h1)/1.2 Messiri}
+.cap p{font:400 var(--h2)/1.5 Tajawal;color:var(--mocha);margin-top:6px}
+.cap p b{font-weight:400;color:var(--silver);margin:0 14px}
+.swatches{display:flex;justify-content:center;gap:22px;margin-top:26px;direction:ltr}
+.swatches i{width:34px;height:34px;border-radius:50%;box-shadow:0 0 0 2px var(--cream),0 0 0 3px transparent}
+.swatches i.on{box-shadow:0 0 0 5px var(--cream),0 0 0 7px var(--espresso)}
+
+/* detail tiles */
+.tile{position:absolute;left:var(--tileX);top:var(--tileY);width:var(--tileW);height:var(--tileH);border-radius:28px;overflow:hidden;
+  box-shadow:0 40px 80px rgba(60,40,25,.28),0 6px 16px rgba(60,40,25,.18)}
+.tile img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.tile .shine{position:absolute;inset:0;mix-blend-mode:screen;
+  background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,.3) 50%,transparent 60%) no-repeat;background-size:320% 100%;background-position:120% 0}
+.tile .vig{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%,transparent 55%,rgba(20,12,8,.35))}
+.tcap{position:absolute;top:var(--tcapY);left:70px;right:70px;text-align:center}
+.tcap .n{font:500 30px Cormorant;letter-spacing:.3em;color:var(--mocha);direction:ltr}
+.tcap h2{font:700 calc(var(--h1) * .86)/1.25 Messiri;margin-top:6px}
+#s0 .tile{left:0;width:var(--W);border-radius:0;top:calc(var(--tileY) - 30px);height:calc(var(--tileH) + 200px)}
+body.sq #s0 .tile{top:0;height:var(--H)}
+#s0 .hook{position:absolute;left:0;right:0;top:calc(var(--tcapY) - 90px);text-align:center;color:#fff;font:700 calc(var(--h1) * 1.15) Messiri;
+  text-shadow:0 4px 30px rgba(0,0,0,.55)}
+body.sq #s0 .hook{top:850px}
+
+/* end card */
+#s4 .end{position:absolute;top:var(--endY);left:0;right:0;text-align:center;font:700 var(--endSize)/1.15 Messiri}
+#s4 .end small{display:block;font:400 var(--h2) Tajawal;color:var(--mocha);margin-top:10px}
+.trio{position:absolute;left:0;right:0;top:0;bottom:calc(var(--H) - var(--bagBottom) - 60px)}
+.trio .bagbox{position:absolute;bottom:0}
+#s4 .cta{position:absolute;top:var(--ctaY);left:50%;translate:-50% 0;background:var(--espresso);color:var(--cream);white-space:nowrap;
+  font:700 calc(var(--h1) * .62) Messiri;padding:16px 64px 22px;border-radius:80px;box-shadow:0 18px 40px rgba(42,29,21,.3)}
+</style>
+</head>
+<body>
+<div id="stage"><div id="cam">
+
+  <!-- 0 · hook: the lock, close -->
+  <section class="scene" id="s0">
+    <div class="tile"><img src="../assets/detail-lock.jpg" alt=""><div class="shine"></div><div class="vig"></div></div>
+    <div class="hook">أناقة بكل تفصيل</div>
+  </section>
+
+  <!-- 1 · hero: black, front then back -->
+  <section class="scene" id="s1">
+    <div class="bag persp"><div class="flip">
+      <div class="face front" data-bag="black-front"></div>
+      <div class="face back" data-bag="black-back"></div>
+    </div></div>
+    <div class="cap c-front"><h1>شنطة يد بتصميم مرتّب</h1><p>قفل فضي بيبرم<b>·</b>حزام كتف بينفكّ</p>
+      <div class="swatches"><i class="on" style="background:#17171A"></i><i style="background:#A98B6F"></i><i style="background:#8A4A2B"></i></div></div>
+    <div class="cap c-back"><h1>وجيبة سحّاب من ورا</h1><p>لأغراضك يلي بدّك ياها قريبة</p></div>
+  </section>
+
+  <!-- 2 · details -->
+  <section class="scene" id="s2">
+    <div class="tile t1"><img src="../assets/detail-texture.jpg" alt=""><div class="shine"></div><div class="vig"></div></div>
+    <div class="tile t2"><img src="../assets/detail-handle.jpg" alt=""><div class="shine"></div><div class="vig"></div></div>
+    <div class="tile t3"><img src="../assets/detail-feet.jpg" alt=""><div class="shine"></div><div class="vig"></div></div>
+    <div class="tcap k1"><div class="n">01 / 03</div><h2>نقشة معيّنات محفورة</h2></div>
+    <div class="tcap k2"><div class="n">02 / 03</div><h2>إيد علوية بحلقات معدن</h2></div>
+    <div class="tcap k3"><div class="n">03 / 03</div><h2>قاعدة بدعسات معدن</h2></div>
+  </section>
+
+  <!-- 3 · the other colours -->
+  <section class="scene" id="s3">
+    <div class="bag b-taupe" data-bag="taupe" style="width:calc(var(--bagW) * 1.04)"></div>
+    <div class="bag b-cognac" data-bag="cognac"></div>
+    <div class="cap c-taupe"><h1>بيج</h1><p>هادي وبيلبق لكل شي</p>
+      <div class="swatches"><i style="background:#17171A"></i><i class="on" style="background:#A98B6F"></i><i style="background:#8A4A2B"></i></div></div>
+    <div class="cap c-cognac"><h1>بني</h1><p>دافي وكلاسيك</p>
+      <div class="swatches"><i style="background:#17171A"></i><i style="background:#A98B6F"></i><i class="on" style="background:#8A4A2B"></i></div></div>
+  </section>
+
+  <!-- 4 · all three + call to action -->
+  <section class="scene" id="s4">
+    <div class="end">متوفرة بـ 3 ألوان<small>أسود · بيج · بني</small></div>
+    <div class="trio">
+      <div class="bagbox tb" data-bag="black-front" style="width:46%;left:3%;bottom:7%"></div>
+      <div class="bagbox tc" data-bag="cognac" style="width:45%;left:52%;bottom:7%"></div>
+      <div class="bagbox tt" data-bag="taupe" style="width:52%;left:24%;bottom:0"></div>
+    </div>
+    <div class="cta">اطلبيها هلق</div>
+  </section>
+
+  <div id="brand"><i></i>TAIHONGYOUPIN<i></i></div>
+</div></div>
+
+<script>
+const q = new URLSearchParams(location.search);
+if (q.get('ar') === '1x1') document.body.classList.add('sq');
+
+// ===== timeline (seconds) =====
+const TL = {
+  dur: 21.5,
+  scenes: {s0: [0, 2.4], s1: [2.4, 8.4], s2: [8.4, 13.5], s3: [13.5, 17.5], s4: [17.5, 99]},
+  flipA: 4.7, flipB: 7.3, flipDur: .9,          // front -> back -> front
+  tiles: [8.4, 10.1, 11.8],                     // one detail every 1.7s
+  colour: 15.5,                                 // taupe -> cognac
+};
+const EASE = 'cubic-bezier(.22,1,.36,1)', INOUT = 'cubic-bezier(.65,0,.35,1)';
+const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const anims = [];
+
+// in-animations hold their first frame before they start (fill both);
+// out-animations only take over once they begin (fill forwards).
+function A(target, kf, start, dur, o = {}) {
+  const els = (typeof target === 'string' ? $$(target) : [].concat(target)).filter(Boolean);
+  els.forEach((el, i) => {
+    const a = el.animate(kf, {delay: (start + (o.stagger || 0) * i) * 1000, duration: dur * 1000,
+      easing: o.ease || EASE, fill: o.out ? 'forwards' : 'both'});
+    a.pause(); anims.push(a);
+  });
+}
+const fadeUp = (t, s, o = {}) => A(t, [{opacity: 0, translate: `0 ${o.y ?? 34}px`}, {opacity: 1, translate: '0 0'}], s, o.dur || .7, o);
+const fadeOut = (t, s, d = .3) => A(t, [{opacity: 1}, {opacity: 0}], s, d, {out: true, ease: INOUT});
+const sweep = (el, s, d = 1.3) => A(el, [{webkitMaskPosition: '120% 0'}, {webkitMaskPosition: '-20% 0'}], s, d, {ease: INOUT});
+const shine = (el, s, d = 1.3) => A(el, [{backgroundPosition: '120% 0'}, {backgroundPosition: '-20% 0'}], s, d, {ease: INOUT});
+
+// build every bag: shadow + photo + light sweep
+const SIZE = {'black-front': [825, 798], 'black-back': [852, 792], taupe: [907, 1001], cognac: [809, 803]}, PAD = 120;
+$$('[data-bag]').forEach(el => {
+  const n = el.dataset.bag, [w, h] = SIZE[n];
+  const box = el.classList.contains('bagbox') ? el : el.appendChild(Object.assign(document.createElement('div'), {className: 'bagbox'}));
+  box.innerHTML = `<img class="sh" src="../assets/${n}-shadow.png" style="left:${-PAD / w * 100}%;top:${-PAD / h * 100}%;width:${(w + PAD * 2) / w * 100}%">
+    <img class="b" src="../assets/${n}.png"><img class="sweep" src="../assets/${n}.png">`;
+});
+
+// ---------- 0 · hook ----------
+A('#s0 .tile img', [{scale: 1.0}, {scale: 1.16}], 0, 2.6, {ease: 'linear'});
+shine('#s0 .shine', .25, 1.2);
+A('#s0 .hook', [{opacity: 0, letterSpacing: '.2em', filter: 'blur(10px)'}, {opacity: 1, letterSpacing: '0em', filter: 'blur(0px)'}], .5, .9);
+
+// ---------- 1 · hero ----------
+const H = TL.scenes.s1[0];
+A('#s1 .bag', [{opacity: 0, translate: '-50% 60px', scale: .94}, {opacity: 1, translate: '-50% 0', scale: 1}], H, 1.0);
+sweep('#s1 .front .sweep', H + .7, 1.4);
+fadeUp('#s1 .c-front', H + .5);
+A('#s1 .flip', [{transform: 'rotateY(0deg)'}, {transform: 'rotateY(180deg)'}], TL.flipA, TL.flipDur, {ease: INOUT});
+A('#s1 .flip', [{transform: 'rotateY(180deg)'}, {transform: 'rotateY(360deg)'}], TL.flipB, TL.flipDur, {ease: INOUT, out: true});
+fadeOut('#s1 .c-front', TL.flipA, .3);
+fadeUp('#s1 .c-back', TL.flipA + .5, {dur: .5});
+fadeOut('#s1 .c-back', TL.flipB, .3);
+sweep('#s1 .back .sweep', TL.flipA + .9, 1.2);
+
+// ---------- 2 · details ----------
+TL.tiles.forEach((t, i) => {
+  const tile = $(`#s2 .t${i + 1}`), cap = $(`#s2 .k${i + 1}`), next = TL.tiles[i + 1] ?? TL.scenes.s2[1];
+  A(tile, [{opacity: 0, translate: '0 70px', scale: .96}, {opacity: 1, translate: '0 0', scale: 1}], t, .6);
+  A($('img', tile), [{scale: 1.0}, {scale: 1.12}], t, next - t + .3, {ease: 'linear'});
+  shine($('.shine', tile), t + .35, 1.1);
+  fadeUp(cap, t + .2, {dur: .5});
+  if (i < 2) { fadeOut(tile, next - .25, .25); fadeOut(cap, next - .25, .25); }
+});
+
+// ---------- 3 · colours ----------
+const C = TL.scenes.s3[0];
+const slideIn = (el, at) => A(el, [{opacity: 0, translate: '-10% 0'}, {opacity: 1, translate: '-50% 0'}], at, .8);
+const slideOut = (el, at) => A(el, [{opacity: 1, translate: '-50% 0'}, {opacity: 0, translate: '-90% 0'}], at, .5, {out: true, ease: INOUT});
+slideIn('#s3 .b-taupe', C); fadeUp('#s3 .c-taupe', C + .3, {dur: .5}); sweep('#s3 .b-taupe .sweep', C + .6, 1.2);
+slideOut('#s3 .b-taupe', TL.colour - .35); fadeOut('#s3 .c-taupe', TL.colour - .3, .25);
+slideIn('#s3 .b-cognac', TL.colour); fadeUp('#s3 .c-cognac', TL.colour + .3, {dur: .5}); sweep('#s3 .b-cognac .sweep', TL.colour + .6, 1.2);
+
+// ---------- 4 · three colours ----------
+const E = TL.scenes.s4[0];
+A('#s4 .tb', [{opacity: 0, translate: '80px 40px'}, {opacity: 1, translate: '0 0'}], E + .1, .9);
+A('#s4 .tc', [{opacity: 0, translate: '-80px 40px'}, {opacity: 1, translate: '0 0'}], E + .25, .9);
+A('#s4 .tt', [{opacity: 0, translate: '0 70px'}, {opacity: 1, translate: '0 0'}], E + .4, .9);
+$$('#s4 .sweep').forEach((s, i) => sweep(s, E + 1.3 + i * .25, 1.2));
+fadeUp('#s4 .end', E + .7);
+A('#s4 .cta', [{opacity: 0, scale: .8, translate: '-50% 20px'}, {opacity: 1, scale: 1, translate: '-50% 0'}], E + 1.5, .7);
+A('#s4 .cta', [{scale: 1}, {scale: 1.05}, {scale: 1}], E + 2.8, .6, {out: true});
+
+// brand line: light on the hook photo, dark on the cream set
+A('#brand', [{opacity: 0}, {opacity: 1}], .3, .8);
+
+window.seek = t => {
+  for (const a of anims) a.currentTime = t * 1000;
+  let cur = [0, 1];
+  for (const [id, [a, b]] of Object.entries(TL.scenes)) {
+    const on = t >= a && t < b; $('#' + id).style.visibility = on ? 'visible' : 'hidden'; if (on) cur = [a, b];
+  }
+  $('#brand').style.color = t < TL.scenes.s0[1] && document.body.classList.contains('sq') ? '#fff' : '';
+  // slow, steady push-in on every scene (no shake)
+  $('#cam').style.transform = `scale(${1 + .035 * Math.min(1, (t - cur[0]) / 5)})`;
+};
+window.DURATION = TL.dur;
+seek(+(q.get('t') || 0));
+</script>
+</body>
+</html>

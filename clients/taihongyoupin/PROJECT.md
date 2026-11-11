@@ -18,11 +18,38 @@
 | `black-front.jpg` | Black | Front three-quarter view. Strap is detached and lying beside the bag. Logo is silver and fully legible, so this is the logo reference. |
 | `taupe-front.jpg` | Taupe | Front view. The lock still has protective plastic film on it. Hang tag visible. |
 | `cognac-front.jpg` | Cognac | Front view. Price tags visible. The logo is partly faded in the photo. |
+| `black-back.jpg` | Black | Back, on a bed. Shows the zip pocket. |
+| `black-bottom.jpg` | Black | Base with four metal feet; a hand holds the bag. A price tag reads $35.00. |
 
-All three are the same front angle, shot in a shop (mirror, vase, plants). **There is no photo of the back, the sides, the bottom, or the inside.** The logo is a metallic print, not embossed.
+The three front photos were shot in a shop (mirror, vase, plants). **There is no photo of the sides or the inside.** The logo is a metallic print, not embossed.
 
 ## Status
-Planning. Nothing generated yet. Waiting for the client to approve the shot list, choose a budget, and send the missing angles.
+**Version 1 delivered**: `taihongyoupin-ad-9x16.mp4` (Reels/TikTok) and `taihongyoupin-ad-1x1.mp4` (feed), 21.5s each, plus `taihongyoupin-ad-cover.jpg`.
+
+The client decided not to use Higgsfield (7.73 credits, free plan, and its file hosts are blocked from this environment), so v1 uses **no AI generation**. Every bag pixel is the client's real photo:
+1. Backgrounds removed locally with rembg (BiRefNet).
+2. `source/prep.py` cleans the cut-outs (vase, strap clip and stray objects removed), neutralises the warm shop light, deepens the black bag, bakes a soft contact shadow and makes the detail crops.
+3. `source/ad.html` is the edit: a seekable timeline on a cream studio set, with slow push-ins, a light sweep that follows each bag's shape, and Arabic text. `?ar=1x1` switches to the square layout.
+4. `source/render.js` renders frames with Playwright; `source/music.py` synthesizes the calm music bed; `source/build.sh` does all of it.
+
+### What v1 shows (21.5s)
+| Time | Shot |
+|---|---|
+| 0–2.4 | Hook: close-up of the silver twist-lock, light sweep, "أناقة بكل تفصيل" |
+| 2.4–8.4 | Black bag on the studio set; it turns to show the back zip pocket, then turns back |
+| 8.4–13.5 | Three detail tiles: diamond embossing, handle and rings, metal feet on the base |
+| 13.5–17.5 | Taupe ("بيج"), then cognac ("بني") |
+| 17.5–21.5 | All three colours, "متوفرة بـ 3 ألوان", button "اطلبيها هلق" |
+
+### Honest limits of v1
+- **No true 360.** The turn is a flip between the real front photo and the real back photo. A continuous orbit needs AI video or a real turntable video.
+- **The lock does not turn**, and there is no inside shot (no photo of the inside).
+- Detail tiles are 2.4–3× enlargements of WhatsApp-compressed photos, so they are a little soft.
+- The taupe bag's lock still has its protective film in the photo; it is faintly visible.
+- Back and base photos exist for the black bag only.
+
+## Original AI plan (not used in v1)
+The shot list and prompts below were the plan for an AI-generated version. Kept in case the client tops up Higgsfield later.
 
 ## Blockers
 - **Credits:** Higgsfield balance is 7.73 (free plan). A studio still costs 0.25; a 5s Kling 3.0 clip costs 7.5 (standard) or 8.75 (pro).
@@ -78,8 +105,8 @@ If there is no inside photo, shot 5 is replaced by a second detail shot (handle 
 > warped shape, melting, changed logo, misspelled text, extra straps, extra hardware, changed lock, hands, people, tags, labels, clutter, camera shake, fast motion, colour shift, flicker
 
 ## Open to-dos
-- [ ] Client: approve the shot list.
-- [ ] Client: photos of the back, one side, and the inside with the flap open (the black bag at least). Remove tags and the film on the lock first.
-- [ ] Client: choose a budget (credits) and whether per-colour versions are wanted.
+- [ ] Better source photos would lift quality most: original files (not WhatsApp), daylight, tags and lock film removed, plus the inside with the flap open.
+- [ ] Optional: a short phone video walking around the bag on a table gives a real 360 to cut in.
+- [ ] Add price, shop name/handle and delivery info to the end card if the client wants them.
 - [ ] Confirm whether "genuine leather" can be claimed. Until then, say nothing about the material.
-- [ ] Generate one test still, confirm the download host, ask the client to allow it.
+- [ ] Per-colour versions (needs back/detail photos of taupe and cognac to be more than a recolour of the edit).
